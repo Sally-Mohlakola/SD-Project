@@ -47,3 +47,9 @@ export const Auth=()=>{
         </section>);
 }
 
+git init
+git add
+git commit -m "Webapp with Register and Sign In (with Google) Firebase services, and Logout"
+git branch -M main
+git remote add origin https://github.com/Sally-Mohlakola/SD-Project.git
+git push -u origin mai
