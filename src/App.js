@@ -1,9 +1,11 @@
 import './App.css';
 import {Auth} from "./components/auth";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {Home} from './components/home';
+
 
 function App() {
- 
-   return (<div className="App"><Auth/></div>);
+ return (<section className="App"><Auth/></section>);
   
 }
 
