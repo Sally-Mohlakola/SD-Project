@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Auth=()=>{
     const navigate = useNavigate();
-    const[email, setEmail] = useState("");
+    /*const[email, setEmail] = useState("");
     const[password, setPassword] = useState(""); 
 
     const register =async() =>{
@@ -19,6 +19,12 @@ export const Auth=()=>{
         }
     };
 
+      <label>Email:</label><input placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/> 
+        <label>Password: </label><input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
+        <button onClick={register}>Register</button>
+             
+        <button onClick={login}>Have an account? Login</button>
+*/
     const signInGoogle = async()=>{
         try{
             await signInWithPopup(auth, provider);
@@ -36,14 +42,11 @@ export const Auth=()=>{
     // set state to value of input
     return (<section>
         <h1>SignUp</h1>
-        <label>Email:</label><input placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/> 
-        <label>Password: </label><input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
-        <button onClick={register}>Register</button>
+      
 
         <button onClick ={signInGoogle}>Sign In With Google</button>
 
-     
-        <button onClick={login}>Have an account? Login</button>
+
         </section>);
 }
 
