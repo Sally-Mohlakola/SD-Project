@@ -68,8 +68,8 @@ return (
     <SearchTab /> {/*Call the functions from above here*/}
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
 
-    <img id="img-profile"></img> {/*Sham referenced putting a pic here?*/}
-
+    <img id="img-cart-icon"></img> {/*Sham referenced putting a pic here?*/}
+    <button id="btn-cart"></button>{/*Can change later to element with item count*/}
 
     <nav className="sidebar-menu">
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
