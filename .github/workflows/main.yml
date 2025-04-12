@@ -22,4 +22,4 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: Sally-Mohlakola/SD-Project
+          
