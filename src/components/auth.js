@@ -44,11 +44,9 @@ export const Auth=()=>{
     };
 
     
-    /*
-    Also remove later, part of manual signup
     const login = () => {
         navigate('/login'); 
-    };*/
+    };
 
 
     // Return the JSX elements (UI)
@@ -62,5 +60,5 @@ export const Auth=()=>{
         </section>);
         
 
-}// 
+}
 
