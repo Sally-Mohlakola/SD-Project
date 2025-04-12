@@ -4,6 +4,9 @@ import{useState} from "react";
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 
+import React from 'react'
+import '../styles/SignUp.css';
+
 //IMPORTANT: export functions you may want to use outside this file scope
 
 //Auth is a type of function encapuslating the DOM changes for sign up
@@ -50,15 +53,28 @@ export const Auth=()=>{
 
 
     // Return the JSX elements (UI)
-    return (<section>
-        <h1>SignUp</h1>
+
+    return (
+        <section className="signup-section">
+          <article className="signup-article">
+            <h1>Crafts and Grain</h1>
+      
+            {/* Call the signInGoogle function when clicking the styled button */}
+            <button type="button" className="google-button" onClick={signInGoogle}>
+              <i className="fa-brands fa-google"></i> Sign in with Google
+            </button>
+          </article>
+        </section>
+      );
+      
+    // return (<section>
+    //     <h1>SignUp</h1>
     
-        {/*Call the signInGoogle function from above*/}
-        <button onClick ={signInGoogle}>Sign In With Google</button> 
+    //     {/*Call the signInGoogle function from above*/}
+    //     <button onClick ={signInGoogle}>Sign In With Google</button> 
 
-
-        </section>);
+    //     </section>);
         
 
-}
+}//export
 

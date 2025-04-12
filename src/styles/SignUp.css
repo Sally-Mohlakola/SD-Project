@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    font-family: Georgia, serif;
+    background-color: #f8f8f8;
+  }
+  
+  .signup-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('https://images.unsplash.com/photo-1597696929736-6d13bed8e6a8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .signup-article {
+    background-color: #f7f4f4;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 320px;
+  }
+  
+  .signup-article h1 {
+    color: #4b1d1d;
+    font-size: 50px;
+    font-family: 'Brush Script MT', cursive;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  .google-button {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background-color: #5e4c36;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .google-button:hover {
+    background-color: #4b1d1d;
+  }
