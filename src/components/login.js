@@ -1,3 +1,7 @@
+
+//DONT' USE
+
+/*
 import { useState } from "react";
 import { signInWithPopup ,signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, provider } from '../config/firebase';
@@ -46,4 +50,4 @@ export const Login = () => {
             <button onClick={forgotpassword}>Forgot password? reset</button>
         </section>
     );
-};
+};*/

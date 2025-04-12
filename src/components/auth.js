@@ -4,9 +4,17 @@ import{useState} from "react";
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 
+//IMPORTANT: export functions you may want to use outside this file scope
+
+//Auth is a type of function encapuslating the DOM changes for sign up
+//Functions that represent this have the format "export const ...()=>{....}"
+//Any other functionalitites you write must be encapsulated by this type of function
+
 export const Auth=()=>{
     const navigate = useNavigate();
-    /*const[email, setEmail] = useState("");
+    /*
+    Remove
+    const[email, setEmail] = useState("");
     const[password, setPassword] = useState(""); 
 
     const register =async() =>{
@@ -27,8 +35,8 @@ export const Auth=()=>{
 */
     const signInGoogle = async()=>{
         try{
-            await signInWithPopup(auth, provider);
-            navigate('/homepage');
+            await signInWithPopup(auth, provider); // User signs into Google Account
+            navigate('/homepage'); //Then go to homepage.js
             }
             catch(error){
                 console.log(error);
@@ -36,17 +44,23 @@ export const Auth=()=>{
     };
 
     
+    /*
+    Also remove later, part of manual signup
     const login = () => {
         navigate('/login'); 
-    };
-    // set state to value of input
+    };*/
+
+
+    // Return the JSX elements (UI)
     return (<section>
         <h1>SignUp</h1>
-      
-
-        <button onClick ={signInGoogle}>Sign In With Google</button>
+    
+        {/*Call the signInGoogle function from above*/}
+        <button onClick ={signInGoogle}>Sign In With Google</button> 
 
 
         </section>);
-}
+        
+
+}// 
 
