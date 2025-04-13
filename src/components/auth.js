@@ -1,6 +1,5 @@
 
-import { createUserWithEmailAndPassword, signOut, signInWithPopup } from 'firebase/auth';
-import{useState} from "react";
+import {  signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +37,12 @@ export const Auth=()=>{
 */
     const signInGoogle = async()=>{
         try{
-            await signInWithPopup(auth, provider); // User signs into Google Account
+            await signInWithPopup(auth, provider)
+            .then((result) => {
+              const user = result.user;
+              localStorage.setItem("userid", user.uid);  // Save the UserID 📝
+            })
+
             navigate('/homepage'); //Then go to homepage.js
             }
             catch(error){
