@@ -1,4 +1,8 @@
+
 import React, { useState,useEffect } from 'react';
+//import { useNavigate } from "react-router-dom";
+//import React, { useState } from 'react';
+//import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import {db} from "../config/firebase";
 import {getDocs,collection,addDoc} from "firebase/firestore"
