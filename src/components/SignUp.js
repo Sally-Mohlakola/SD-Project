@@ -1,4 +1,4 @@
-/*import React from 'react'
+import React from 'react'
 import '../styles/SignUp.css';
 
 
@@ -17,4 +17,4 @@ const SignUpPage = () => {
       );
 }
 
-export default SignUpPage;*/
+export default SignUpPage;

@@ -1,6 +1,6 @@
 
-import { createUserWithEmailAndPassword, signOut, signInWithPopup } from 'firebase/auth';
-import{useState} from "react";
+//import { createUserWithEmailAndPassword, signOut, signInWithPopup } from 'firebase/auth';
+//import{useState} from "react";
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 
