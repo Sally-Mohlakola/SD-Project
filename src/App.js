@@ -11,6 +11,7 @@ import { MyShop } from './components/myshop'; // or the correct relative path
 
 import { useNavigate } from 'react-router-dom';
 import { auth } from './config/firebase'; 
+import 'bootstrap/dist/css/bootstrap.css';
 
 import { Fragment } from "react/jsx-runtime";
 import SignUp from "./components/SignUp";
