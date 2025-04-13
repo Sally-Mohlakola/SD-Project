@@ -1,5 +1,3 @@
-
-import {  signInWithPopup } from 'firebase/auth';
 import {signInWithPopup } from 'firebase/auth';
 //import{useState} from "react";
 import { auth, provider } from '../config/firebase';

@@ -1,7 +1,5 @@
 import './App.css';
 import {Auth} from "./components/auth";
-import './App.css';
-
 import {Route ,Routes} from "react-router-dom";
 import  {Login} from "./components/login";
 import {Homepage} from "./components/homepage";

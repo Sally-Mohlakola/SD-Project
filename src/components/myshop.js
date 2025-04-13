@@ -90,8 +90,8 @@ try{
   }
 
   if (ispublic) {
-    navigate("/shophomepage");
-    return null;
+    navigate("/shopdashboard");
+    return 0;
   }
 
   return (

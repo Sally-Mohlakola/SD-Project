@@ -1,8 +1,5 @@
-
-import { signOut} from 'firebase/auth';
-import { auth} from '../config/firebase';
 import {  signOut} from 'firebase/auth';
-import { auth } from '../config/firebase';
+import { auth} from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
