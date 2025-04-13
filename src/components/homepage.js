@@ -64,11 +64,11 @@ return (
 
     <h1>Natural Craft. Rooted in Care</h1>
     <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
-    <img id="img-welcome"></img>{/*Welcome IMage*/}
+    <img id="img-welcome" alt="welcome image"></img>{/*Welcome IMage*/}
     <SearchTab /> {/*Call the functions from above here*/}
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
 
-    <img id="img-cart-icon"></img> {/*Sham referenced putting a pic here?*/}
+    <img id="img-cart-icon" alt="cart"></img> {/*Sham referenced putting a pic here?*/}
     <button id="btn-cart"></button>{/*Can change later to element with item count*/}
 
     <nav className="sidebar-menu">
