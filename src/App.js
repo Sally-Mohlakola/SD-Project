@@ -24,9 +24,7 @@ function App() {
          <Route path="/shopdashboard" element = {<ShopHomepage/>}/>
          <Route path="/myorders" element = {<MyOrders/>}/>
 
-      
-
-
+   
       </Routes>
    </section>
    );

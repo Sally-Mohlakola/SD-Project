@@ -71,12 +71,12 @@ try{
   setSubmitted(true); 
 };
 //if the store has been cleared by admin they must go to thier store
-  if (ispublic=="Accepted") {
+  if (ispublic==="Accepted") {
     navigate("/shopdashboard");
     return 0;
   }
   // if the users store has not been cleared by admin
-if (ispublic=="Awaiting"){
+if (ispublic==="Awaiting"){
   return (
     <h1>The admin has not cleared your store yet!</h1>
   );

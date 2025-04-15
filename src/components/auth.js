@@ -51,11 +51,11 @@ export const Auth=()=>{
     };
 
     
-    const login = () => {
+/*    const login = () => {
         navigate('/login'); 
     };
 
-
+*/
     // Return the JSX elements (UI)
 
     return (

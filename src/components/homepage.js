@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import '../styles/homepage.css';
+
+
 export function SearchTab() {
   const [query, setQuery] = useState('');
 

@@ -1,6 +1,4 @@
 
-
-
 export const AdminShopHomepage =()=>{
     return(
        <section>
