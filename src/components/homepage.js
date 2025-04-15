@@ -50,9 +50,11 @@ export function DropdownMenu() {
 
 export const Homepage=()=>{
     const navigate = useNavigate();
+  
     const logout = async()=>{
         try{
             await signOut(auth);
+            localStorage.removeItem("userid");
             navigate('/');
             }
             catch(error){
