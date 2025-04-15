@@ -13,7 +13,6 @@ export const MyShop=()=>{
   
 
     const navigate = useNavigate();
-//i stored the users id in the storage when they logged in so we use it on different pages, but it will be cleared when they log out
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
     const shopcollectionRef=collection(db,"Shops");
