@@ -68,7 +68,7 @@ return (
 
     <h1>Natural Craft. Rooted in Care</h1>
     <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
-    <img id="img-welcome" alt="welcome image"></img>{/*Welcome IMage*/}
+    <img id="img-welcome" alt="welcome banner"></img>{/*Welcome IMage*/}
     <SearchTab /> {/*Call the functions from above here*/}
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
 
