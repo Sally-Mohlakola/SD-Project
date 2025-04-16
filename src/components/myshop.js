@@ -7,11 +7,11 @@ import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import {db} from "../config/firebase";
 import {getDocs,collection,addDoc} from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
-
+ 
 
 export const MyShop=()=>{
   
-
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
@@ -80,6 +80,8 @@ if (ispublic==="Awaiting"){
     <h1>The admin has not cleared your store yet!</h1>
   );
 }
+
+if (loading) return <section>Loading...</section>;
 //if the user has no store they must create one 
 if (!store) {
   return (
