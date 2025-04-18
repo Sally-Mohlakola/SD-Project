@@ -77,7 +77,9 @@ try{
   // if the users store has not been cleared by admin
 if (ispublic==="Awaiting"){
   return (
+    <section>
     <h1>The admin has not cleared your store yet!</h1>
+    </section>
   );
 }
 
@@ -107,6 +109,7 @@ if (!store) {
           <button type="button" onClick={sendtoadmin}>Submit to admin</button>
       </ul> 
   </form>)}
+
   </section>
   );
 }
