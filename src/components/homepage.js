@@ -83,6 +83,7 @@ return (
         {/*Can we use the journal for keeping track of buyer's order, clicking this button
         will lead to a page where you manage your order history*/}
         
+        <Link to="/admin" className="btn-link-admin">Admin Dashboard</Link>
         <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>
         <Link to="/contact" className="btn-link-contact">Contact</Link>
         <button onClick={logout}>Logout</button>
