@@ -74,7 +74,7 @@ export const MyOrders = () => {
 
   return (
     <section>
-      <h2>My Products</h2>
+      <h2>My Orders</h2>
       <ul>
         {sortedProductsBySold.map((product) => (
       <li key={product.id}>
