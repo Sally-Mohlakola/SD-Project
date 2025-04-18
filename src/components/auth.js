@@ -61,7 +61,7 @@ export const Auth=()=>{
     return (
         <section className="signup-section">
           <article className="signup-article">
-            <h1>Crafts and Grain</h1>
+            <h1>Crafts & Grain</h1>
       
             {/* Call the signInGoogle function when clicking the styled button */}
             <button type="button" className="google-button" onClick={signInGoogle}>
