@@ -48,7 +48,7 @@ useEffect(() => {
       <h1>Welcome : {storename}</h1>
       <nav>
         {/*Can resize headers*/}
-       <li> <Link to="/myproducts">My Products</Link></li>
+       <li> <Link to="/addproduct">My Products</Link></li>
        <li> <Link to="/myorders"> My Orders </Link> </li>
         <li><Link to="/inventory">Inventory</Link></li>
     </nav>
