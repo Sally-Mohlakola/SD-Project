@@ -37,13 +37,24 @@ export const Auth=()=>{
 */
     const signInGoogle = async()=>{
         try{
-            await signInWithPopup(auth, provider)
+            const result = await signInWithPopup(auth, provider)
             .then((result) => {
               const user = result.user;
               localStorage.setItem("userid", user.uid);  // Save the UserID 📝
+
+                const userEmail = user.email;
+              localStorage.setItem("userEmail",userEmail);
+
+              //craftgrainlocalartisanmarketpl@gmail.com
+              //check if user signing in is admin email and if yes go to admin dashboard
+              if (userEmail == "craftgrainlocalartisanmarketpl@gmail.com"){
+                navigate('/admin');
+              }
+              else {
+                navigate('/homepage');
+              }
             })
 
-            navigate('/homepage'); //Then go to homepage.js
             }
             catch(error){
                 console.log(error);
@@ -61,7 +72,7 @@ export const Auth=()=>{
     return (
         <section className="signup-section">
           <article className="signup-article">
-            <h1>Crafts and Grain</h1>
+            <h1>Crafts & Grain</h1>
       
             {/* Call the signInGoogle function when clicking the styled button */}
             <button type="button" className="google-button" onClick={signInGoogle}>

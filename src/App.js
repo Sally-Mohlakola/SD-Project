@@ -5,6 +5,7 @@ import {Homepage} from "./components/homepage";
 import {MyOrders} from "./components/myorders";
 import { MyShop } from './components/myshop'; // or the correct relative path
 import {ShopHomepage} from "./components/shophomepage";
+import {AdminShopHomepage} from './components/admin';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
@@ -17,7 +18,9 @@ function App() {
          <Route path="/myshop" element = {<MyShop/>}/>
          <Route path="/shopdashboard" element = {<ShopHomepage/>}/>
          <Route path="/myorders" element = {<MyOrders/>}/>
+         <Route path="/admin" element={<AdminShopHomepage />} />
 
+         
    
       </Routes>
    </section>
