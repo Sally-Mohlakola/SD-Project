@@ -93,9 +93,9 @@ export default function Addproduct(){
 >                   </textarea>
 
                     <label htmlFor="price">Price:</label>
-                    <input type="number" id="price" placeholder='(in rands)' required value={price} onChange={e=>setprice(e.target.value)}/><br/>
+                    <input type="number" id="price" min="0" placeholder='(in rands)' required value={price} onChange={e=>setprice(e.target.value)}/><br/>
                     <label htmlFor="quantity">Quantity</label>
-                    <input type="number" id="quantity" placeholder="e.g. 8" required value={quantity} onChange={e=>setquantity(e.target.value)}/><br/>
+                    <input type="number" id="quantity" min="0" placeholder="e.g. 8" required value={quantity} onChange={e=>setquantity(e.target.value)}/><br/>
                   { /* <label htmlFor="image">Upload image of item below:</label><br/> */}
                   {/* <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> */}
                     
