@@ -13,6 +13,7 @@ const [orderlist,setorderlist]=useState([]);
 const currentUserId = localStorage.getItem("userid");
 const currentuserstore= localStorage.getItem("shopname");
 const ordercollectionRef=collection(db,"Orders");
+const shopcollectionRef=collection(db,"Shops");
 
 const [productsMap, setProductsMap] = useState([]);
 //console.log( "shopname of user ",currentuserstore);
