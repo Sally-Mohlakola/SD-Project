@@ -10,7 +10,7 @@ import { collection, addDoc} from 'firebase/firestore';
 
 
 
-function Addproduct(){
+export default function Addproduct(){
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
         const[quantity,setquantity]=useState("");
@@ -110,5 +110,5 @@ function Addproduct(){
 }
 
 
-export default Addproduct;
+
 
