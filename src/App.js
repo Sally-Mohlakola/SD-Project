@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
 
-   return (
+   return ( 
       <section className="container">
       <Routes>
          <Route path ="/" element= {<Auth/>}/>
