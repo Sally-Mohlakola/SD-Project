@@ -37,13 +37,24 @@ export const Auth=()=>{
 */
     const signInGoogle = async()=>{
         try{
-            await signInWithPopup(auth, provider)
+            const result = await signInWithPopup(auth, provider)
             .then((result) => {
               const user = result.user;
               localStorage.setItem("userid", user.uid);  // Save the UserID 📝
+
+                const userEmail = user.email;
+              localStorage.setItem("userEmail",userEmail);
+
+              //craftgrainlocalartisanmarketpl@gmail.com
+              //check if user signing in is admin email and if yes go to admin dashboard
+              if (userEmail == "craftgrainlocalartisanmarketpl@gmail.com"){
+                navigate('/admin');
+              }
+              else {
+                navigate('/homepage');
+              }
             })
 
-            navigate('/homepage'); //Then go to homepage.js
             }
             catch(error){
                 console.log(error);
