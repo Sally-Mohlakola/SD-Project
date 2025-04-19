@@ -37,10 +37,11 @@ useEffect(() => {
       const userShop = shoplist.find((shop) => shop.userid === currentUserId);
       if (userShop){
       setstorename(userShop.nameofshop); 
+
       }
     }, [shoplist, currentUserId]);
 
-
+ localStorage.setItem("shopname", storename);
 
  return(
     <section>

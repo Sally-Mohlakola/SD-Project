@@ -57,6 +57,7 @@ export const Homepage=()=>{
         try{
             await signOut(auth);
             localStorage.removeItem("userid");
+            localStorage.removeItem("shopname");
             navigate('/');
             }
             catch(error){
