@@ -1,13 +1,13 @@
-// jest.config.js
 module.exports = {
-    testEnvironment: 'jsdom',
-    moduleFileExtensions: ['js', 'jsx'],
-    transform: {},
-  
-    moduleNameMapper: {
-      '^src/(.*)$': '<rootDir>/src/$1',
-      '^react-router-dom$': require.resolve('react-router-dom'), // 👈 Add this line to fix the error
-      '\\.(css|less|scss|sass)$': 'identity-obj-proxy',           // 👈 Optional: prevents CSS import errors
-    },
-  };
-  
+  testEnvironment: 'jsdom',
+  moduleFileExtensions: ['js', 'jsx'],
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',
+  },
+
+  moduleNameMapper: {
+    '^src/(.*)$': '<rootDir>/src/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+  },
+  transformIgnorePatterns: ['node_modules/(?!react-router-dom)'],
+};

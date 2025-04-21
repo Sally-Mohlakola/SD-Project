@@ -1,3 +1,4 @@
+import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { Auth } from '../components/auth';
 //afterEach(() => {
@@ -6,8 +7,14 @@ import { Auth } from '../components/auth';
 //});clear cache
 
 
-test('renders Web app name text',()=>{
-  render(<Auth/>);
-  const nameText = screen.getByText(/Crafts & Grain/i);
-  expect(nameText).toBeInTheDocument();
+test('rendering Web app name', () => {
+  render(
+    <BrowserRouter><Auth /></BrowserRouter>
+  );
+  
+  const appName = screen.getByText(/Crafts & Grain/i);
+  expect(appName).toBeInTheDocument();
 });
+
+
+
