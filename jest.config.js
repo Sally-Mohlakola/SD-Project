@@ -9,6 +9,9 @@ module.exports = {
     '^src/(.*)$': '<rootDir>/src/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
+
   transformIgnorePatterns: ['node_modules/(?!react-router-dom)'],
-  testEnvironment: "jsdom", // allows for test code to manipulates DOM 
+
+  setupFiles: ['whatwg-fetch'],
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'], // updated to reference the correct path
 };

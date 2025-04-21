@@ -16,19 +16,10 @@
   "dependencies": {
 
 
-    "@babel/preset-env": "^7.26.9",
-
-
-    "@babel/preset-react": "^7.26.3",
-
-
     "@testing-library/dom": "^10.4.0",
 
 
     "@testing-library/user-event": "^13.5.0",
-
-
-    "babel-jest": "^29.7.0",
 
 
     "bootstrap": "^5.3.5",
@@ -124,6 +115,18 @@
   "devDependencies": {
 
 
+    "@babel/cli": "^7.27.0",
+
+
+    "@babel/core": "^7.26.10",
+
+
+    "@babel/preset-env": "^7.26.9",
+
+
+    "@babel/preset-react": "^7.26.3",
+
+
     "@babel/preset-typescript": "^7.27.0",
 
 
@@ -131,6 +134,9 @@
 
 
     "@testing-library/react": "^16.3.0",
+
+
+    "babel-jest": "^29.7.0",
 
 
     "jest": "^27.5.1",
