@@ -7,10 +7,7 @@ import { collection, addDoc} from 'firebase/firestore';
 //import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
-
-
-
-export default function Addproduct(){
+export const Addproduct=()=>{
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
         const[quantity,setquantity]=useState("");
@@ -107,7 +104,7 @@ export default function Addproduct(){
     );
 
 
-}
+};
 
 
 
