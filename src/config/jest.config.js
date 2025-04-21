@@ -10,4 +10,5 @@ module.exports = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   transformIgnorePatterns: ['node_modules/(?!react-router-dom)'],
+  testEnvironment: "jsdom", // allows for test code to manipulates DOM 
 };
