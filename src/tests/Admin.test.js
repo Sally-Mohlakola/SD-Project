@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import {AdminShopHomepage} from '../components/admin'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 //test if "Loading..." message appears when needed
 test('shows loading message', () => {
