@@ -1,77 +1,157 @@
-import { render, screen } from '@testing-library/react';
-import {AdminShopHomepage} from '../components/admin'
+import React from 'react';
+import { AdminShopHomepage } from '../components/admin';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { getDocs, updateDoc, doc } from 'firebase/firestore';
 
-//test if "Loading..." message appears when needed
-test('shows loading message', () => {
-    render(<AdminShopHomepage />);
-    const loadText = screen.getByText(/Loading.../i);
-    expect(loadText).toBeInTheDocument();
-});
-
-
-
-//tests if "Admin Dashboard" texts appears
-test('display admin dashboard text', () => {
-    render(<AdminShopHomepage />);
-    const loadText = screen.getByText(/Admin Dashboard/i);
-    expect(loadText).toBeInTheDocument();
-});
+jest.mock('firebase/firestore', () => ({
+  getFirestore: jest.fn(), // ← This is the fix
+  collection: jest.fn(),
+  getDocs: jest.fn(),
+  updateDoc: jest.fn(),
+  doc: jest.fn((db, collectionName, id) => ({ db, collectionName, id })),
+}));
 
 
+describe('clears cache before test', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+  }); // clears before each test 
 
-//tests that shop name is rendered after fetching
-test('renders shop name after loading',async () => {
-    const mockShops = [{ nameofshop: 'Shop 1', description: 'Description 1', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3'}]; // Create mock data
-    //getDocs is a Firebase function that fetches documents from a Firestore collection.
-    // mockResolvedValue is a Jest method used to mock the return value of a function
-    getDocs.mockResolvedValue({ docs: mockShops.map(shop => ({ data: () => shop })) });
+
+  it('renders loading message', async () => {
+    render(<AdminShopHomepage/>);
+      expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   
+  });
+
+  it('renders Admin Dashboard text', async () => {
+  render(<AdminShopHomepage />);
+  expect(await screen.findByText(/Admin Dashboard/i)).toBeInTheDocument();
+  });
+/************/
+//Mock an entry into a mock database
+  const mockShop = [{
+    id: 'id123',
+    nameofshop: 'Shop 0',
+    description: 'This is a description',
+    status: 'Pending',
+    category: 'Pottery',
+    userID: 'id123',
+  }];
+
+  it('renders shop name', async () => {
+    getDocs.mockResolvedValueOnce({
+      docs: mockShop.map(shop => ({
+      id: 'id123',
+      data: () => shop,
+      }))
+    });
+
     render(<AdminShopHomepage />);
-  
-    const shopName = await screen.findByText('Shop 1'); // findByText waits for the element asynchronously
+    const shopName = await screen.findByText('Shop 0');
     expect(shopName).toBeInTheDocument();
   });
 
 
 
-//tests that the shop description is rendered after fetching
-test('renders shop description after loading',async () => {
-    const mockShops = [{ nameofshop: 'Shop 1', description: 'Description 1', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3'}]; // Create mock data
-    getDocs.mockResolvedValue({ docs: mockShops.map(shop => ({ data: () => shop })) });
-  
+  it('renders shop description', async () => {
+    getDocs.mockResolvedValueOnce({
+      docs: mockShop.map(shop => ({
+      id: 'id123',
+      data: () => shop,
+    }))
+    });
     render(<AdminShopHomepage />);
-  
-    const shopDescription = await screen.findByText('Description 1'); // findByText waits for the element asynchronously
-    expect(shopDescription).toBeInTheDocument();
+    const shopDesc = await screen.findByText('This is a description');
+    expect(shopDesc).toBeInTheDocument();
+});
+
+it('renders shop status', async () => {
+  getDocs.mockResolvedValueOnce({
+    docs: mockShop.map(shop => ({
+    id: 'id123',
+    data: () => shop,
+    }))
+  });
+  render(<AdminShopHomepage />);
+  const shopStatus = await screen.findByText(/Status: Pending/i);
+  expect(shopStatus).toBeInTheDocument();
+});
+
+// Test if the checkbox works properly (error on jest.fn())
+it('updates status on Accept checkbox', async () => {
+  getDocs.mockResolvedValueOnce({
+    docs: mockShop.map(shop => ({
+    id:'id123',
+    data: () => shop,
+  }))
   });
 
+  render(<AdminShopHomepage />);
+  await screen.findByText('Shop 0');
 
+  const checkbox = screen.getByLabelText(/Accept →/i);
+  fireEvent.click(checkbox);
 
-//tests that the shop status is rendered after fetching
-//tests that the shop description is rendered after fetching
-test('renders shop status after loading',async () => {
-    const mockShops = [{ nameofshop: 'Shop 1', description: 'Description 1', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3'}]; // Create mock data
-    getDocs.mockResolvedValue({ docs: mockShops.map(shop => ({ data: () => shop })) });
-  
-    render(<AdminShopHomepage />);
-  
-    const shopsStatus = await screen.findByText('Pending'); // findByText waits for the element asynchronously
-    expect(shopsStatus).toBeInTheDocument();
+  await waitFor(() =>
+    {
+    expect(updateDoc).toHaveBeenCalled();
+    expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
   });
+});
+
+
+//tests that shop name is rendered after fetching
+test('renders shop name after loading', async () => {
+  const mockShop = [{ nameofshop: 'Shop 0', description: 'This is a description', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3' }]; // Create mock data
+  //getDocs is a Firebase function, fetches from Firestore collection.
+  // mockResolvedValue is a Jest method used to mock the return value of a function
+  getDocs.mockResolvedValue({ docs: mockShop.map(shop => ({ data: () => shop })) });
+
+  render(<AdminShopHomepage />);
+
+  const shopName = await screen.findByText('Shop 0'); // findByText waits for the element asynchronously
+  expect(shopName).toBeInTheDocument();
+});
+
+
+
+
+
+});//end clear cache here
+/*
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
 
 
 //tests if status changes when checkbox clicked 
-test('updates status on checkbox click',async () => {
-    const mockShops = [{ nameofshop: 'Shop 1', description: 'Description 1', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3' }];
-    getDocs.mockResolvedValue({ docs: mockShops.map(shop => ({ data: () => shop })) });
-  
-    render(<AdminShopHomepage />);
-    
-    await screen.findByText('Shop 1');
-    
-    const acceptCheckbox = screen.getByLabelText(/Accept →/i);
-    fireEvent.click(acceptCheckbox);
-  
-    expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
-  }); 
+test('updates status on checkbox click', async () => {
+  const mockShops = [{ nameofshop: 'Shop 1', description: 'Description 1', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3' }];
+  getDocs.mockResolvedValue({ docs: mockShops.map(shop => ({ data: () => shop })) });
+
+  render(<AdminShopHomepage />);
+
+  await screen.findByText('Shop 1');
+
+  const acceptCheckbox = screen.getByLabelText(/Accept →/i);
+  fireEvent.click(acceptCheckbox);
+
+  expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
+}); 
+*/
