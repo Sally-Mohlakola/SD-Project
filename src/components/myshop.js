@@ -2,7 +2,7 @@
 import React, { useState,useEffect } from 'react';
 //import { useNavigate } from "react-router-dom";
 //import React, { useState } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import {db} from "../config/firebase";
 import {getDocs,collection,addDoc} from "firebase/firestore"
@@ -29,6 +29,7 @@ useEffect(()=>{
             status: doc.data().status
           }));
         setShoplist(filterddata);
+        setLoading(false);
         }catch(err){
             console.error(err);
         }
@@ -52,8 +53,10 @@ useEffect(() => {
     setstore(userShop);
     setIspublic(userShop.status); 
     };
- 
+    
   }, [shoplist, currentUserId]);
+
+  console.log(store);
 //new shop states
 const [newshopname,setnewshopname]=useState("");
 const [newshopdescription,setnewshopdescription]=useState("");
@@ -68,24 +71,35 @@ try{
   console.error(err);
   };
   setSubmitted(true); 
+
 };
+if (loading) return <section>Loading...</section>;
+
 //if the store has been cleared by admin they must go to thier store
   if (ispublic==="Accepted") {
     navigate("/shopdashboard");
     return 0;
   }
+
   // if the users store has not been cleared by admin
 if (ispublic==="Awaiting"){
   return (
     <section>
     <h1>The admin has not cleared your store yet!</h1>
+    <Link to="/homepage">Home</Link>
     </section>
+    
   );
 }
+if (ispublic==="Rejected"){
+  <section>
+  <h2>Your request ot open a  store was rejected,You need try again later</h2>
+  <Link to="/homepage">Home</Link>
+  </section>
+}
 
-if (loading) return <section>Loading...</section>;
 //if the user has no store they must create one 
-if (!store) {
+if (store=="" || ispublic==="Rejected") {
   return (
 
   <section>
