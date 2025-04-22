@@ -1,142 +1,109 @@
-import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MyOrders } from '../components/myorders';
-import { MemoryRouter } from 'react-router-dom';
-import { getDocs, updateDoc, collection, doc } from 'firebase/firestore';
+import { Addproduct } from '../components/addproduct';
+import { addDoc, collection } from 'firebase/firestore';
+import React from 'react';
 
-jest.mock("firebase/firestore", () => {
-    return {
-    getFirestore: jest.fn(),
-    getDocs: jest.fn(),
-    updateDoc: jest.fn(),
-    collection: jest.fn(),
-    doc: jest.fn(),
-    };
-});
+//It is crucial to mock our firestore database since we are not going to actually add anything into it, we are simulating it
+jest.mock('firebase/firestore', () => ({
+  addDoc: jest.fn(),
+  collection: jest.fn(),
+  getFirestore: jest.fn(() => ({})), 
+}));
 
+jest.mock('../components/userinfo.js', () => ({
+  useUserId: () => 'id123',
+  useShopId: () => 'shop123',
+}));
 
-beforeEach(() => {
-    localStorage.setItem('userid', 'user123');
-    localStorage.setItem('shopname', 'Test Shop');
-});
+//Make sure that all test cache is cleared
+describe('clears all AddProducts test cache', () => {
+  beforeEach(() => {
+  jest.clearAllMocks();
+  });
 
-afterEach(() => {
-    localStorage.clear();
-    jest.clearAllMocks();
-});
+  it('renders form and the submit button', () => {
+    render(<Addproduct/>);
 
-const mockOrdersData = [
-    {
-        id: 'order1',
-        data: () => ({
-            nameofshop: 'Test Shop',
-            address: '123 Main St',
-            status: 'Ordered',
-        }),
-        ref: { id: 'order1' },
-    },
-];
+    expect(screen.getByLabelText(/Item:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Description:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Price:/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Quantity/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Add Product/i })).toBeInTheDocument();
+  });
 
-const mockProductsData = [
-    {
-        data: () => ({
-            name: 'Pottery Vase',
-            quantity: 2,
-            price: 30,
-        }),
-    },
-];
+  it('handles input changes', () => {
+    render(<Addproduct />);
 
-const mockShopData = [
-    {
-        id: 'shop123',
-        data: () => ({
-            userid: 'user123',
-        }),
-    },
-];
+    const nameInput = screen.getByLabelText(/Item:/i);
+    fireEvent.change(nameInput, { target: { value: 'Pottery Mug' } });
+    expect(nameInput.value).toBe('Pottery Mug');
 
-const mockShopProducts = [
-    {
-        data: () => ({
-            id: 'prod1',
-            name: 'Pottery Vase',
-            price: 30,
-            sold: 15,
-        }),
-    },
-];
+    const descInput = screen.getByLabelText(/Description:/i);
+    fireEvent.change(descInput, { target: { value: 'Handmade clay mug' } });
+    expect(descInput.value).toBe('Handmade clay mug');
 
-test('renders MyOrders and displays order data', async () => {
-    getDocs.mockImplementation((ref) => {
-        const refPath = ref._path?.segments || [];
-        if (refPath.includes('Orders')) return Promise.resolve({ docs: mockOrdersData });
-        if (refPath.includes('Products')) return Promise.resolve({ docs: mockProductsData });
-        if (refPath.includes('Shops') && refPath.length === 1) return Promise.resolve({ docs: mockShopData });
-        if (refPath.includes('Shops') && refPath.length === 3) return Promise.resolve({ docs: mockShopProducts });
-        return Promise.resolve({ docs: [] });
-    });
+    const priceInput = screen.getByLabelText(/Price:/i);
+    fireEvent.change(priceInput, { target: { value: '50' } });
+    expect(priceInput.value).toBe('50');
 
-    render(
-        <MemoryRouter>
-        <MyOrders />
-        </MemoryRouter>
-    );
+    const quantityInput = screen.getByLabelText(/Quantity/i);
+    fireEvent.change(quantityInput, { target: { value: '10' } });
+    expect(quantityInput.value).toBe('10');
+  });
+
+  it('submits form and calls the addDoc function for both collections', async () => {
+    addDoc.mockResolvedValueOnce({}); // this is fro  Shops/Products
+    addDoc.mockResolvedValueOnce({}); // this is for Products
+
+    render(<Addproduct/>);
+
+    fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Ceremonial vase' } });
+    fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Inspired by ancient Mapunguwe' } });
+    fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '80' } });
+    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '5' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
 
     await waitFor(() => {
-        expect(screen.getByText(/My Orders/i)).toBeInTheDocument();
-        expect(screen.getByText(/Pottery Vase/i)).toBeInTheDocument();
-        expect(screen.getByText(/Status: Ordered/i)).toBeInTheDocument();
+      expect(collection).toHaveBeenCalledWith(expect.anything(), 'Shops', 'shop123', 'Products');
+      expect(collection).toHaveBeenCalledWith(expect.anything(), 'Products');
+      expect(addDoc).toHaveBeenCalledTimes(2);
+
+      // Add the entry into a mock database !!!!
+
+      expect(addDoc).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+        name: 'Ceremonial vase',
+        itemdescription: 'Inspired by ancient Mapunguwe',
+        price: 80,
+        quantity: 5,
+      }));
+
+      expect(addDoc).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
+      nameofitem: 'Ceremonial vase',
+      description: 'Inspired by ancient Mapunguwe',
+      price: 80,
+      quantity: 5,
+      userID: 'id123',
+    }));
     });
-});
+  });
 
-test('user can update order status', async () => {
-    getDocs.mockImplementation((ref) => {
-        const refPath = ref._path?.segments || [];
-        if (refPath.includes('Orders')) return Promise.resolve({ docs: mockOrdersData });
-        if (refPath.includes('Products')) return Promise.resolve({ docs: mockProductsData });
-        if (refPath.includes('Shops') && refPath.length === 1) return Promise.resolve({ docs: mockShopData });
-        if (refPath.includes('Shops') && refPath.length === 3) return Promise.resolve({ docs: mockShopProducts });
-        return Promise.resolve({ docs: [] });
-    });
+  it('handles addDoc errors for input entry to database', async () => {
+    console.error = jest.fn(); //Suppress the error logs, we are not testing those now
+    addDoc.mockRejectedValueOnce(new Error('Firestore error'));
 
-    render(
-        <MemoryRouter>
-        <MyOrders />
-        </MemoryRouter>
-    );
+    render(<Addproduct/>);
 
-    const updateButtons = await screen.findAllByText(/Update status/i);
-    fireEvent.click(updateButtons[0]);
+    fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Clay Plate' } });
+    fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Elegant dining plate' } });
+    fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '100' } });
+    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '3' } });
 
-    fireEvent.change(screen.getByRole('combobox'), {
-        target: { value: 'Dispatched' },
-    });
-
-    fireEvent.click(screen.getByText(/Save/i));
+    fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
 
     await waitFor(() => {
-        expect(updateDoc).toHaveBeenCalled();
+    expect(addDoc).toHaveBeenCalled();
+    expect(console.error).toHaveBeenCalled(); 
     });
-});
-
-test('renders download button for CSV file', async () => {
-    getDocs.mockImplementation((ref) => {
-        const refPath = ref._path?.segments || [];
-        if (refPath.includes('Orders')) return Promise.resolve({ docs: mockOrdersData });
-        if (refPath.includes('Products')) return Promise.resolve({ docs: mockProductsData });
-        if (refPath.includes('Shops') && refPath.length === 1) return Promise.resolve({ docs: mockShopData });
-        if (refPath.includes('Shops') && refPath.length === 3) return Promise.resolve({ docs: mockShopProducts });
-        return Promise.resolve({ docs: [] });
-    });
-
-    render(
-        <MemoryRouter>
-        <MyOrders />
-        </MemoryRouter>
-    );
-
-    await waitFor(() => {
-        expect(screen.getByText(/Download Trend Report/i)).toBeInTheDocument();
-    });
+  });
 });
