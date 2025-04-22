@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import {db} from "../config/firebase";
 import {getDocs,collection,updateDoc,doc} from "firebase/firestore"
-
+import React from 'react';
  
 
 export const MyOrders =()=>{

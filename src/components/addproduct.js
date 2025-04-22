@@ -1,6 +1,4 @@
 import React,{useState} from 'react'
-
-
 import {db} from '../config/firebase.js'
 import { collection, addDoc} from 'firebase/firestore';
 //import { v4 as uuidv4 } from 'uuid';
