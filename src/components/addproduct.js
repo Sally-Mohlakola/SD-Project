@@ -1,4 +1,5 @@
 import React,{useState} from 'react'
+import { useUserId,useShopId } from './userinfo.js';
 import {db} from '../config/firebase.js'
 import { collection, addDoc} from 'firebase/firestore';
 //import { v4 as uuidv4 } from 'uuid';
@@ -6,6 +7,9 @@ import { collection, addDoc} from 'firebase/firestore';
 
 
 export const Addproduct=()=>{
+
+    let userid= useUserId();
+          let shopid=useShopId();
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
         const[quantity,setquantity]=useState("");
@@ -33,15 +37,14 @@ export const Addproduct=()=>{
            //   await uploadBytes(imageRef, image);
            //   console.log("Image uploaded successfully.");
            //   const downloadURL = await getDownloadURL(imageRef);
-           let userid= "uuuu"
-          let shopid="1ORxGp4XzjJFESTjlrGJ";
+           
               await addDoc(collection(db, "Shops", shopid,"Products"), {
-                nameofitem: itemName,
-                description:itemdescription,
+                name: itemName,
+                itemdescription:itemdescription,
                 price: Number(price),
                 quantity: Number(quantity),
             //    imageURL: downloadURL,
-                timestamp: new Date(),
+               // timestamp: new Date(),
                
               });
 
