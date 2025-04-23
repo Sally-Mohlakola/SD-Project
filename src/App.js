@@ -7,6 +7,7 @@ import { MyShop } from './components/myshop'; // or the correct relative path
 import {ShopHomepage} from "./components/shophomepage";
 import {AdminShopHomepage} from './components/admin';
 import {Addproduct} from "./components/addproduct";
+import {Createshop} from "./components/createshop"
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
          <Route path="/myorders" element = {<MyOrders/>}/>
          <Route path="/admin" element={<AdminShopHomepage />} />
          <Route path="/addproduct" element={<Addproduct />} />
-
+         <Route path ="/createshop" element={<Createshop/>}/>
          
    
       </Routes>

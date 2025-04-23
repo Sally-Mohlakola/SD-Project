@@ -5,12 +5,12 @@ import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import {db} from "../config/firebase";
-import {getDocs,collection,addDoc} from "firebase/firestore"
+import {getDocs,collection,deleteDoc ,doc} from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
  
 
 export const MyShop=()=>{
-  
+  const [isReady, setIsReady] = useState(false);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const currentUserId = localStorage.getItem("userid");
@@ -22,6 +22,7 @@ useEffect(()=>{
         try{
         const data=await getDocs(shopcollectionRef);
         const filterddata = data.docs.map((doc) => ({
+           id:doc.id,
             ...doc.data(), 
             userid: doc.data().userid,
             nameofshop: doc.data().nameofshop,
@@ -48,38 +49,65 @@ const [store, setstore] = useState("");
 
 //this useeffeect go through the shoplist that we previously got from the database and looks for the user's shop and its status by thier user id 
 useEffect(() => {
+  if (!loading && shoplist.length > 0) {
     const userShop = shoplist.find((shop) => shop.userid === currentUserId);
-    if(userShop){
-    setstore(userShop);
-    setIspublic(userShop.status); 
+    if (userShop) {
+      setstore(userShop);
+      setIspublic(userShop.status);
+    }
+    setIsReady(true); // Now we know what to show
+  
     };
     
-  }, [shoplist, currentUserId]);
+  }, [shoplist, currentUserId,loading]);
 
-  console.log(store);
-//new shop states
-const [newshopname,setnewshopname]=useState("");
-const [newshopdescription,setnewshopdescription]=useState("");
-const [submitted, setSubmitted] = useState(false);
-const [category, setcategory] = useState("");
+  useEffect(() => {
+    if (ispublic === "Accepted") {
+      navigate("/shopdashboard");
+    }
+  }, [ispublic, navigate]);
 
-// when the new user starts thier shop this function is executed to create thier store on the database 
-const sendtoadmin= async()=>{
-try{
-    await addDoc(shopcollectionRef,{userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category})
-  }catch(err){
-  console.error(err);
-  };
-  setSubmitted(true); 
-
+  
+//start newshop by navagating to newpage 
+const startshop=()=>{
+  navigate('/createshop');
 };
-if (loading) return <section>Loading...</section>;
 
-//if the store has been cleared by admin they must go to thier store
-  if (ispublic==="Accepted") {
-    navigate("/shopdashboard");
-    return 0;
+const deleterejectedshop =async (id)=>{
+  try{
+   const rejectedshop=doc(db,"Shops",id);
+  await deleteDoc(rejectedshop);
+  }catch(err){
+    console.error(err);
   }
+};
+
+if (loading || !isReady) return <section></section>;
+
+if (ispublic==="Rejected"){
+  return(
+  <section>
+  <h2>Your request to open a  store was rejected,You need try again </h2>
+  <button onClick={()=>{
+    deleterejectedshop(store.id);
+    navigate("/createshop") }}>Apply to open shop again</button>
+  </section>
+  )
+}
+
+console.log(store.id);
+if (store=="" ) {
+  return (
+    <section>
+  <h1>You dont have a shop yet</h1>
+  
+    <button onClick={startshop}>Start my shop?</button>
+    
+    </section>
+  )
+  }
+//if the store has been cleared by admin they must go to thier store
+
 
   // if the users store has not been cleared by admin
 if (ispublic==="Awaiting"){
@@ -91,40 +119,8 @@ if (ispublic==="Awaiting"){
     
   );
 }
-if (ispublic==="Rejected"){
-  <section>
-  <h2>Your request ot open a  store was rejected,You need try again later</h2>
-  <Link to="/homepage">Home</Link>
-  </section>
-}
+
 
 //if the user has no store they must create one 
-if (store=="" || ispublic==="Rejected") {
-  return (
 
-  <section>
-  <h1>My Shop</h1>
-  {/*this "submitted" checks if the person pressed the button to submit thier store to the admin" */}
-  {submitted? (
-  <p>Your shop has been sent to admin</p>
-  ):(
-      <form>
-        <ul>
-          <li><label>Name of shop</label></li>
-          <li><input type="text" onChange={(e)=> setnewshopname(e.target.value)} /></li>
-          <li><label>Shop description</label></li>
-          <label>Category:</label>
-              <select onChange={(e)=> setcategory(e.target.value)}>
-              <option value="" disabled selected>Select a Category</option>
-                <option >Pottery</option>
-                <option >Paint</option>
-              </select>
-          <li><textarea defaultValue=" " onChange={(e)=> setnewshopdescription(e.target.value) }/></li>
-          <button type="button" onClick={sendtoadmin}>Submit to admin</button>
-      </ul> 
-  </form>)}
-
-  </section>
-  );
-}
 };
