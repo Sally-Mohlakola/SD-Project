@@ -8,8 +8,7 @@ import '../styles/homepage.css';
 import {db} from "../config/firebase";
 import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
 import { updateCurrentUser } from 'firebase/auth/cordova';
-//Import the get products in a shop here. to update to get all products in all shops, as
-//well as the AI filter.
+//Import the get products in a shop here. to update to get all products in all
 import {getProductsInShop} from "../components/myorders";
 
 export function SearchTab({ query, setSearch }) {
@@ -65,24 +64,33 @@ export const Homepage=()=>{
 
   useEffect(() => {
     async function getRecommendedProducts() {
-      const allShops = await getDocs(shopcollectionRef);
-      const userShop = allShops.docs.find(doc => doc.data().userid === currentUserId);
-
-      const shopid = userShop.id;
-      const products = await getProductsInShop("pNgm2hGoJkSPw88qrQA8"); // shopId goes here (to revisit for AI recommendation)
-      setAllProducts(products);
+      const allShopsSnapshot = await getDocs(shopcollectionRef);
+      const shopIds = allShopsSnapshot.docs.map(doc => doc.id);
+    
+      const allProductsArrays = await Promise.all(
+        shopIds.map(async (shopId) => {
+          const products = await getProductsInShop(shopId);
+          return products.filter(product => product.price > 0);
+        })
+      );
+    
+      const allProductsList = allProductsArrays.flat();
+      setAllProducts(allProductsList);
+      console.log(allProducts);
     }
+    
     getRecommendedProducts();
   }, []);
 
   //Search prompts are category and name (need to implement name later)
   const filterProduct = allProducts.filter(product => {
-    const searchPrompt = search.toLocaleLowerCase();
-    return (
-        product.name.toLocaleLowerCase().includes(searchPrompt) ||
-        (product.category && product.category.includes(searchPrompt))
-    );
+    const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
+    const nameMatch = product.name && product.name.toLowerCase().includes(searchPrompt);
+    const categoryMatch = product.category && product.category.toLowerCase().includes(searchPrompt);
+  
+    return nameMatch || categoryMatch;
   });
+  
 
     const navigate = useNavigate();
     const logout = async()=>{
