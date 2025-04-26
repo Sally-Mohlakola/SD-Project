@@ -3,7 +3,6 @@ import { db } from '../config/firebase';
 import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
 import '../styles/adminshophomepage.css'; 
 
-
 export const AdminShopHomepage = () => {
   const [shops, setShops] = useState([]); // To store the fetched shop data
   const [loading, setLoading] = useState(true); // To track the loading state

@@ -1,17 +1,20 @@
 import {  signOut} from 'firebase/auth';
 import { auth} from '../config/firebase';
 import { useNavigate } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import '../styles/homepage.css';
+import {db} from "../config/firebase";
+import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
+import { updateCurrentUser } from 'firebase/auth/cordova';
+//Import the get products in a shop here. to update to get all products in all shops, as
+//well as the AI filter.
+import {getProductsInShop} from "../components/myorders";
 
-
-export function SearchTab() {
-  const [query, setQuery] = useState('');
-
-  const handleChange = (event) => {
-    setQuery(event.target.value);
+export function SearchTab({ query, setSearch }) {
+const handleChange = (event) => {
+  setSearch(event.target.value);
     //console.log('Search product:', event.target.value);
   };
 
@@ -26,7 +29,7 @@ export function SearchTab() {
       />
     </section>
   );
-}
+}//END
 
 export function DropdownMenu() {
   const [selected, setSelected] = useState('');
@@ -48,11 +51,40 @@ export function DropdownMenu() {
       {/* {selected} records selected option, can remove later. Useful for database*/}
     </section>
   );
-}
+}//END
+
 
 export const Homepage=()=>{
+  const [search, setSearch] = useState('');
+  const [orderlist,setorderlist]=useState([]);
+  const currentUserId = localStorage.getItem("userid");
+  const currentuserstore= localStorage.getItem("shopname");
+  const ordercollectionRef=collection(db,"Orders");
+  const shopcollectionRef=collection(db,"Shops");
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    async function getRecommendedProducts() {
+      const allShops = await getDocs(shopcollectionRef);
+      const userShop = allShops.docs.find(doc => doc.data().userid === currentUserId);
+
+      const shopid = userShop.id;
+      const products = await getProductsInShop("pNgm2hGoJkSPw88qrQA8"); // shopId goes here (to revisit for AI recommendation)
+      setAllProducts(products);
+    }
+    getRecommendedProducts();
+  }, []);
+
+  //Search prompts are category and name (need to implement name later)
+  const filterProduct = allProducts.filter(product => {
+    const searchPrompt = search.toLocaleLowerCase();
+    return (
+        product.name.toLocaleLowerCase().includes(searchPrompt) ||
+        (product.category && product.category.includes(searchPrompt))
+    );
+  });
+
     const navigate = useNavigate();
-  
     const logout = async()=>{
         try{
             await signOut(auth);
@@ -66,12 +98,26 @@ export const Homepage=()=>{
     };
 return (
 <section>
-
     <h1>Natural Craft. Rooted in Care</h1>
     <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
     <img id="img-welcome" alt="welcome banner"></img>{/*Welcome IMage*/}
-    <SearchTab /> {/*Call the functions from above here*/}
+    <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
+ 
+      {/*Display products here */}
+      {allProducts.length > 0 ? (
+        filterProduct.map(product => (
+          <article key={product.name}>
+            <h3>{product.name}</h3>
+            <p>{product.itemdescription}</p>
+            <p>Price: R{product.price}</p>
+            <p>Quantity: {product.quantity}</p>
+            <button>Buy</button>
+          </article>
+        ))
+      ) : (
+        <p>Loading products...</p>
+      )}
 
     <img id="img-cart-icon" alt="cart"></img> {/*Sham referenced putting a pic here?*/}
     <button id="btn-cart"></button>{/*Can change later to element with item count*/}
