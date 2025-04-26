@@ -54,6 +54,7 @@ export function DropdownMenu() {
 
 
 export const Homepage=()=>{
+  const [searchShop, setSearchShop] = useState('');
   const [search, setSearch] = useState('');
   const [orderlist,setorderlist]=useState([]);
   const currentUserId = localStorage.getItem("userid");
@@ -61,6 +62,40 @@ export const Homepage=()=>{
   const ordercollectionRef=collection(db,"Orders");
   const shopcollectionRef=collection(db,"Shops");
   const [allProducts, setAllProducts] = useState([]);
+
+   const [allShops, setAllShops] = useState([]); // To store the fetched shop data
+   const [loading, setLoading] = useState(true); // To track the loading state
+  
+    // Fetch shop data when the component mounts
+    useEffect(() => {
+      const fetchShops = async () => {
+        try {
+          const shopsRef = collection(db, 'Shops'); // Reference to Firestore 'Shops' collection
+          const data = await getDocs(shopsRef); // Fetch the documents
+  
+          // Map through the documents and store in state
+          const shopsData = data.docs.map((doc) => ({
+            ...doc.data(),
+            nameofshop: doc.data().nameofshop,
+            description: doc.data().description,
+            status: doc.data().status,
+          }));
+  
+          const allShopsList = shopsData.flat();
+          setAllProducts(allShopsList);
+          console.log(allProducts);
+
+          setAllShops(shopsData); // Update the state with the fetched data
+        } catch (error) {
+          console.error(error); // Log any errors
+        } finally {
+          setLoading(false); // Set loading to false after the data is fetched
+        }
+      };
+      fetchShops(); // Call the async function to fetch data
+    }, []); // Empty dependency array means this runs once when the component mounts
+
+
 
   useEffect(() => {
     async function getRecommendedProducts() {
@@ -87,6 +122,14 @@ export const Homepage=()=>{
     const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
     const nameMatch = product.name && product.name.toLowerCase().includes(searchPrompt);
     const categoryMatch = product.category && product.category.toLowerCase().includes(searchPrompt);
+  
+    return nameMatch || categoryMatch;
+  });
+
+  const filterShop = allShops.filter(shop => {
+    const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
+    const nameMatch = shop.nameofshop&& shop.nameofshop.toLowerCase().includes(searchPrompt);
+    const categoryMatch = shop.category && shop.category.toLowerCase().includes(searchPrompt);
   
     return nameMatch || categoryMatch;
   });
@@ -126,6 +169,19 @@ return (
         ))
       ) : (
         <p>Loading products...</p>
+      )}
+
+{allShops.length > 0 ? (
+        filterShop.map(shop => (
+          <article key={shop.nameofshop}>
+            <h3>{shop.nameofshop}</h3>
+            <p>{shop.description}</p>
+            <p>Category: {shop.category}</p>
+            <button>Enter Shop</button>
+          </article>
+        ))
+      ) : (
+        <p>Loading shops...</p>
       )}
 
     <img id="img-cart-icon" alt="cart"></img> {/*Sham referenced putting a pic here?*/}
