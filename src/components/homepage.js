@@ -111,7 +111,8 @@ return (
     <img id="img-welcome" alt="welcome banner"></img>{/*Welcome IMage*/}
     <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
- 
+    <h2>Featured Artisan Picks</h2>
+    {/*The items to add to cart will appear here. Coming soon.*/}
       {/*Display products here */}
       {allProducts.length > 0 ? (
         filterProduct.map(product => (
@@ -143,10 +144,6 @@ return (
         <Link to="/contact" className="btn-link-contact">Contact</Link>
         <button onClick={logout}>Logout</button>
     </nav>
-
-    
-    <h2>Featured Artisan Picks</h2>
-    {/*The items to add to cart will appear here. Coming soon.*/}
 
     <button id="btn-checkout">Checkout</button>{/*At the bottom, centre*/}
     
