@@ -11,6 +11,7 @@ import { updateCurrentUser } from 'firebase/auth/cordova';
 //Import the get products in a shop here. to update to get all products in all
 import {getProductsInShop} from "../components/myorders";
 
+
 export function SearchTab({ query, setSearch }) {
 const handleChange = (event) => {
   setSearch(event.target.value);
@@ -53,7 +54,12 @@ export function DropdownMenu() {
 }//END
 
 
+
 export const Homepage=()=>{
+  //Button navigation system
+  const navigate = useNavigate();
+
+  const [chosenShop, setChosenShop] = useState('');
   const [searchShop, setSearchShop] = useState('');
   const [search, setSearch] = useState('');
   const [orderlist,setorderlist]=useState([]);
@@ -63,79 +69,77 @@ export const Homepage=()=>{
   const shopcollectionRef=collection(db,"Shops");
   const [allProducts, setAllProducts] = useState([]);
 
-   const [allShops, setAllShops] = useState([]); // To store the fetched shop data
-   const [loading, setLoading] = useState(true); // To track the loading state
+   const [allShops, setAllShops] = useState([]); //Store all shops in the system
+   const [loading, setLoading] = useState(true); //Loading state
   
-    // Fetch shop data when the component mounts
+   const goBackToDefaultHomePageView = () => {
+    setChosenShop(null);  //Setting the chosen shop to null will revert to default view
+    //setShopProducts([]);
+  }
+
+  
+  // Fetching all the shop data
     useEffect(() => {
       const fetchShops = async () => {
         try {
-          const shopsRef = collection(db, 'Shops'); // Reference to Firestore 'Shops' collection
-          const data = await getDocs(shopsRef); // Fetch the documents
+          const shopsRef = collection(db, 'Shops'); // Referencing to Firestore 'Shops' collection
+          const data = await getDocs(shopsRef);
   
-          // Map through the documents and store in state
+          // Map the docs of each shop
           const shopsData = data.docs.map((doc) => ({
             ...doc.data(),
+            id: doc.id,
             nameofshop: doc.data().nameofshop,
             description: doc.data().description,
-            status: doc.data().status,
           }));
-  
-          const allShopsList = shopsData.flat();
-          setAllProducts(allShopsList);
-          console.log(allProducts);
 
-          setAllShops(shopsData); // Update the state with the fetched data
-        } catch (error) {
-          console.error(error); // Log any errors
-        } finally {
-          setLoading(false); // Set loading to false after the data is fetched
+          setAllShops(shopsData); //Update array with all shops data
+        } catch (error)
+        {
+          console.error(error); 
+        } finally
+        {
+          setLoading(false);//Make sure that loading is set to false since data has loaded
         }
       };
-      fetchShops(); // Call the async function to fetch data
-    }, []); // Empty dependency array means this runs once when the component mounts
+      fetchShops(); 
+    }, []); 
 
+    //Once a user choses a shop, look through the products of that shop
+    useEffect(() => {
+      if (chosenShop) {
+        const fetchProducts = async () => {
+          const products = await getProductsInShop(chosenShop.id);
+          setAllProducts(products); //Set the products for the chosenShop
+        };
+        fetchProducts();
+      }}, [chosenShop]);
 
+    const actionEnterShop = (shop) => {
+      setChosenShop(shop); //Set the chosenShop by clicking "Enter Shop" button
+    };
 
-  useEffect(() => {
-    async function getRecommendedProducts() {
-      const allShopsSnapshot = await getDocs(shopcollectionRef);
-      const shopIds = allShopsSnapshot.docs.map(doc => doc.id);
-    
-      const allProductsArrays = await Promise.all(
-        shopIds.map(async (shopId) => {
-          const products = await getProductsInShop(shopId);
-          return products.filter(product => product.price > 0);
-        })
-      );
-    
-      const allProductsList = allProductsArrays.flat();
-      setAllProducts(allProductsList);
-      console.log(allProducts);
-    }
-    
-    getRecommendedProducts();
-  }, []);
 
   //Search prompts are category and name (need to implement name later)
   const filterProduct = allProducts.filter(product => {
     const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
-    const nameMatch = product.name && product.name.toLowerCase().includes(searchPrompt);
-    const categoryMatch = product.category && product.category.toLowerCase().includes(searchPrompt);
-  
-    return nameMatch || categoryMatch;
+    const nameEqual = product.name && product.name.toLowerCase().includes(searchPrompt);
+    const priceEqual = product.category && product.category.toLowerCase().includes(searchPrompt);
+  //change the parameters to price later
+    return nameEqual || priceEqual;
   });
 
   const filterShop = allShops.filter(shop => {
     const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
-    const nameMatch = shop.nameofshop&& shop.nameofshop.toLowerCase().includes(searchPrompt);
-    const categoryMatch = shop.category && shop.category.toLowerCase().includes(searchPrompt);
+    const nameEqual = shop.nameofshop&& shop.nameofshop.toLowerCase().includes(searchPrompt);
+    const categoryEqual = shop.category && shop.category.toLowerCase().includes(searchPrompt);
   
-    return nameMatch || categoryMatch;
+    return nameEqual || categoryEqual;
   });
-  
 
-    const navigate = useNavigate();
+    
+
+    //Logout functionality 
     const logout = async()=>{
         try{
             await signOut(auth);
@@ -152,37 +156,61 @@ return (
     <h1>Natural Craft. Rooted in Care</h1>
     <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
     <img id="img-welcome" alt="welcome banner"></img>{/*Welcome IMage*/}
-    <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
+   
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
     <h2>Featured Artisan Picks</h2>
     {/*The items to add to cart will appear here. Coming soon.*/}
       {/*Display products here */}
-      {allProducts.length > 0 ? (
-        filterProduct.map(product => (
-          <article key={product.name}>
-            <h3>{product.name}</h3>
-            <p>{product.itemdescription}</p>
-            <p>Price: R{product.price}</p>
-            <p>Quantity: {product.quantity}</p>
-            <button>Buy</button>
-          </article>
-        ))
-      ) : (
-        <p>Loading products...</p>
+      
+      {/* Show shops if no shop is selected */}
+      {!chosenShop && (
+        <>
+         <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
+          <h2>Featured Shops</h2>
+          {loading ? (
+            <p>Loading shops...</p>) : (
+            filterShop.length > 0 ? (
+              filterShop.map(shop => (
+                <article key={shop.id}>
+                <h3>{shop.nameofshop}</h3>
+                <p>{shop.description}</p>
+                <p>Category: {shop.category}</p>
+                <button onClick={() => actionEnterShop(shop)}>Enter Shop</button>
+                </article>
+              ))
+            ) : (
+              <p>No shops are listed yet.</p>
+            )
+          )}
+        </>
       )}
 
-{allShops.length > 0 ? (
-        filterShop.map(shop => (
-          <article key={shop.nameofshop}>
-            <h3>{shop.nameofshop}</h3>
-            <p>{shop.description}</p>
-            <p>Category: {shop.category}</p>
-            <button>Enter Shop</button>
-          </article>
-        ))
-      ) : (
-        <p>Loading shops...</p>
-      )}
+      {/* Show the products when a shop is selected and call filterProduct since it preps AllProducts for search */}
+      {chosenShop && (<>
+        <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
+        <h2>Artisanal works of {chosenShop.nameofshop}</h2>
+    
+        <p>Number of listings: {filterProduct.length}</p>
+        {/* Show the filtered products here, images will also go here */}
+        <section className="product-listing-to-buy-view">
+        {filterProduct.length > 0 ? (
+            filterProduct.map(product => (
+                <article key={product.id}>
+                <h3>{product.name}</h3>
+                <p>{product.itemdescription}</p>
+                <p>Price: R{product.price}</p>
+                <button>Buy</button>
+                </article>
+              ))
+            ) : (
+              <p>No artisanal products.</p>
+            )}
+             <button onClick={goBackToDefaultHomePageView}>Back</button>
+           
+          </section>
+        </>
+      )
+      }
 
     <img id="img-cart-icon" alt="cart"></img> {/*Sham referenced putting a pic here?*/}
     <button id="btn-cart"></button>{/*Can change later to element with item count*/}
@@ -205,10 +233,6 @@ return (
     
 </section>
 )
-
-
-
-
 
 
 
