@@ -49,22 +49,14 @@ export const Addproduct=()=>{
               });
 
               
-              await addDoc(collection(db, "Products"), {
-                nameofitem: itemName,
-                description:itemdescription,
-                price: Number(price),
-                quantity: Number(quantity),
-            //    imageURL: downloadURL,
-                timestamp: new Date(),
-                userID: userid
-              });
+              
               
               console.log("Items have been added successfully");
               setitemname("");
               setprice("");
               setquantity("");
               setitemdescription("");
-              alert("Product have been added successfully!");
+              alert("Your Product has been added successfully!");
 
              // setimage(null);
             } catch (error) {
