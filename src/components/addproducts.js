@@ -1,15 +1,17 @@
 import React,{useState} from 'react'
-import { useUserId,useShopId } from './userinfo.js';
+import { useShopId } from './userinfo.js';
 import {db} from '../config/firebase.js'
 import { collection, addDoc} from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 //import { v4 as uuidv4 } from 'uuid';
 //import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 export const Addproduct=()=>{
-
-    let userid= useUserId();
-          let shopid=useShopId();
+  const navigate=useNavigate();
+    
+      useShopId();
+      let shopid=localStorage.getItem('shopid');
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
         const[quantity,setquantity]=useState("");
@@ -57,13 +59,16 @@ export const Addproduct=()=>{
               setquantity("");
               setitemdescription("");
               alert("Your Product has been added successfully!");
-
+              navigate('/displayproducts');
              // setimage(null);
             } catch (error) {
               console.log("Items were not added successfully", error);
             }
           };
-   
+          const Back=()=>{
+            navigate('/displayproducts');
+        
+           }
 
     return (
         <section className="Box">
@@ -93,12 +98,9 @@ export const Addproduct=()=>{
                 </section>
                 <button type="submit">Add Product</button>
             </form>
+            <button onClick={Back}>Back</button>
         </section>
     );
 
 
 };
-
-
-
-
