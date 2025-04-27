@@ -77,7 +77,7 @@ export const Homepage=()=>{
     //setShopProducts([]);
   }
 
-  
+  const currentUserID = localStorage.getItem("userid");
   // Fetching all the shop data
     useEffect(() => {
       const fetchShops = async () => {
@@ -89,9 +89,10 @@ export const Homepage=()=>{
           const shopsData = data.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
+            shopid: doc.data().userid,
             nameofshop: doc.data().nameofshop,
             description: doc.data().description,
-          }));
+          })).filter(shop => shop.userid!== currentUserID);;
 
           setAllShops(shopsData); //Update array with all shops data
         } catch (error)
@@ -233,8 +234,5 @@ return (
     
 </section>
 )
-
-
-
 
 };//end Homepage (returns homepage components when called)
