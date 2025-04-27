@@ -24,7 +24,7 @@ function App() {
          <Route path="/shopdashboard" element = {<ShopHomepage/>}/>
          <Route path="/myorders" element = {<MyOrders/>}/>
          <Route path="/admin" element={<AdminShopHomepage />} />
-         <Route path="/addproduct" element={<Addproduct />} />
+         <Route path="/addproducts" element={<Addproduct />} />
          <Route path ="/createshop" element={<Createshop/>}/>
           <Route path="/displayproducts" element={<Displayproducts />} />  
         <Route path="/removeproducts" element={<DeleteProduct />} />
