@@ -46,7 +46,7 @@ export const Addproduct=()=>{
                 itemdescription:itemdescription,
                 price: Number(price),
                 quantity: Number(quantity),
-                sold:zero,
+                sold:zero
             //    imageURL: downloadURL,
                // timestamp: new Date(),
                
