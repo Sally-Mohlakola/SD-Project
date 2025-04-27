@@ -96,7 +96,7 @@ const Addstock=async(e)=>{
 
     try {
         await updateDoc(docdata, {
-          quantity: document.quantity+ parseInt(addstock)
+          quantity:  document.data().quantity+ addstock
         });
         alert("Quantity has been updated successfully!");
       } catch (error) {
