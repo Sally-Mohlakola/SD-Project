@@ -35,6 +35,7 @@ export const  Displayproducts=()=>{
         console.log(data.itemName);
         
         product_object.Name=data.name;
+        product_object.Description=data.itemdescription;
         product_object.Price=data.price;
         product_object.Quantity=data.quantity;
         product_array.push(product_object);
@@ -123,6 +124,7 @@ const Button_add=()=>{
         {products.map((item)=>
         <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <h2>Name: {item.Name}</h2>&nbsp;&nbsp;
+             <h2>Description:{item.Description}</h2>&nbsp;&nbsp;
             <h2>Price:{item.Price}</h2>&nbsp;&nbsp;
             <h2>Quantity:{item.Quantity}</h2>&nbsp;&nbsp;
             <button id={item.Name} onClick={Button_update}>Update quantity</button>
