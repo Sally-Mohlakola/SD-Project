@@ -6,7 +6,7 @@ import {MyOrders} from "./components/myorders";
 import { MyShop } from './components/myshop'; // or the correct relative path
 import {ShopHomepage} from "./components/shophomepage";
 import {AdminShopHomepage} from './components/admin';
-import {Addproduct} from "./components/addproduct";
+import {Addproduct} from "./components/addproducts";
 import {Createshop} from "./components/createshop"
 import 'bootstrap/dist/css/bootstrap.css';
 import { DeleteProduct } from './components/removeproducts';
