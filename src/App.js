@@ -9,6 +9,9 @@ import {AdminShopHomepage} from './components/admin';
 import {Addproduct} from "./components/addproduct";
 import {Createshop} from "./components/createshop"
 import 'bootstrap/dist/css/bootstrap.css';
+import { DeleteProduct } from './components/removeproducts';
+import {Displayproducts} from './components/displayproducts'
+import { Updateproduct } from './components/updateproducts';
 
 function App() {
 
@@ -23,6 +26,9 @@ function App() {
          <Route path="/admin" element={<AdminShopHomepage />} />
          <Route path="/addproduct" element={<Addproduct />} />
          <Route path ="/createshop" element={<Createshop/>}/>
+          <Route path="/displayproducts" element={<Displayproducts />} />  
+        <Route path="/removeproducts" element={<DeleteProduct />} />
+        <Route path="/updateproducts" element={<Updateproduct />} />  
          
    
       </Routes>
