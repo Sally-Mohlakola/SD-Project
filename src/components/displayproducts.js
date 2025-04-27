@@ -9,7 +9,9 @@ import { useNavigate } from 'react-router-dom';
 export const  Displayproducts=()=>{
    useShopId();
     let navigate=useNavigate();
-    let shopid=localStorage.getItem('shopid');;
+    let shopid=localStorage.getItem('shopid');
+    console.log("Have the shop stored as "+Item);
+    console.log("Item stored in localStorage:", localStorage.getItem("shopid"));
     
     const[store,setstore]=useState("");// This is to 
     const navigate=useNavigate();
