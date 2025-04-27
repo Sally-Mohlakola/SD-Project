@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const  Displayproducts=()=>{
-    useShopId();
+   useShopId();
+    let navigate=useNavigate();
+    let shopid=localStorage.getItem('shopid');;
     
     const[store,setstore]=useState("");// This is to 
     const navigate=useNavigate();
@@ -48,7 +50,7 @@ export const  Displayproducts=()=>{
   
 }
 
-let shopid= localStorage.getItem('shopid');
+//let shopid= localStorage.getItem('shopid');
     
 useEffect(() => {
     let intervalId = setInterval(() => {
