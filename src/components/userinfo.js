@@ -7,7 +7,7 @@ import { db } from '../config/firebase';
 
 //Get userid from local storage
 //this is to test
-localStorage.setItem("userid", "rOBMQ2CQBQRdv4peSwo98lgYRey2");
+//localStorage.setItem("userid", "rOBMQ2CQBQRdv4peSwo98lgYRey2");
 
 export const useUserId= ()=>{
     const[userid,setuserid]=useState("");
