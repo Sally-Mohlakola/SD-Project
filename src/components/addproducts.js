@@ -18,6 +18,7 @@ export const Addproduct=()=>{
        // const[userid,setuserid]=useState(null);
       //  const [shopid, setshopid] = useState(null);
         const[itemdescription,setitemdescription]=useState("");
+  const zero=0;
         
        // const[image, setimage]=useState(null);
        
@@ -45,7 +46,7 @@ export const Addproduct=()=>{
                 itemdescription:itemdescription,
                 price: Number(price),
                 quantity: Number(quantity),
-                sold:0,
+                sold:zero,
             //    imageURL: downloadURL,
                // timestamp: new Date(),
                
