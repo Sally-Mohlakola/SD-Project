@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { DeleteProduct } from './components/removeproducts';
 import {Displayproducts} from './components/displayproducts'
 import { Updateproduct } from './components/updateproducts';
-
+import {Checkout} from './components/checkout'
 function App() {
 
    return ( 
@@ -29,7 +29,8 @@ function App() {
           <Route path="/displayproducts" element={<Displayproducts />} />  
         <Route path="/removeproducts" element={<DeleteProduct />} />
         <Route path="/updateproducts" element={<Updateproduct />} />  
-         
+        <Route path="/checkout" element={< Checkout />} />  
+       
    
       </Routes>
    </section>

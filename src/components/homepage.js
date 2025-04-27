@@ -1,7 +1,7 @@
 import {  signOut} from 'firebase/auth';
 import { auth} from '../config/firebase';
 import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import '../styles/homepage.css';
@@ -12,7 +12,7 @@ import { updateCurrentUser } from 'firebase/auth/cordova';
 import {getProductsInShop} from "../components/myorders";
 
 
-export function SearchTab({ query, setSearch }) {
+export function SearchTab({ query, setSearch }) { 
 const handleChange = (event) => {
   setSearch(event.target.value);
     //console.log('Search product:', event.target.value);
@@ -68,11 +68,16 @@ export const Homepage=()=>{
   const ordercollectionRef=collection(db,"Orders");
   const shopcollectionRef=collection(db,"Shops");
   const [allProducts, setAllProducts] = useState([]);
+  const [quantity, setQuantity] = useState(null);
+  const [itemimadding,setitemimadding]=useState(null);
+  const [cartitems, setcartitems] = useState([]);
 
    const [allShops, setAllShops] = useState([]); //Store all shops in the system
    const [loading, setLoading] = useState(true); //Loading state
   
    const goBackToDefaultHomePageView = () => {
+    setQuantity(null);
+    setitemimadding(null);
     setChosenShop(null);  //Setting the chosen shop to null will revert to default view
     //setShopProducts([]);
   }
@@ -152,6 +157,29 @@ export const Homepage=()=>{
                 console.log(error);
             }
     };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+//CART LOGIC
+
+const Showcartitems= async()=>{
+sessionStorage.setItem("cart",cartitems);
+navigate('/checkout');
+};
+
+const AddtoCart=(name,description,price,quan)=>{
+  const prod={
+    name:name,
+    itemdescription:description,
+    price:price,
+    quantity:quan
+  }
+  setcartitems(prevItems => [...prevItems, prod]);
+setQuantity(null);
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 return (
 <section>
     <h1>Natural Craft. Rooted in Care</h1>
@@ -186,6 +214,9 @@ return (
         </>
       )}
 
+
+
+
       {/* Show the products when a shop is selected and call filterProduct since it preps AllProducts for search */}
       {chosenShop && (<>
         <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
@@ -195,12 +226,33 @@ return (
         {/* Show the filtered products here, images will also go here */}
         <section className="product-listing-to-buy-view">
         {filterProduct.length > 0 ? (
-            filterProduct.map(product => (
-                <article key={product.id}>
+            filterProduct.map((product,index) => (
+                <article key={index}>
                 <h3>{product.name}</h3>
                 <p>{product.itemdescription}</p>
                 <p>Price: R{product.price}</p>
-                <button>Buy</button>
+
+                {product.id===itemimadding? (
+                  <section>
+                <p>
+                <input type='number' onChange={(e)=> setQuantity(e.target.value)}></input>
+                </p>
+                <button onClick={()=>{
+                  if(!quantity){
+                    alert("Please add a quantity ");
+                  }
+              else{
+                  AddtoCart(product.name,product.itemdescription,product.price);
+                  setitemimadding(null); 
+                }
+                }}>Add To Cart</button> 
+                </section>
+                ):(
+                <button onClick={()=>{
+                  setitemimadding(product.id);
+                  console.log('productid',product.id);}
+                }>Buy</button>)}
+            
                 </article>
               ))
             ) : (
@@ -213,8 +265,8 @@ return (
       )
       }
 
-    <img id="img-cart-icon" alt="cart"></img> {/*Sham referenced putting a pic here?*/}
-    <button id="btn-cart"></button>{/*Can change later to element with item count*/}
+    <img id="img-cart-icon" alt="cart" onClick={Showcartitems}></img> {/*Sham referenced putting a pic here?*/}
+    <button id="btn-cart">buttonishere</button>{/*Can change later to element with item count*/}
 
     <nav className="sidebar-menu">
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
@@ -234,5 +286,9 @@ return (
     
 </section>
 )
+
+
+
+
 
 };//end Homepage (returns homepage components when called)
