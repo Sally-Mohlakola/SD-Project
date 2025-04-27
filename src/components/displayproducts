@@ -1,0 +1,142 @@
+import React, { useEffect, useState } from "react";
+import { useShopId} from "./userinfo";
+import { db } from "../config/firebase";
+import { collection, addDoc, getDocs,query, where } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+
+
+
+export const  Displayproducts=()=>{
+    useShopId();
+    
+    const[store,setstore]=useState("");// This is to 
+    const navigate=useNavigate();
+    let product_object=new Object();
+    const[products,setproducts]=useState([]);
+    
+
+    
+    const getproducts= async()=>{
+        let product_array=[];
+
+    
+   
+    
+    product_object=new Object();
+   
+    
+
+    const q= query(collection(db,"Shops",shopid,"Products"));
+    const snapshot=await getDocs(q);
+    snapshot.forEach((doc)=>{
+        let data=doc.data();
+        console.log(data.itemName);
+        
+        product_object.Name=data.name;
+        product_object.Price=data.price;
+        product_object.Quantity=data.quantity;
+        product_array.push(product_object);
+        product_object=new Object();
+        console.log("Product in object");
+
+
+    
+    })
+    setproducts(product_array);
+
+
+  
+}
+
+let shopid= localStorage.getItem('shopid');
+    
+useEffect(() => {
+    let intervalId = setInterval(() => {
+        if(shopid){
+            clearInterval(intervalId);
+            console.log("Shop id availible in display page");
+            getproducts();
+        }else{
+            console.log("still waiting for shop id");
+            return(
+                <section className="Box">
+                <h1>Wait a moment</h1>
+                
+                </section>
+            );
+            let shopid= localStorage.getItem('shopid');
+    
+        }
+      },5000);
+  
+   
+}, []); 
+
+
+
+
+
+const Button_delete=(e)=>{
+    const id = e.target.id;
+   if(id){
+    console.log("The id of the button clicked is "+id);
+   }else{
+    console.log("Could not get the id of the button that was clicked.")
+   }
+   localStorage.setItem('Item',id);
+    setstore(id);
+    console.log(store);
+    console.log("Item stored in localStorage:", localStorage.getItem("Item"));
+    navigate('/removeproducts');
+    
+
+};
+const Button_update=(e)=>{ 
+   
+    const id = e.target.id;
+   if(id){
+    console.log("The id of the button clicked is "+id);
+   }else{
+    console.log("Could not get the id of the button that was clicked.")
+   }
+   localStorage.setItem('Item',id);
+    setstore(id);
+    console.log(store);
+    console.log("Item stored in localStorage:", localStorage.getItem("Item"));
+    navigate('/updateproducts');
+
+};
+const Button_add=()=>{
+    navigate('/addproducts');
+}
+
+
+
+
+
+
+
+    return(<section className="Box">
+        <h1>Add a product</h1>
+        {products.map((item)=>
+        <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+            <h2>Name: {item.Name}</h2>&nbsp;&nbsp;
+            <h2>Price:{item.Price}</h2>&nbsp;&nbsp;
+            <h2>Quantity:{item.Quantity}</h2>&nbsp;&nbsp;
+            <button id={item.Name} onClick={Button_update}>Update quantity</button>
+            <button id={item.Name} onClick={Button_delete} >Remove Product</button><br/><br/>
+
+        </section>
+
+        )}
+    
+
+    
+    <button onClick={Button_add}>Add product</button>
+    
+    </section>
+    );
+    
+
+
+}
