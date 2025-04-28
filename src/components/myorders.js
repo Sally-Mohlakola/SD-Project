@@ -11,7 +11,7 @@ export const getProductsInShop = async (shopid) => {
   try {
     const getProducts = collection(db, "Shops", shopid, "Products");
     const products = await getDocs(getProducts);
-    const AllProducts = products.docs.map((doc) => ({...doc.data()} ));
+    const AllProducts = products.docs.map((doc) => ({id: doc.id,...doc.data()} ));
     return AllProducts;
   } 
   catch (error) {

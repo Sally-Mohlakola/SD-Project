@@ -70,15 +70,28 @@ export const Homepage=()=>{
   const [allProducts, setAllProducts] = useState([]);
   const [quantity, setQuantity] = useState(null);
   const [itemimadding,setitemimadding]=useState(null);
+  const cart=sessionStorage.getItem("cart_items");
   const [cartitems, setcartitems] = useState([]);
+  const [allShops, setAllShops] = useState([]); //Store all shops in the system
+  const [loading, setLoading] = useState(true); //Loading state
 
-   const [allShops, setAllShops] = useState([]); //Store all shops in the system
-   const [loading, setLoading] = useState(true); //Loading state
-  
+  useEffect(() => {
+    let parsedCart = [];
+    try {
+      parsedCart = cart ? JSON.parse(cart) : [];
+    } catch (error) {
+      console.error("Error parsing cart_items:", error);
+      parsedCart = []; 
+    }
+    setcartitems(parsedCart);
+  }, [cart]);
+  console.log(cartitems);
+
    const goBackToDefaultHomePageView = () => {
     setQuantity(null);
     setitemimadding(null);
-    setChosenShop(null);  //Setting the chosen shop to null will revert to default view
+    setChosenShop(null); 
+    setcartitems([]);//Setting the chosen shop to null will revert to default view
     //setShopProducts([]);
   }
 
@@ -151,6 +164,7 @@ export const Homepage=()=>{
             await signOut(auth);
             localStorage.removeItem("userid");
             localStorage.removeItem("shopname");
+            sessionStorage.removeItem("cart_items");
             navigate('/');
             }
             catch(error){
@@ -161,12 +175,14 @@ export const Homepage=()=>{
 //CART LOGIC
 
 const Showcartitems= async()=>{
-sessionStorage.setItem("cart",cartitems);
+const items=cartitems;
+sessionStorage.setItem("cart_items",JSON.stringify(items));
 navigate('/checkout');
 };
 
-const AddtoCart=(name,description,price,quan)=>{
+const AddtoCart=(id,name,description,price,quan)=>{
   const prod={
+    id:id,
     name:name,
     itemdescription:description,
     price:price,
@@ -226,23 +242,23 @@ return (
         {/* Show the filtered products here, images will also go here */}
         <section className="product-listing-to-buy-view">
         {filterProduct.length > 0 ? (
-            filterProduct.map((product,index) => (
-                <article key={index}>
-                <h3>{product.name}</h3>
-                <p>{product.itemdescription}</p>
-                <p>Price: R{product.price}</p>
+            filterProduct.map((product) => (
+                <article key={product.id}>
+                    <h3>{product.name}</h3>
+                    <p>{product.itemdescription}</p>
+                    <p>Price: R{product.price}</p>
 
                 {product.id===itemimadding? (
                   <section>
                 <p>
-                <input type='number' onChange={(e)=> setQuantity(e.target.value)}></input>
+                <input type='number' min="1" onChange={(e)=> setQuantity(e.target.value)}></input>
                 </p>
                 <button onClick={()=>{
                   if(!quantity){
                     alert("Please add a quantity ");
                   }
               else{
-                  AddtoCart(product.name,product.itemdescription,product.price);
+                  AddtoCart(product.id,product.name,product.itemdescription,product.price,quantity);
                   setitemimadding(null); 
                 }
                 }}>Add To Cart</button> 
@@ -264,9 +280,11 @@ return (
         </>
       )
       }
-
-    <img id="img-cart-icon" alt="cart" onClick={Showcartitems}></img> {/*Sham referenced putting a pic here?*/}
-    <button id="btn-cart">buttonishere</button>{/*Can change later to element with item count*/}
+    
+    <h6 id="img-cart-icon" onClick={Showcartitems}>Cart({cartitems.length})</h6>
+    {/*Sham referenced putting a pic here?*/}
+    <button id="btn-cart"></button>{/*Can change later to element with item count*/}
+   
 
     <nav className="sidebar-menu">
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
@@ -282,7 +300,7 @@ return (
         <button onClick={logout}>Logout</button>
     </nav>
 
-    <button id="btn-checkout">Checkout</button>{/*At the bottom, centre*/}
+    <button id="btn-checkout" onClick={Showcartitems}>Checkout</button>{/*At the bottom, centre*/}
     
 </section>
 )
