@@ -31,6 +31,26 @@ const handleChange = (event) => {
   );
 }//END
 
+//function to filter the products in a shop by the prices
+//it uses a dropdown menu
+export function FilterPrice({query, setPrice}){
+  const handleChange = (event) => {
+    setPrice(event.target.value);
+  };
+
+  return (
+    <section className="format-price">
+      <label htmlFor="priceFilter">Filter by Price:</label>
+      <select id = "priceFilter" value = {query} onChange={handleChange}>
+        <option value="">All Prices</option>
+        <option value="under50">Under R50</option>
+        <option value="50to100">R50-R100</option>
+        <option value="above100">Above R100</option>
+      </select>
+    </section>
+  );
+}//FilterPrice
+
 export function DropdownMenu() {
   const [selected, setSelected] = useState('');
 
@@ -74,6 +94,8 @@ export const Homepage=()=>{
   const [cartitems, setcartitems] = useState([]);
   const [allShops, setAllShops] = useState([]); //Store all shops in the system
   const [loading, setLoading] = useState(true); //Loading state
+
+  const [priceFilter, setPriceFilter] = useState("");//used for price filtering
 
   useEffect(() => {
     let parsedCart = [];
@@ -236,13 +258,26 @@ return (
       {/* Show the products when a shop is selected and call filterProduct since it preps AllProducts for search */}
       {chosenShop && (<>
         <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
+        <FilterPrice query={priceFilter} setPrice={setPriceFilter} />
         <h2>Artisanal works of {chosenShop.nameofshop}</h2>
     
         <p>Number of listings: {filterProduct.length}</p>
         {/* Show the filtered products here, images will also go here */}
         <section className="product-listing-to-buy-view">
         {filterProduct.length > 0 ? (
-            filterProduct.map((product) => (
+          filterProduct
+          //filter products by price
+            .filter((product) => {
+              if (priceFilter === "under50") {
+                return product.price < 50;
+              } else if (priceFilter === "50to100") {
+                return product.price >= 50 && product.price <= 100;
+              } else if (priceFilter === "above100") {
+                return product.price > 100;
+              }
+              return true; // No filter applied === "All prices"
+            })
+            .map((product) => (
                 <article key={product.id}>
                     <h3>{product.name}</h3>
                     <p>{product.itemdescription}</p>
