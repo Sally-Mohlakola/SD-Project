@@ -3,8 +3,11 @@ import {signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/SignUp.css';
+
+import {db} from "../config/firebase";
+import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
 
 //IMPORTANT: export functions you may want to use outside this file scope
 
@@ -14,27 +17,24 @@ import '../styles/SignUp.css';
 
 export const Auth=()=>{
     const navigate = useNavigate();
-    /*
-    Remove
-    const[email, setEmail] = useState("");
-    const[password, setPassword] = useState(""); 
+    
+    const [adminEmail, setAdminEmail] = useState([]);
+    //fetch admin email from firebase
+    useEffect(() => {
+      const fetchAdmin = async () => {
+        try {
+          const adminRef = collection(db, 'Admin'); 
+          const data = await getDocs(adminRef);
 
-    const register =async() =>{
-        try{
-        await createUserWithEmailAndPassword(auth, email, password);
-        navigate('/homepage');
-    }
-        catch(error){
-            console.log(error);
+          const adminData = data.docs.map((doc) => doc.data().AdminEmail);
+        setAdminEmail(adminData);
+        } catch (error) {
+          console.error(error);
         }
-    };
+      };
+      fetchAdmin();
+    }, []);
 
-      <label>Email:</label><input placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/> 
-        <label>Password: </label><input type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
-        <button onClick={register}>Register</button>
-             
-        <button onClick={login}>Have an account? Login</button>
-*/
     const signInGoogle = async()=>{
         try{
             const result = await signInWithPopup(auth, provider)
@@ -47,11 +47,16 @@ export const Auth=()=>{
 
               //craftgrainlocalartisanmarketpl@gmail.com
               //check if user signing in is admin email and if yes go to admin dashboard
-              if (userEmail == "craftgrainlocalartisanmarketpl@gmail.com"){
-                navigate('/admin');
-              }
-              else {
-                navigate('/homepage');
+              // if (userEmail === adminEmail){
+              //   navigate('/admin');
+              // }
+              // else {
+              //   navigate('/homepage');
+              // }
+              if (adminEmail.includes(user.email)) {
+                navigate('/admin');  // Navigate to the admin dashboard
+              } else {
+                navigate('/homepage');  // Navigate to the homepage
               }
             })
 
@@ -80,16 +85,7 @@ export const Auth=()=>{
             </button>
           </article>
         </section>
-      );
-      
-    // return (<section>
-    //     <h1>SignUp</h1>
-    
-    //     {/*Call the signInGoogle function from above*/}
-    //     <button onClick ={signInGoogle}>Sign In With Google</button> 
-
-    //     </section>);
-        
+      );       
 
 }//export
 
