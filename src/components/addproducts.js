@@ -1,10 +1,10 @@
 import React,{useState} from 'react'
 import { useShopId } from './userinfo.js';
-import {db} from '../config/firebase.js'
+import {db, storage} from '../config/firebase.js'
 import { collection, addDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-//import { v4 as uuidv4 } from 'uuid';
-//import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 as uuidv4 } from 'uuid';
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 export const Addproduct=()=>{
@@ -19,7 +19,7 @@ export const Addproduct=()=>{
       //  const [shopid, setshopid] = useState(null);
         const[itemdescription,setitemdescription]=useState("");
         
-       // const[image, setimage]=useState(null);
+        const[image, setimage]=useState(null);
        
       
       
@@ -27,26 +27,26 @@ export const Addproduct=()=>{
 
         const handleSubmit = async(e) => {
             e.preventDefault(); 
-          //  if (!image) {
-             // alert("Please select an image!");
-            //  return;
-          //  }
+            if (!image) {
+              alert("Please select an image!");
+              return;
+            }
           
             try {
-           //   const uniqueName = uuidv4() + "-" + image.name;
-           //   const imageRef = storageRef(storage, `products/${uniqueName}`);
-             // console.log("Uploading image to:", imageRef.fullPath);
-           //   await uploadBytes(imageRef, image);
-           //   console.log("Image uploaded successfully.");
-           //   const downloadURL = await getDownloadURL(imageRef);
+              const uniqueName = uuidv4() + "-" + image.name;
+              const imageRef = storageRef(storage, `products/${uniqueName}`);
+              console.log("Uploading image to:", imageRef.fullPath);
+              await uploadBytes(imageRef, image);
+              console.log("Image uploaded successfully.");
+              const downloadURL = await getDownloadURL(imageRef);
            
               await addDoc(collection(db, "Shops", shopid,"Products"), {
                 name: itemName,
                 itemdescription:itemdescription,
                 price: Number(price),
                 quantity: Number(quantity),
-                sold:0
-            //    imageURL: downloadURL,
+                sold:0,
+                imageURL: downloadURL
                // timestamp: new Date(),
                
               });
@@ -92,8 +92,8 @@ export const Addproduct=()=>{
                     <input type="number" id="price" min="0" placeholder='(in rands)' required value={price} onChange={e=>setprice(e.target.value)}/><br/>
                     <label htmlFor="quantity">Quantity</label>
                     <input type="number" id="quantity" min="0" placeholder="e.g. 8" required value={quantity} onChange={e=>setquantity(e.target.value)}/><br/>
-                  { /* <label htmlFor="image">Upload image of item below:</label><br/> */}
-                  {/* <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> */}
+                   <label htmlFor="image">Upload image of item below:</label><br/> 
+                  <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
                     
 
                 </section>
