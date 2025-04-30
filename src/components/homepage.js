@@ -94,26 +94,33 @@ export const Homepage=()=>{
   const [cartitems, setcartitems] = useState([]);
   const [allShops, setAllShops] = useState([]); //Store all shops in the system
   const [loading, setLoading] = useState(true); //Loading state
-
+  const hvchosenshop=sessionStorage.getItem("chosenshop");
   const [priceFilter, setPriceFilter] = useState("");//used for price filtering
+  const [goingback,setgoingback]=useState(false);
 
   useEffect(() => {
+    let havechosenshop='';
     let parsedCart = [];
     try {
+      havechosenshop= hvchosenshop?  JSON.parse(hvchosenshop):'';
       parsedCart = cart ? JSON.parse(cart) : [];
     } catch (error) {
       console.error("Error parsing cart_items:", error);
       parsedCart = []; 
     }
     setcartitems(parsedCart);
+    setChosenShop(havechosenshop);
   }, [cart]);
   console.log(cartitems);
+console.log('chosenshop',hvchosenshop);
 
    const goBackToDefaultHomePageView = () => {
     setQuantity(null);
     setitemimadding(null);
-    setChosenShop(null); 
-    setcartitems([]);//Setting the chosen shop to null will revert to default view
+    setChosenShop(null); //Setting the chosen shop to null will revert to default view
+    setcartitems([]);
+    sessionStorage.removeItem("cart_items");
+    sessionStorage.removeItem("chosenshop");
     //setShopProducts([]);
   }
 
@@ -158,6 +165,8 @@ export const Homepage=()=>{
 
     const actionEnterShop = (shop) => {
       setChosenShop(shop); //Set the chosenShop by clicking "Enter Shop" button
+      //store the chosen shop in the storage for later use and cheakout 
+       sessionStorage.setItem("chosenshop",JSON.stringify(shop));
     };
 
 
@@ -187,6 +196,7 @@ export const Homepage=()=>{
             localStorage.removeItem("userid");
             localStorage.removeItem("shopname");
             sessionStorage.removeItem("cart_items");
+            sessionStorage.removeItem("chosenshop");
             navigate('/');
             }
             catch(error){
@@ -309,8 +319,19 @@ return (
             ) : (
               <p>No artisanal products.</p>
             )}
-             <button onClick={goBackToDefaultHomePageView}>Back</button>
-           
+            
+             <button onClick={()=>{
+              if (!cartitems.length==0){
+                const result = window.confirm("Going back to stores will clear your cart ,Are you sure you want to proceed?");
+                if (result) {
+                  goBackToDefaultHomePageView();
+                } 
+                
+              }
+              else{
+              goBackToDefaultHomePageView();
+              }
+              }} >Back</button>
           </section>
         </>
       )

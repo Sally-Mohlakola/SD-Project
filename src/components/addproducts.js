@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import { useShopId } from './userinfo.js';
-import {db, storage} from '../config/firebase.js'
+import {db, storage} from '../config/firebase.js';
 import { collection, addDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
