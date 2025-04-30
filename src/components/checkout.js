@@ -34,8 +34,8 @@ const removeFromCart = (index) => {
   };
 //CACLULATE THE TOTAL AMOUNT of items and cost for the whole order 
 
-const totalcost = mycart.reduce((sum, myitem) => sum + myitem.price * myitem.quantity,0);
-const numofitems=mycart.reduce((quantity, myitem) => quantity + myitem.quantity,0);
+const totalcost = mycart.reduce((sum, myitem) => sum + Number(myitem.price) * Number(myitem.quantity),0);
+const numofitems=mycart.reduce((num, myitem) => num + Number(myitem.quantity),0);
 
 return(
 
@@ -49,16 +49,20 @@ return(
             <p>Price: {item.price *item.quantity}</p>
             <p>Quantity: {item.quantity}</p>
             <button onClick={()=>{removeFromCart(index)}}>Remove from cart</button>
-            <section> 
-              <h2> Total Cost: {totalcost} </h2>
-              <h2>Total number of items : {numofitems}</h2>
-            </section>
+            
           </section>
          
-        ))
+        )
+      )
+      
       ) : (
         <p>Your cart is empty!</p>
       )}
+      {mycart.length > 0 ?(
+      <section> 
+              <h2> Total Cost: R{totalcost} </h2>
+              <h2>Total number of items : {numofitems}</h2>
+      </section>):(<section> </section>)}
       <button onClick={backtoshops}>Back</button>
     </section>
   );
