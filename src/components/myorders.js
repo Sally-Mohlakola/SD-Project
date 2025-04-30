@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import {db} from "../config/firebase";
 import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
  
 export const getProductsInShop = async (shopid) => {
@@ -26,8 +27,14 @@ const currentUserId = localStorage.getItem("userid");
 const currentuserstore= localStorage.getItem("shopname");
 const ordercollectionRef=collection(db,"Orders");
 const shopcollectionRef=collection(db,"Shops");
-
 const [productsMap, setProductsMap] = useState([]);
+
+ let navigate=useNavigate();
+    
+    function navigateDashboard() {
+        navigate('/shopdashboard');
+        }
+
 //console.log( "shopname of user ",currentuserstore);
 useEffect(()=>{
     const getorderlist= async()=>{
@@ -140,7 +147,9 @@ const updatestatus=async (ordid)=>{
     return(
 
       <section>
+        
        <h2>My Orders</h2>
+       <button onClick={navigateDashboard}>← Dashboard</button>
        {myorders.map((ord,index)=>(
             
              <section key={index}>
@@ -188,7 +197,7 @@ const updatestatus=async (ordid)=>{
       </ul>
       <button onClick={downloadCSVFIle}>Download Trend Report</button>
    </section>
-            
+     
        </section>
   
     );

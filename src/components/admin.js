@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../config/firebase'; 
+import { useNavigate } from 'react-router-dom';
 import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
 import '../styles/adminshophomepage.css'; 
 
 export const AdminShopHomepage = () => {
   const [shops, setShops] = useState([]); // To store the fetched shop data
   const [loading, setLoading] = useState(true); // To track the loading state
+
+  let navigate = useNavigate();
+
+  function navigateHome(){
+    navigate('/homepage');
+  }
 
   // Fetch shop data when the component mounts
   useEffect(() => {
@@ -62,7 +69,9 @@ export const AdminShopHomepage = () => {
 
   return (
     <section className="admin-dashboard">
+      <button onClick = {navigateHome}>← Home</button>
       <h1>Admin Dashboard</h1>
+
       {shops.map((shop) => (
         <article key={shop.nameofshop}>
           <h2>{shop.nameofshop}</h2>
@@ -91,6 +100,8 @@ export const AdminShopHomepage = () => {
           <hr />
         </article>
       ))}
+
+      
     </section>
   );
 };

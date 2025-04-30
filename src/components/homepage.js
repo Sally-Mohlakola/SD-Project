@@ -79,6 +79,9 @@ export const Homepage=()=>{
   //Button navigation system
   const navigate = useNavigate();
 
+  
+
+
   const [chosenShop, setChosenShop] = useState('');
   const [searchShop, setSearchShop] = useState('');
   const [search, setSearch] = useState('');

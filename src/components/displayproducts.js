@@ -10,7 +10,9 @@ export const  Displayproducts=()=>{
     useShopId();
     let navigate=useNavigate();
     
-    
+    function navigateDashboard() {
+        navigate('/shopdashboard');
+        }
     
     
     const[store,setstore]=useState("");// This is to 
@@ -139,6 +141,7 @@ const Button_add=()=>{
 
     
     <button onClick={Button_add}>Add product</button>
+    <button onClick={navigateDashboard}>← Dashboard</button>
     
     </section>
     );
