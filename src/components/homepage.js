@@ -299,11 +299,11 @@ return (
                 {product.id===itemimadding? (
                   <section>
                 <p>
-                <input type='number' min="1" onChange={(e)=> setQuantity(e.target.value)}></input>
+                <input type='Number' min="1" onChange={(e)=> setQuantity(e.target.value)}></input>
                 </p>
                 <button onClick={()=>{
-                  if(!quantity){
-                    alert("Please add a quantity ");
+                  if(!quantity || quantity==0){
+                    alert("Please add a valid quantity ");
                   }
               else{
                   AddtoCart(product.id,product.name,product.itemdescription,product.price,quantity);
