@@ -56,26 +56,14 @@ export const  Displayproducts=()=>{
 let shopid= localStorage.getItem('shopid');
     
 useEffect(() => {
-    let intervalId = setInterval(() => {
-        if(shopid){
-            clearInterval(intervalId);
-            console.log("Shop id availible in display page");
-            getproducts();
-        }else{
-            console.log("still waiting for shop id");
-            return(
-                <section className="Box">
-                <h1>Wait a moment</h1>
-                
-                </section>
-            );
-            let shopid= localStorage.getItem('shopid');
-    
-        }
-      },5000);
-  
-   
-}, []); 
+    const shopid = localStorage.getItem('shopid');
+    if (shopid) {
+        getproducts();
+    } else {
+        console.log("Waiting for shop ID...");
+    }
+}, []);
+
 
 
 
