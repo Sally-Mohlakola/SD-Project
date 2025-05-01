@@ -299,10 +299,10 @@ return (
                 {product.id===itemimadding? (
                   <section>
                 <p>
-                <input type='Number' min="1" onChange={(e)=> setQuantity(e.target.value)}></input>
+                <input type= "number" min="1" onChange={(e)=> setQuantity(e.target.value)}></input>
                 </p>
                 <button onClick={()=>{
-                  if(!quantity || quantity==0){
+                  if(!quantity || quantity<=0){
                     alert("Please add a valid quantity ");
                   }
               else{
@@ -348,7 +348,6 @@ return (
     <nav className="sidebar-menu">
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
         <Link to="/myshop" className="btn-link-myshop"> My Shop </Link> {/*has JS file, the rest of links do not*/}
-        <DropdownMenu/>
         <Link to= "/journal" className = "btn-link-journal">Journal</Link>
         {/*Can we use the journal for keeping track of buyer's order, clicking this button
         will lead to a page where you manage your order history*/}
