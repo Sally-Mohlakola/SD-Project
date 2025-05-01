@@ -139,7 +139,7 @@ const Button_add=()=>{
 
         )}
     
-    <img src="https://firebasestorage.googleapis.com/v0/b/sd-database-19b80.firebasestorage.app/o/products%2Fdede0b87-9330-4a20-bdab-855686cd9388-1b.png?alt=media&token=6a736ab6-b686-4268-b770-e9f31520de09" alt="Picture test"  width="200" height="auto" /><br/>
+   
     
     <button onClick={Button_add}>Add product</button>
     
