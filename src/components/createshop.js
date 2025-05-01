@@ -2,7 +2,8 @@ import React, { useState,useEffect } from 'react';
 import {db} from "../config/firebase";
 import {collection,addDoc,getDocs} from "firebase/firestore"
 import { Link,useNavigate } from "react-router-dom";
- 
+import { storage } from '../config/firebase';
+import {ref,uploadBytes} from "firebase/storage";
 export const Createshop=()=>{
 
 const navigate = useNavigate();
@@ -15,6 +16,8 @@ const [newshopdescription,setnewshopdescription]=useState("");
 const [submitted, setSubmitted] = useState(false);
 const [category, setcategory] = useState("");
 const [nameexists, setnameexists]=useState(false);
+const [imageupload,setimageupload]=useState(null);
+ 
 useEffect(()=>{
     const getshoplist= async()=>{
         try{
@@ -37,7 +40,15 @@ useEffect(()=>{
 const userShop = shoplist.find((shop) => shop.userid === currentUserId);
     const sendtoadmin= async()=>{
         try{
-            await addDoc(shopcollectionRef,{userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category})
+          if (imageupload==null){
+            alert('please select a image for your shop');
+            return;
+          }
+          const extension = imageupload.name.split('.').pop();
+           const imageref=ref(storage,`Shop/${currentUserId}.${extension}`);
+           uploadBytes(imageref,imageupload);
+           await addDoc(shopcollectionRef,{userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category})
+            
           }catch(err){
           console.error(err);
           };
@@ -50,6 +61,7 @@ const checkshopname=(shops)=>{
   setnameexists(true);
   }
 };
+
     return (
 
         <section>
@@ -73,6 +85,7 @@ const checkshopname=(shops)=>{
                       <option >Paint</option>
                     </select>
                 <li><textarea defaultValue=" " onChange={(e)=> setnewshopdescription(e.target.value) }/></li>
+                <input type="file" onChange={(e)=> setimageupload(e.target.files[0]) }/>
                 <button type="button" onClick={()=>{
                   if(nameexists){
                       alert("A store with that name exists");
