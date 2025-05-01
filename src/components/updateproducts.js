@@ -1,9 +1,13 @@
 import { docs,doc,where ,collection,query,getDocs,updateDoc} from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db,storage } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { useShopId } from "./userinfo";
+import { v4 as uuidv4 } from 'uuid';
+import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+
+
 
 
 export const Updateproduct=()=>{
@@ -19,8 +23,48 @@ export const Updateproduct=()=>{
     const[price,setprice]=useState("");
     const[addstock,setaddstock]=useState("");
     const[newquantity,setnewquantity]=useState("");
+    const[image, setimage]=useState(null);
     //------------------------------------------------------------
+  const Image= async(e)=>{
+    e.preventDefault();
+    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
+    const snapshot=await getDocs(q);
+    let docdata
+    if(!snapshot.empty){
+    const document=snapshot.docs[0];
+    docdata = doc(db, "Shops", shopid, "Products", document.id);
+    }
+    
+    try{
+      const uniqueName = uuidv4() + "-" + image.name;
+              const imageRef = storageRef(storage, `products/${uniqueName}`);
+              console.log("Uploading image to:", imageRef.fullPath);
+              await uploadBytes(imageRef, image);
+                            
+              console.log("Image uploaded successfully.");
+              const downloadURL = await getDownloadURL(imageRef);
+              await updateDoc(docdata, {
+                imageURL : downloadURL 
+              });
+              console.log("Field updated successfully!");
+              alert("Name of product has been updated successfully!");
 
+    }catch(error){
+      console.log(error);
+
+    }
+
+
+
+  }
+
+
+
+
+
+
+
+     //------------------------------------------------------------
 
 const Name=async(e)=>{
     e.preventDefault(); 
@@ -96,7 +140,7 @@ const Addstock=async(e)=>{
 
     try {
         await updateDoc(docdata, {
-          quantity:  document.data().quantity+ addstock
+          quantity: document.quantity+ parseInt(addstock)
         });
         alert("Quantity has been updated successfully!");
       } catch (error) {
@@ -152,6 +196,7 @@ return(
             <input type="text" required value={productname} onChange={(e)=>setproductname(e.target.value)} />
             <button type="submit">Update product name</button>
         </form>
+        
         <form onSubmit={Description} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Description of the product:</label>
             <textarea type="text" required  rows="6" cols="-40"value={description} onChange={(e)=>setdescription(e.target.value)} ></textarea>
@@ -164,13 +209,17 @@ return(
         </form>
         <form onSubmit={Addstock} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Add stock</label>
-            <input type="number" required value={addstock} onChange={(e)=>setaddstock(e.target.value)} />
+            <input type="text" required value={addstock} onChange={(e)=>setaddstock(e.target.value)} />
             <button type="submit">Add stock</button>
         </form>
         <form onSubmit={Setnewquantity} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Set new quantity:</label>
-            <input type="number" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
+            <input type="text" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
             <button type="submit">set quantity</button>
+        </form>
+        <form onSubmit={Image}  style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+        <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
+        <button>Change image</button>
         </form>
         <button onClick={Back}>Back</button>
         <button onClick={Done}>Done</button>
