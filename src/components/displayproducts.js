@@ -39,7 +39,7 @@ export const  Displayproducts=()=>{
         console.log(data.itemName);
         product_object.ImageUrl=data.imageURL;
         product_object.Name=data.name;
-        product_object.Description=data.itemdescription;// here
+        product_object.Description=data.itemdescription;
         product_object.Price=data.price;
         product_object.Quantity=data.quantity;
         product_array.push(product_object);
