@@ -10,7 +10,9 @@ export const  Displayproducts=()=>{
     useShopId();
     let navigate=useNavigate();
     
-    
+    function navigateDashboard(){
+        navigate('/shopdashboard');
+    }
     
     
     const[store,setstore]=useState("");// This is to 
@@ -110,7 +112,9 @@ const Button_add=()=>{
 
 
     return(<section className="Box">
+       
         <h1>My products</h1>
+        <button onClick={navigateDashboard}>← Back</button> {/*button to navitage to dasboard*/}
         {products.map((item)=>
         <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
            <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>

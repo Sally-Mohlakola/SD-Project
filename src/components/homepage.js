@@ -299,10 +299,10 @@ return (
                 {product.id===itemimadding? (
                   <section>
                 <p>
-                <input type= "number" min="1" onChange={(e)=> setQuantity(e.target.value)}></input>
+                <input type= "number" min="1" max="999" onChange={(e)=> setQuantity(e.target.value)}></input>
                 </p>
-                <button onClick={()=>{
-                  if(!quantity || quantity<=0){
+                <button type="submit" onClick={()=>{
+                  if(!quantity || quantity<=0 || quantity>=1000){
                     alert("Please add a valid quantity ");
                   }
               else{

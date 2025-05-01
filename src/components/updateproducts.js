@@ -204,17 +204,17 @@ return(
         </form>
         <form  onSubmit={Price} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Price:</label>
-            <input type="text" required value={price} onChange={(e)=>setprice(e.target.value)} />
+            <input type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
             <button type="submit">Update price</button>
         </form>
         <form onSubmit={Addstock} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Add stock</label>
-            <input type="text" required value={addstock} onChange={(e)=>setaddstock(e.target.value)} />
+            <input type="number" min="1" max="999" required value={addstock} onChange={(e)=>setaddstock(e.target.value)} />
             <button type="submit">Add stock</button>
         </form>
         <form onSubmit={Setnewquantity} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Set new quantity:</label>
-            <input type="text" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
+            <input type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
             <button type="submit">set quantity</button>
         </form>
         <form onSubmit={Image}  style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
