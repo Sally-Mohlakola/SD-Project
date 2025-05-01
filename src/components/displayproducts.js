@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useShopId} from "./userinfo";
 import { db } from "../config/firebase";
-import { collection, addDoc, getDocs,query, where } from 'firebase/firestore';
+import { collection,  getDocs,query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -10,9 +10,7 @@ export const  Displayproducts=()=>{
     useShopId();
     let navigate=useNavigate();
     
-    function navigateDashboard() {
-        navigate('/shopdashboard');
-        }
+    
     
     
     const[store,setstore]=useState("");// This is to 
@@ -37,7 +35,7 @@ export const  Displayproducts=()=>{
     snapshot.forEach((doc)=>{
         let data=doc.data();
         console.log(data.itemName);
-        
+        product_object.ImageUrl=data.imageURL;
         product_object.Name=data.name;
         product_object.Description=data.itemdescription;// here
         product_object.Price=data.price;
@@ -124,9 +122,12 @@ const Button_add=()=>{
 
 
     return(<section className="Box">
-        <h1>My products</h1>
+        <h1>Add a product</h1>
         {products.map((item)=>
         <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+           <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>
+           {console.log(item.ImageUrl)}
+           {console.log("Url is up there")}
             <h2>Name: {item.Name}</h2>&nbsp;&nbsp;
             <h2>Description:{item.Description}</h2>&nbsp;&nbsp;
             <h2>Price:{item.Price}</h2>&nbsp;&nbsp;
@@ -138,10 +139,9 @@ const Button_add=()=>{
 
         )}
     
-
+    <img src="https://firebasestorage.googleapis.com/v0/b/sd-database-19b80.firebasestorage.app/o/products%2Fdede0b87-9330-4a20-bdab-855686cd9388-1b.png?alt=media&token=6a736ab6-b686-4268-b770-e9f31520de09" alt="Picture test"  width="200" height="auto" /><br/>
     
     <button onClick={Button_add}>Add product</button>
-    <button onClick={navigateDashboard}>← Dashboard</button>
     
     </section>
     );
