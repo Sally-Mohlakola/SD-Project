@@ -1,70 +1,75 @@
-import{useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+export const Checkout = () => {
+  const navigate = useNavigate();
+  const [mycart, setmycart] = useState([]);
 
-export const Checkout=()=>{
-const navigate = useNavigate();
-const [mycart,setmycart] =useState([]);
-
- useEffect(() => {
-    const cart=sessionStorage.getItem("cart_items");
+  useEffect(() => {
+    const cart = sessionStorage.getItem("cart_items");
     let parsedCart = [];
     try {
       parsedCart = cart ? JSON.parse(cart) : [];
     } catch (error) {
       console.error("Error parsing cart_items:", error);
-      parsedCart = []; 
+      parsedCart = [];
     }
     setmycart(parsedCart);
   }, []);
 
-console.log(mycart);;
-const backtoshops=()=>{
-navigate('/homepage');
+  const backtoshops = () => {
+    navigate('/homepage');
+  };
 
-};
-const removeFromCart = (index) => {
+  const removeFromCart = (index) => {
     const updatedCart = [...mycart];
     updatedCart.splice(index, 1);
     setmycart(updatedCart);
     sessionStorage.setItem("cart_items", JSON.stringify(updatedCart));
-    if (updatedCart==''){
+    if (updatedCart.length === 0) {
       sessionStorage.removeItem("chosenshop");
     }
   };
-//CACLULATE THE TOTAL AMOUNT of items and cost for the whole order 
 
-const totalcost = mycart.reduce((sum, myitem) => sum + Number(myitem.price) * Number(myitem.quantity),0);
-const numofitems=mycart.reduce((num, myitem) => num + Number(myitem.quantity),0);
+  const totalcost = mycart.reduce((sum, myitem) => sum + Number(myitem.price) * Number(myitem.quantity), 0);
+  const numofitems = mycart.reduce((num, myitem) => num + Number(myitem.quantity), 0);
 
-return(
-
-
-<section>
+  const handleCheckout = () => {
+    if (mycart.length > 0) {
+      navigate('/payment', {
+        state: { total: totalcost }
+      });
+    } else {
+      alert("Your cart is empty. Add items to your cart before proceeding to payment.");
+    }
+  };
+  return (
+    <section>
       {mycart.length > 0 ? (
-        mycart.map((item,index) => (
+        mycart.map((item, index) => (
           <section key={index}>
             <p>Name: {item.name}</p>
             <p>Description: {item.itemdescription}</p>
-            <p>Price: {item.price *item.quantity}</p>
+            <p>Price: {item.price * item.quantity}</p>
             <p>Quantity: {item.quantity}</p>
-            <button onClick={()=>{removeFromCart(index)}}>Remove from cart</button>
-            
+            <button onClick={() => removeFromCart(index)}>Remove from cart</button>
           </section>
-         
-        )
-      )
-      
+        ))
       ) : (
         <p>Your cart is empty!</p>
       )}
-      {mycart.length > 0 ?(
-      <section> 
-              <h2> Total Cost: R{totalcost} </h2>
-              <h2>Total number of items : {numofitems}</h2>
-      </section>):(<section> </section>)}
+
+      {mycart.length > 0 && (
+        <section>
+          <h2>Total Cost: R{totalcost}</h2>
+          <h2>Total number of items: {numofitems}</h2>
+        </section>
+      )}
+
       <button onClick={backtoshops}>Back</button>
+      {mycart.length > 0 && (
+        <button onClick={handleCheckout}>Proceed to Checkout</button>
+      )}
     </section>
   );
-
 };
