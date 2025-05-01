@@ -110,7 +110,7 @@ const Button_add=()=>{
 
 
     return(<section className="Box">
-        <h1>Add a product</h1>
+        <h1>My products</h1>
         {products.map((item)=>
         <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
            <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>
