@@ -3,7 +3,7 @@ import { useShopId} from "./userinfo";
 import { db } from "../config/firebase";
 import { collection,  getDocs,query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import CsvDownloader from 'react-csv-downloader';
+//import CsvDownloader from 'react-csv-downloader';
 
 
 
@@ -144,12 +144,7 @@ useEffect(() => {
         </section>
 
         )}
-    <CsvDownloader
-  filename="Inventory_items"
-  
-  datas={products}
-  text="Download Inventory CSV"
-/>
+   
 
     
     </section>
