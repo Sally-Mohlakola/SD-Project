@@ -62,7 +62,7 @@ export const useShopId= ()=>{
             clearInterval(intervalId);
             console.log("Shop id availible.")
             localStorage.setItem("shopid",shopid);
-            return;
+            return shopid;
         }
       });
     
