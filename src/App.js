@@ -33,7 +33,7 @@ function App() {
         <Route path="/updateproducts" element={<Updateproduct />} />  
         <Route path="/payment" element={<Payment />} />
         <Route path="/checkout" element={< Checkout />} />  
-          <Route path="/inventor" element={< Inventory />} />  
+          <Route path="/inventory" element={< Inventory />} />  
        
    
       </Routes>
