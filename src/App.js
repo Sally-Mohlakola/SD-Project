@@ -27,13 +27,14 @@ function App() {
          <Route path="/myorders" element = {<MyOrders/>}/>
          <Route path="/admin" element={<AdminShopHomepage />} />
          <Route path="/addproducts" element={<Addproduct />} />
+         <Route path="/inventory" element={< Inventory />} />
          <Route path ="/createshop" element={<Createshop/>}/>
           <Route path="/displayproducts" element={<Displayproducts />} />  
         <Route path="/removeproducts" element={<DeleteProduct />} />
         <Route path="/updateproducts" element={<Updateproduct />} />  
         <Route path="/payment" element={<Payment />} />
         <Route path="/checkout" element={< Checkout />} />  
-          <Route path="/inventory" element={< Inventory />} />  
+            
        
    
       </Routes>
