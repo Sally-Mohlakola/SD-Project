@@ -41,6 +41,7 @@ export const  Inventory=()=>{
     snapshot.forEach((doc)=>{
         let data=doc.data();
         console.log(data.itemName);
+        console.log("Mark 1");
         product_object.ImageUrl=data.imageURL;
         product_object.Name=data.name;
         product_object.Sold=data.sold;
@@ -50,6 +51,7 @@ export const  Inventory=()=>{
         product_object=new Object();
 
         if(data.quantity < low_limit ){
+            console.log("mARK 2");
             restock_object.Name=data.name;
             restock_object.Sold=data.sold;
             restock_object.Quantity=data.quantity;

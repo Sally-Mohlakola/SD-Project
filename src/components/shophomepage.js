@@ -11,7 +11,7 @@ import {uploadBytes} from "firebase/storage";
 export const ShopHomepage =()=>{
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
-    const shopcollectionRef=collection(db,"Shops");
+    const shopcollectionRef=collection(db,"Shops"); 
     const [storename, setstorename] = useState("");
     const [imageupload,setimageupload]=useState(null);
     const [loading, setLoading] = useState(false); 

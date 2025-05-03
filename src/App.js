@@ -13,6 +13,7 @@ import { DeleteProduct } from './components/removeproducts';
 import {Displayproducts} from './components/displayproducts'
 import { Updateproduct } from './components/updateproducts';
 import {Checkout} from './components/checkout';
+import {Inventory} from './components/inventory';
 import Payment from './components/payment'; 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/updateproducts" element={<Updateproduct />} />  
         <Route path="/payment" element={<Payment />} />
         <Route path="/checkout" element={< Checkout />} />  
+          <Route path="/inventory" element={< Inventory />} />  
        
    
       </Routes>
