@@ -153,28 +153,32 @@ const updatestatus=async (ordid)=>{
        {myorders.map((ord,index)=>(
             
              <section key={index}>
-                    <li>  {ord.products.map((prod, index2) => (
-                  <section key={index2}>
+                <h3>Order #{index+1}</h3>
+
+                    {ord.products.map((prod, index2) => (
+                  <p key={index2}>
+                  
                         <p>Name:{prod.nameofitem}</p>
                         <p>Quantity:{prod.quantity}</p>
                         <p>R{prod.price}</p>
-                  </section>       ))}
-                  </li> 
+                   </p>      ))}
+                   
                   <p>Address:{ord.address}</p>
                   
                    {ord.orderid===editingOrderid? (
                         <section>
                         <select onChange={(e)=> setorderstatus(e.target.value)}>
-                              <option>Delivery ready</option>
-                             <option>Dispatched</option>
-                             <option>Ordered</option>
+                        <option value="" disabled selected>New Status</option>
+                            <option>Ordered</option>
+                            <option>Dispatched</option>
+                             <option>Delivery ready</option>
                         </select>
                         <button onClick={() => {
                               updatestatus(ord.orderid);
                               ord.status=orderstatus;
                               setEditingOrderid(null);
                                        }}>Save</button>
-                        
+                       
                          </section>
                    ) :(
                   <>
@@ -189,13 +193,14 @@ const updatestatus=async (ordid)=>{
                   
                        
              </section> ))}
-             <section>      <ul>
-        {sortedProductsBySold.map((product) => (
-      <li key={product.id}>
-      {product.name}, {product.price}, {product.sold}
-      </li>))} {/*style later*/}
-      </ul>
-      <button onClick={downloadCSVFIle}>Download Trend Report</button>
+             <section>      
+              <ul>
+                    {sortedProductsBySold.map((product) => (
+                        <p key={product.id}>
+                           {product.name}, {product.price}, {product.sold}
+                        </p>))} {/*style later*/}
+                </ul>
+                <button onClick={downloadCSVFIle}>Download Trend Report</button>
    </section>
      
        </section>

@@ -120,11 +120,11 @@ const Button_add=()=>{
            <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>
            {console.log(item.ImageUrl)}
            {console.log("Url is up there")}
-            <h2>Name: {item.Name}</h2>&nbsp;&nbsp;
-            <h2>Description:{item.Description}</h2>&nbsp;&nbsp;
-            <h2>Price:{item.Price}</h2>&nbsp;&nbsp;
-            <h2>Quantity:{item.Quantity}</h2>&nbsp;&nbsp;
-            <button id={item.Name} onClick={Button_update}>Update quantity</button>
+            <h4>Name: {item.Name}</h4>&nbsp;&nbsp;
+            <h4>Description:{item.Description}</h4>&nbsp;&nbsp;
+            <h4>Price:{item.Price}</h4>&nbsp;&nbsp;
+            <h4>Quantity:{item.Quantity}</h4>&nbsp;&nbsp;
+            <button id={item.Name} onClick={Button_update}>Update Product</button>
             <button id={item.Name} onClick={Button_delete} >Remove Product</button><br/><br/>
 
         </section>

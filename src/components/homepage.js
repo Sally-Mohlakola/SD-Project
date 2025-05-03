@@ -196,10 +196,8 @@ console.log('chosenshop',hvchosenshop);
     const logout = async()=>{
         try{
             await signOut(auth);
-            localStorage.removeItem("userid");
-            localStorage.removeItem("shopname");
-            sessionStorage.removeItem("cart_items");
-            sessionStorage.removeItem("chosenshop");
+            localStorage.clear();
+            sessionStorage.clear();
             navigate('/');
             }
             catch(error){
@@ -207,7 +205,7 @@ console.log('chosenshop',hvchosenshop);
             }
     };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-//CART LOGIC
+//ADDTOCART LOGIC
 
 const Showcartitems= async()=>{
 const items=cartitems;

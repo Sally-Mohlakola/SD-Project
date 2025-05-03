@@ -40,8 +40,8 @@ useEffect(()=>{
 const userShop = shoplist.find((shop) => shop.userid === currentUserId);
     const sendtoadmin= async()=>{
         try{
-          if (imageupload==null){
-            alert('please select a image for your shop');
+          if (!imageupload || !newshopname || !newshopdescription || !category ){
+            alert('Please complete all fields before submitting ');
             return;
           }
           const extension = imageupload.name.split('.').pop();
@@ -65,7 +65,7 @@ const checkshopname=(shops)=>{
     return (
 
         <section>
-        <h1>My Shop</h1>
+        <h1>Creating my Shop</h1>
         {/*this "submitted" checks if the person pressed the button to submit thier store to the admin" */}
         {submitted? (
             <section>
@@ -74,18 +74,23 @@ const checkshopname=(shops)=>{
             </section>
         ):(
             <form>
-              <ul>
-                <li><label>Name of shop</label></li>
-                <li><input type="text" onChange={(e)=> {setnewshopname(e.target.value);checkshopname(e.target.value);}} /></li>
-                <li><label>Shop description</label></li>
-                <label>Category:</label>
-                    <select onChange={(e)=>{setcategory(e.target.value)}}>
+              <p>
+                
+                <p><label htmlFor="shop-name">Name of shop</label></p>
+                <p><input id="shop-name" type="text" onChange={(e)=> {setnewshopname(e.target.value);checkshopname(e.target.value);}} /></p>
+              
+                <p><label htmlFor="shop-category">Category:</label>
+                    <p><select id="shop-category" onChange={(e)=>{setcategory(e.target.value)}}>
                     <option value="" disabled selected>Select a Category</option>
                       <option >Pottery</option>
                       <option >Paint</option>
-                    </select>
-                <li><textarea defaultValue=" " onChange={(e)=> setnewshopdescription(e.target.value) }/></li>
-                <input type="file" onChange={(e)=> setimageupload(e.target.files[0]) }/>
+                    </select></p>
+                    </p>   
+                <p>
+                <p><label htmlFor="shop-desc">Shop description</label></p>
+                <textarea id="shop-desc" defaultValue=" " onChange={(e)=> setnewshopdescription(e.target.value) }/></p>
+                <p><label htmlFor="shop-img">Add logo/image:</label></p>
+                <p><input  id="shop-img"type="file" onChange={(e)=> setimageupload(e.target.files[0]) }/></p>
                 <button type="button" onClick={()=>{
                   if(nameexists){
                       alert("A store with that name exists");
@@ -94,7 +99,7 @@ const checkshopname=(shops)=>{
                   sendtoadmin();
                 }
                 }}>Submit to admin</button>
-            </ul> 
+            </p> 
         </form>)}
    
         </section>
