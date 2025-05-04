@@ -89,6 +89,20 @@ useEffect(() => {
 
 
 
+
+
+
+
+
+
+function Back(){
+        navigate('/shopdashboard');
+    }
+
+
+
+
+
     return(<section className="Box">
       
         <h1>Inventory</h1>
@@ -144,7 +158,8 @@ useEffect(() => {
   datas={products}
   text="Download Inventory CSV"
 />
-
+<button onClick={Back}>Back</button>
+    
     </section>
     
     );

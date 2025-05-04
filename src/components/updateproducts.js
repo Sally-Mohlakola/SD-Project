@@ -21,7 +21,7 @@ export const Updateproduct=()=>{
     const[productname,setproductname]=useState("");
     const[description,setdescription]=useState("");
     const[price,setprice]=useState("");
-    const[addstock,setaddstock]=useState("");
+    
     const[newquantity,setnewquantity]=useState("");
     const[image, setimage]=useState(null);
     //------------------------------------------------------------
@@ -47,7 +47,7 @@ export const Updateproduct=()=>{
                 imageURL : downloadURL 
               });
               console.log("Field updated successfully!");
-              alert("Name of product has been updated successfully!");
+              alert("Your image has been updated successfully!");
 
     }catch(error){
       console.log(error);
@@ -130,24 +130,7 @@ const Price=async(e)=>{
     }
 };
 //------------------------------------------------------------
-const Addstock=async(e)=>{
-    e.preventDefault(); 
-    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
-    const snapshot=await getDocs(q);
-    if(!snapshot.empty){
-    const document=snapshot.docs[0];
-    const docdata = doc(db, "Shops", shopid, "Products", document.id);
 
-    try {
-        await updateDoc(docdata, {
-          quantity: document.quantity+ parseInt(addstock)
-        });
-        alert("Quantity has been updated successfully!");
-      } catch (error) {
-        console.error("Error updating field:", error);
-      }
-    }
-};
 //------------------------------------------------------------
 const Setnewquantity=async(e)=>{
     e.preventDefault(); 
@@ -170,8 +153,6 @@ const Setnewquantity=async(e)=>{
 };
 //------------------------------------------------------------
 
-const Done=()=>{
-    navigate('/displayproducts');
 
 };
 //------------------------------------------------------------
@@ -207,11 +188,7 @@ return(
             <input type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
             <button type="submit">Update price</button>
         </form>
-        <form onSubmit={Addstock} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
-            <label>Add stock</label>
-            <input type="number" min="1" max="999" required value={addstock} onChange={(e)=>setaddstock(e.target.value)} />
-            <button type="submit">Add stock</button>
-        </form>
+       
         <form onSubmit={Setnewquantity} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
             <label>Set new quantity:</label>
             <input type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
@@ -222,7 +199,7 @@ return(
         <button>Change image</button>
         </form>
         <button onClick={Back}>Back</button>
-        <button onClick={Done}>Done</button>
+        
     </section>
 );
 
