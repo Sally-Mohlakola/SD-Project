@@ -97,7 +97,7 @@ export const Addproduct=()=>{
                     
 
                 </section>
-                <button type="submit">Add Product</button>
+                <button type="submit" onClick={handleSubmit}>Add Product</button>
             </form>
             <button onClick={Back}>← Back</button>
         </section>
