@@ -13,7 +13,7 @@ import { DeleteProduct } from './components/removeproducts';
 import {Displayproducts} from './components/displayproducts'
 import { Updateproduct } from './components/updateproducts';
 import {Checkout} from './components/checkout';
-import {Inventory} from './components/inventory';
+import {Inventory} from './components/myinventory';
 import Payment from './components/payment'; 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
          <Route path="/myorders" element = {<MyOrders/>}/>
          <Route path="/admin" element={<AdminShopHomepage />} />
          <Route path="/addproducts" element={<Addproduct />} />
-         <Route path="/inventory" element={< Inventory />} />
+         <Route path="/myinventory" element={< Inventory />} />
          <Route path ="/createshop" element={<Createshop/>}/>
           <Route path="/displayproducts" element={<Displayproducts />} />  
         <Route path="/removeproducts" element={<DeleteProduct />} />
