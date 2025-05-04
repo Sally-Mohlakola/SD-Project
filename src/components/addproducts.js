@@ -61,7 +61,7 @@ export const Addproduct=()=>{
               setitemdescription("");
               alert("Your Product has been added successfully!");
               navigate('/displayproducts');
-             // setimage(null);
+              setimage(null);
             } catch (error) {
               console.log("Items were not added successfully", error);
             }
