@@ -13,6 +13,11 @@ import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage
 export const Updateproduct=()=>{
     useShopId();
     let navigate=useNavigate();
+
+    const Back=()=>{
+      navigate('/displayproducts');
+  };
+
     let shopid=localStorage.getItem('shopid');
     const Item=localStorage.getItem('Item');
     console.log("Have the item stored as "+Item)
@@ -154,53 +159,52 @@ const Setnewquantity=async(e)=>{
 //------------------------------------------------------------
 
 
-};
-//------------------------------------------------------------
-
-const Back=()=>{
-    navigate('/displayproducts');
-};
-//------------------------------------------------------------
-
-
-
-
-
-
-
-
 return(
-    <section>
-        <h1>Update product</h1>
-        <form onSubmit={Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
-            <label>Name of product:</label>
-            <input type="text" required value={productname} onChange={(e)=>setproductname(e.target.value)} />
-            <button type="submit">Update product name</button>
-        </form>
-        
-        <form onSubmit={Description} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
-            <label>Description of the product:</label>
-            <textarea type="text" required  rows="6" cols="-40"value={description} onChange={(e)=>setdescription(e.target.value)} ></textarea>
-            <button type="submit">Update description</button>
-        </form>
-        <form  onSubmit={Price} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
-            <label>Price:</label>
-            <input type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
-            <button type="submit">Update price</button>
-        </form>
-       
-        <form onSubmit={Setnewquantity} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
-            <label>Set new quantity:</label>
-            <input type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
-            <button type="submit">set quantity</button>
-        </form>
-        <form onSubmit={Image}  style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
-        <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
-        <button>Change image</button>
-        </form>
-        <button onClick={Back}>Back</button>
-        
-    </section>
+  <section>
+      <h1>Update product</h1>
+      <form onSubmit={Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+          <label>Name of product:</label>
+          <input type="text" required value={productname} onChange={(e)=>setproductname(e.target.value)} />
+          <button type="submit">Update product name</button>
+      </form>
+      
+      <form onSubmit={Description} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+          <label>Description of the product:</label>
+          <textarea type="text" required  rows="6" cols="-40"value={description} onChange={(e)=>setdescription(e.target.value)} ></textarea>
+          <button type="submit">Update description</button>
+      </form>
+      <form  onSubmit={Price} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+          <label>Price:</label>
+          <input type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
+          <button type="submit">Update price</button>
+      </form>
+     
+      <form onSubmit={Setnewquantity} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+          <label>Set new quantity:</label>
+          <input type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
+          <button type="submit">set quantity</button>
+      </form>
+      <form onSubmit={Image}  style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+      <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
+      <button>Change image</button>
+      </form>
+      <button onClick={Back}>← Back</button>
+      
+  </section>
 );
 
-};
+}
+
+
+
+//------------------------------------------------------------
+
+
+//------------------------------------------------------------
+
+
+
+
+
+
+

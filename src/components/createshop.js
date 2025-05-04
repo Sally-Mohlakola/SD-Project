@@ -18,6 +18,7 @@ const [category, setcategory] = useState("");
 const [nameexists, setnameexists]=useState(false);
 const [imageupload,setimageupload]=useState(null);
  
+//Get a list of all shops
 useEffect(()=>{
     const getshoplist= async()=>{
         try{
@@ -37,9 +38,11 @@ useEffect(()=>{
     };
     getshoplist();
 },[]);
+//Once the user creates a shop send it to admin
 const userShop = shoplist.find((shop) => shop.userid === currentUserId);
     const sendtoadmin= async()=>{
         try{
+          // If all fields are not filled in, don't submit te shop
           if (!imageupload || !newshopname || !newshopdescription || !category ){
             alert('Please complete all fields before submitting ');
             return;
@@ -55,6 +58,7 @@ const userShop = shoplist.find((shop) => shop.userid === currentUserId);
           setSubmitted(true); 
         
         };
+        //Prevent shops with Duplicate names
 const checkshopname=(shops)=>{
   const userShop = shoplist.find((shop) => shop.nameofshop === shops);
   if (userShop){

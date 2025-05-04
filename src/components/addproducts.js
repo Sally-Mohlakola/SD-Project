@@ -99,7 +99,7 @@ export const Addproduct=()=>{
                 </section>
                 <button type="submit">Add Product</button>
             </form>
-            <button onClick={Back}>Back</button>
+            <button onClick={Back}>← Back</button>
         </section>
     );
 

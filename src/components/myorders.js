@@ -36,6 +36,7 @@ const [productsMap, setProductsMap] = useState([]);
         }
 
 //console.log( "shopname of user ",currentuserstore);
+// Get all orders and filter by id
 useEffect(()=>{
     const getorderlist= async()=>{
         try{
@@ -108,7 +109,6 @@ console.log(orderlist);
 
       fetchUserShopProducts();}, [currentUserId]);
 
-
   
       //IMP: Sort products by sold then by price (display in descending order)
       const sortedProductsBySold= productsMap.sort((a,b)=> {
@@ -142,7 +142,6 @@ const updatestatus=async (ordid)=>{
       };
 
   const [editingOrderid, setEditingOrderid] = useState(null);
-
 
     return(
 

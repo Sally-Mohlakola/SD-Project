@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import CsvDownloader from 'react-csv-downloader';
 
 
-
+// To view the inventory of items sold.
 export const  Inventory=()=>{
     useShopId();
     let navigate=useNavigate();
@@ -17,8 +17,6 @@ export const  Inventory=()=>{
     const low_limit=5; // This is for when the product has a quantity of less than the low limit it should tell the seller
     
     
-    
-    
     const[store,setstore]=useState("");// This is to 
     
     let product_object=new Object();
@@ -26,7 +24,6 @@ export const  Inventory=()=>{
     const[products,setproducts]=useState([]);
     const[restock,setrestock]=useState([]);
     
-
     
     const getproducts= async()=>{
         let product_array=[];
@@ -39,7 +36,7 @@ export const  Inventory=()=>{
     restock_object=new Object();
    
     
-    
+    // Get the fields for each product from the database
     const q= query(collection(db,"Shops",shopid,"Products"));
     const snapshot=await getDocs(q);
     snapshot.forEach((doc)=>{
@@ -54,6 +51,7 @@ export const  Inventory=()=>{
         product_array.push(product_object);
         product_object=new Object();
 
+        //Alerts seller if items are reaching a low limit so they have to restock
         if(data.quantity < low_limit ){
             console.log("mARK 2");
             restock_object.Name=data.name;
@@ -77,7 +75,7 @@ export const  Inventory=()=>{
 }
 
 const shopid = localStorage.getItem('shopid');
-    
+ // This use effect ensures that products get returned only if there is a valid shopID recorded for the user   
 useEffect(() => {
     //const shopid = localStorage.getItem('shopid');
     if (shopid) {
@@ -95,18 +93,13 @@ useEffect(() => {
 
 
 
-function Back(){
-        navigate('/shopdashboard');
-    }
 
 
-
-
-
+//Diplay data from the fetched fields
     return(<section className="Box">
       
         <h1>Inventory</h1>
-        <button onClick={navigateDashboard}>← Back</button>
+        <button onClick={navigateDashboard}>← Dashboard</button>
         {!restock || restock.length === 0 ? null : (
 
         <section style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
@@ -158,7 +151,7 @@ function Back(){
   datas={products}
   text="Download Inventory CSV"
 />
-<button onClick={Back}>Back</button>
+
     
     </section>
     

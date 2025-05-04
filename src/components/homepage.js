@@ -79,9 +79,6 @@ export const Homepage=()=>{
   //Button navigation system
   const navigate = useNavigate();
 
-  
-
-
   const [chosenShop, setChosenShop] = useState('');
   const [searchShop, setSearchShop] = useState('');
   const [search, setSearch] = useState('');
@@ -101,6 +98,7 @@ export const Homepage=()=>{
   const [priceFilter, setPriceFilter] = useState("");//used for price filtering
   const [goingback,setgoingback]=useState(false);
 
+  // Allow user to go to see cart items
   useEffect(() => {
     let havechosenshop='';
     let parsedCart = [];
@@ -173,15 +171,14 @@ console.log('chosenshop',hvchosenshop);
     };
 
 
-  //Search prompts are category and name (need to implement name later)
+  //Search prompts is name of product (need to implement name later)
   const filterProduct = allProducts.filter(product => {
     const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
     const nameEqual = product.name && product.name.toLowerCase().includes(searchPrompt);
-    const priceEqual = product.category && product.category.toLowerCase().includes(searchPrompt);
-  //change the parameters to price later
-    return nameEqual || priceEqual;
+    return nameEqual;
   });
 
+  //Search prompts for name and category of shops
   const filterShop = allShops.filter(shop => {
     const searchPrompt = search.toLowerCase(); // Ensuring the search term is in lowercase
     const nameEqual = shop.nameofshop&& shop.nameofshop.toLowerCase().includes(searchPrompt);
@@ -233,7 +230,7 @@ return (
 <section>
     <h1>Natural Craft. Rooted in Care</h1>
     <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
-    <img id="img-welcome" alt="welcome banner"></img>{/*Welcome IMage*/}
+    <img id="img-welcome" alt="welcome banner" src="https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg" ></img>{/*Welcome IMage*/}
    
     {/*Put search bar over image if possible, referencing Uber Eats website*/}
     <h2>Featured Artisan Picks</h2>
@@ -262,7 +259,6 @@ return (
           )}
         </>
       )}
-
 
 
 
@@ -339,17 +335,12 @@ return (
       }
     
     <h6 id="img-cart-icon" onClick={Showcartitems}>Cart({cartitems.length})</h6>
-    {/*Sham referenced putting a pic here?*/}
-    <button id="btn-cart"></button>{/*Can change later to element with item count*/}
+    <button id="btn-cart"></button>
    
-
     <nav className="sidebar-menu">
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
         <Link to="/myshop" className="btn-link-myshop"> My Shop </Link> {/*has JS file, the rest of links do not*/}
         <Link to= "/journal" className = "btn-link-journal">Journal</Link>
-        {/*Can we use the journal for keeping track of buyer's order, clicking this button
-        will lead to a page where you manage your order history*/}
-      
         <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>
         <Link to="/contact" className="btn-link-contact">Contact</Link>
         <button onClick={logout}>Logout</button>

@@ -1,5 +1,5 @@
 import {signInWithPopup } from 'firebase/auth';
-//import{useState} from "react";
+
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
 
@@ -9,11 +9,6 @@ import '../styles/SignUp.css';
 import {db} from "../config/firebase";
 import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
 
-//IMPORTANT: export functions you may want to use outside this file scope
-
-//Auth is a type of function encapuslating the DOM changes for sign up
-//Functions that represent this have the format "export const ...()=>{....}"
-//Any other functionalitites you write must be encapsulated by this type of function
 
 export const Auth=()=>{
     const navigate = useNavigate();
@@ -35,24 +30,18 @@ export const Auth=()=>{
       fetchAdmin();
     }, []);
 
+    //Sign in with google pop-up
     const signInGoogle = async()=>{
         try{
             const result = await signInWithPopup(auth, provider)
             .then((result) => {
               const user = result.user;
-              localStorage.setItem("userid", user.uid);  // Save the UserID 📝
+              localStorage.setItem("userid", user.uid); 
 
                 const userEmail = user.email;
               localStorage.setItem("userEmail",userEmail);
 
-              //craftgrainlocalartisanmarketpl@gmail.com
-              //check if user signing in is admin email and if yes go to admin dashboard
-              // if (userEmail === adminEmail){
-              //   navigate('/admin');
-              // }
-              // else {
-              //   navigate('/homepage');
-              // }
+            
               if (adminEmail.includes(user.email)) {
                 navigate('/admin');  // Navigate to the admin dashboard
               } else {
@@ -67,12 +56,7 @@ export const Auth=()=>{
     };
 
     
-/*    const login = () => {
-        navigate('/login'); 
-    };
 
-*/
-    // Return the JSX elements (UI)
 
     return (
         <section className="signup-section">

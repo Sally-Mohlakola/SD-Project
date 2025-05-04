@@ -32,8 +32,10 @@ const Payment = () => {
   
   }, [location.state]);
 
-  const componentProps = {
 
+
+  const componentProps = {
+//Set up the Paystack order
     
     email,
     amount: Number(amount) * 100, 
@@ -61,7 +63,8 @@ const Payment = () => {
         <input type="email" value={email} placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
         <input type="tel" value={phoneNumber} placeholder="Phone number" onChange={(e) => setPhoneNumber(e.target.value)} />
       </section>
-      <PaystackButton className="pay-btn" {...componentProps} />
+      <PaystackButton className="pay-btn" {...componentProps}
+        disabled={!email || !amount || !name || !phoneNumber} />
       <button onClick={navigateCheckout}>Back</button>
     </section>
   );

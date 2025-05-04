@@ -66,7 +66,8 @@ export const AdminShopHomepage = () => {
   if (loading) {
     return <section>Loading...</section>; // Show a loading message until data is fetched
   }
-
+  
+//Monitor the checkbox status for appropriate updates to the shop statuses
   return (
     <section className="admin-dashboard">
       <button onClick = {navigateHome}>← Home</button>
