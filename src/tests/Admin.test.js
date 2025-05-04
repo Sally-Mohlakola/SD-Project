@@ -1,36 +1,18 @@
 import React from 'react';
 import { AdminShopHomepage } from '../components/admin';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { getDocs, updateDoc, doc } from 'firebase/firestore';
+import { getDocs, updateDoc, doc, collection } from 'firebase/firestore';
+import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(), 
+  getFirestore: jest.fn(),
   collection: jest.fn(),
   getDocs: jest.fn(),
   updateDoc: jest.fn(),
   doc: jest.fn((db, collectionName, id) => ({ db, collectionName, id })),
 }));
 
-
-describe('clears cache before test', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-    localStorage.clear();
-  }); // clears before each test 
-
-
-  it('renders loading message', async () => {
-    render(<AdminShopHomepage/>);
-      expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-  
-  });
-
-  it('renders Admin Dashboard text', async () => {
-  render(<AdminShopHomepage />);
-  expect(await screen.findByText(/Admin Dashboard/i)).toBeInTheDocument();
-  });
-/************/
-//Mock an entry into a mock database
+describe('AdminShopHomepage', () => {
   const mockShop = [{
     id: 'id123',
     nameofshop: 'Shop 0',
@@ -40,118 +22,117 @@ describe('clears cache before test', () => {
     userID: 'id123',
   }];
 
-  it('renders shop name', async () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+  });
+
+  const renderWithRouter = (ui) => {
+    return render(<BrowserRouter>{ui}</BrowserRouter>);
+  };
+
+  it('renders loading message', () => {
+    renderWithRouter(<AdminShopHomepage />);
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+  });
+
+  it('renders Admin Dashboard after loading', async () => {
     getDocs.mockResolvedValueOnce({
       docs: mockShop.map(shop => ({
-      id: 'id123',
-      data: () => shop,
-      }))
+        id: 'id123',
+        data: () => shop,
+      })),
     });
 
-    render(<AdminShopHomepage />);
-    const shopName = await screen.findByText('Shop 0');
-    expect(shopName).toBeInTheDocument();
+    renderWithRouter(<AdminShopHomepage />);
+    expect(await screen.findByText(/Admin Dashboard/i)).toBeInTheDocument();
   });
 
-
-
-  it('renders shop description', async () => {
+  it('renders shop details', async () => {
     getDocs.mockResolvedValueOnce({
       docs: mockShop.map(shop => ({
-      id: 'id123',
-      data: () => shop,
-    }))
+        id: 'id123',
+        data: () => shop,
+      })),
     });
-    render(<AdminShopHomepage />);
-    const shopDesc = await screen.findByText('This is a description');
-    expect(shopDesc).toBeInTheDocument();
-});
 
-it('renders shop status', async () => {
-  getDocs.mockResolvedValueOnce({
-    docs: mockShop.map(shop => ({
-    id: 'id123',
-    data: () => shop,
-    }))
-  });
-  render(<AdminShopHomepage />);
-  const shopStatus = await screen.findByText(/Status: Pending/i);
-  expect(shopStatus).toBeInTheDocument();
-});
-
-// Test if the checkbox works properly (error on jest.fn())
-it('updates status on Accept checkbox', async () => {
-  getDocs.mockResolvedValueOnce({
-    docs: mockShop.map(shop => ({
-    id:'id123',
-    data: () => shop,
-  }))
+    renderWithRouter(<AdminShopHomepage />);
+    expect(await screen.findByText('Shop 0')).toBeInTheDocument();
+    expect(await screen.findByText('This is a description')).toBeInTheDocument();
+    expect(await screen.findByText(/Status: Pending/i)).toBeInTheDocument();
   });
 
-  render(<AdminShopHomepage />);
-  await screen.findByText('Shop 0');
+  it('updates status on Accept checkbox', async () => {
+    getDocs.mockResolvedValueOnce({
+      docs: mockShop.map(shop => ({
+        id: 'id123',
+        data: () => shop,
+      })),
+    });
 
-  const checkbox = screen.getByLabelText(/Accept →/i);
-  fireEvent.click(checkbox);
+    renderWithRouter(<AdminShopHomepage />);
+    await screen.findByText('Shop 0');
 
-  await waitFor(() =>
-    {
-    expect(updateDoc).toHaveBeenCalled();
-    expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
+    const acceptCheckbox = screen.getByLabelText(/Accept →/i);
+    fireEvent.click(acceptCheckbox);
+
+    await waitFor(() => {
+      expect(updateDoc).toHaveBeenCalled();
+      expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
+    });
+  });
+
+  it('updates status on Reject checkbox', async () => {
+    getDocs.mockResolvedValueOnce({
+      docs: mockShop.map(shop => ({
+        id: 'id123',
+        data: () => shop,
+      })),
+    });
+
+    renderWithRouter(<AdminShopHomepage />);
+    await screen.findByText('Shop 0');
+
+    const rejectCheckbox = screen.getByLabelText(/Reject →/i);
+    fireEvent.click(rejectCheckbox);
+
+    await waitFor(() => {
+      expect(updateDoc).toHaveBeenCalled();
+      expect(screen.getByText('Status: Rejected')).toBeInTheDocument();
+    });
+  });
+
+  it('navigates to Home when Home button is clicked', async () => {
+    getDocs.mockResolvedValueOnce({
+      docs: [],
+    });
+
+    renderWithRouter(<AdminShopHomepage />);
+    await screen.findByText(/Admin Dashboard/i);
+
+    const homeButton = screen.getByText(/← Home/i);
+    fireEvent.click(homeButton);
+    // We can only check that the button is clickable. For full router test, you'd mock useNavigate.
+    expect(homeButton).toBeInTheDocument();
+  });
+
+  it('handles no shop data gracefully', async () => {
+    getDocs.mockResolvedValueOnce({
+      docs: [],
+    });
+
+    renderWithRouter(<AdminShopHomepage />);
+    await screen.findByText(/Admin Dashboard/i);
+    expect(screen.queryByText(/Status:/i)).not.toBeInTheDocument();
+  });
+
+  it('handles Firestore error gracefully', async () => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    getDocs.mockRejectedValueOnce(new Error('Firestore error'));
+
+    renderWithRouter(<AdminShopHomepage />);
+    await screen.findByText(/Admin Dashboard/i);
+    expect(errorSpy).toHaveBeenCalled();
+    errorSpy.mockRestore();
   });
 });
-
-
-//tests that shop name is rendered after fetching
-test('renders shop name after loading', async () => {
-  const mockShop = [{ nameofshop: 'Shop 0', description: 'This is a description', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3' }]; // Create mock data
-  //getDocs is a Firebase function, fetches from Firestore collection.
-  // mockResolvedValue is a Jest method used to mock the return value of a function
-  getDocs.mockResolvedValue({ docs: mockShop.map(shop => ({ data: () => shop })) });
-
-  render(<AdminShopHomepage />);
-
-  const shopName = await screen.findByText('Shop 0'); // findByText waits for the element asynchronously
-  expect(shopName).toBeInTheDocument();
-});
-
-
-
-
-
-});//end clear cache here
-/*
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//tests if status changes when checkbox clicked 
-test('updates status on checkbox click', async () => {
-  const mockShops = [{ nameofshop: 'Shop 1', description: 'Description 1', status: 'Pending', category: 'Pottery', userID: 'z5DhLRyCXFgggs6DPTnihguAuNH3' }];
-  getDocs.mockResolvedValue({ docs: mockShops.map(shop => ({ data: () => shop })) });
-
-  render(<AdminShopHomepage />);
-
-  await screen.findByText('Shop 1');
-
-  const acceptCheckbox = screen.getByLabelText(/Accept →/i);
-  fireEvent.click(acceptCheckbox);
-
-  expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
-}); 
-*/

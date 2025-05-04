@@ -1,28 +1,40 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Addproduct } from '../components/addproducts';
-import { addDoc, collection } from 'firebase/firestore';
 import React from 'react';
 
-//It is crucial to mock our firestore database since we are not going to actually add anything into it, we are simulating it
+// Fully mock the entire firebase/firestore module
 jest.mock('firebase/firestore', () => ({
   addDoc: jest.fn(),
   collection: jest.fn(),
-  getFirestore: jest.fn(() => ({})), 
+  getFirestore: jest.fn(() => ({})),
 }));
 
+// Fully mock the firebase/storage module
+jest.mock('firebase/storage', () => ({
+  ref: jest.fn(),
+  uploadBytes: jest.fn(),
+  getDownloadURL: jest.fn(() => Promise.resolve('https://fakeurl.com/fakeimage.jpg')),
+  getStorage: jest.fn(() => ({})),
+}));
+
+// Mock userinfo hook
 jest.mock('../components/userinfo.js', () => ({
   useUserId: () => 'id123',
   useShopId: () => 'shop123',
 }));
 
-//Make sure that all test cache is cleared
+// Mock react-router
+jest.mock('react-router-dom', () => ({
+  useNavigate: () => jest.fn(),
+}));
+
 describe('clears all AddProducts test cache', () => {
   beforeEach(() => {
-  jest.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   it('renders form and the submit button', () => {
-    render(<Addproduct/>);
+    render(<Addproduct />);
 
     expect(screen.getByLabelText(/Item:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Description:/i)).toBeInTheDocument();
@@ -51,59 +63,64 @@ describe('clears all AddProducts test cache', () => {
     expect(quantityInput.value).toBe('10');
   });
 
-  it('submits form and calls the addDoc function for both collections', async () => {
-    addDoc.mockResolvedValueOnce({}); // this is fro  Shops/Products
-    addDoc.mockResolvedValueOnce({}); // this is for Products
+  it('submits form and calls addDoc', async () => {
+    const { addDoc, collection } = require('firebase/firestore');
+    const { uploadBytes } = require('firebase/storage');
 
-    render(<Addproduct/>);
+    addDoc.mockResolvedValueOnce({});
+    uploadBytes.mockResolvedValueOnce({});
+
+    render(<Addproduct />);
 
     fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Ceremonial vase' } });
     fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Inspired by ancient Mapunguwe' } });
     fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '80' } });
     fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '5' } });
 
+    // Simulate selecting a file
+    const file = new File(['dummy content'], 'example.png', { type: 'image/png' });
+    const fileInput = screen.getByLabelText(/Upload image of item below:/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
     fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
 
     await waitFor(() => {
       expect(collection).toHaveBeenCalledWith(expect.anything(), 'Shops', 'shop123', 'Products');
-      expect(collection).toHaveBeenCalledWith(expect.anything(), 'Products');
-      expect(addDoc).toHaveBeenCalledTimes(2);
-
-      // Add the entry into a mock database !!!!
-
       expect(addDoc).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
         name: 'Ceremonial vase',
         itemdescription: 'Inspired by ancient Mapunguwe',
         price: 80,
         quantity: 5,
+        sold: 0,
+        imageURL: 'https://fakeurl.com/fakeimage.jpg',
       }));
-
-      expect(addDoc).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
-      nameofitem: 'Ceremonial vase',
-      description: 'Inspired by ancient Mapunguwe',
-      price: 80,
-      quantity: 5,
-      userID: 'id123',
-    }));
     });
   });
 
-  it('handles addDoc errors for input entry to database', async () => {
-    console.error = jest.fn(); //Suppress the error logs, we are not testing those now
-    addDoc.mockRejectedValueOnce(new Error('Firestore error'));
+  it('handles addDoc errors', async () => {
+    const { addDoc } = require('firebase/firestore');
+    const { uploadBytes } = require('firebase/storage');
 
-    render(<Addproduct/>);
+    console.error = jest.fn(); // suppress error logs
+    addDoc.mockRejectedValueOnce(new Error('Firestore error'));
+    uploadBytes.mockResolvedValueOnce({});
+
+    render(<Addproduct />);
 
     fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Clay Plate' } });
     fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Elegant dining plate' } });
     fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '100' } });
     fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '3' } });
 
+    const file = new File(['dummy content'], 'plate.png', { type: 'image/png' });
+    const fileInput = screen.getByLabelText(/Upload image of item below:/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
     fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
 
     await waitFor(() => {
-    expect(addDoc).toHaveBeenCalled();
-    expect(console.error).toHaveBeenCalled(); 
+      expect(addDoc).toHaveBeenCalled();
+      expect(console.error).toHaveBeenCalled();
     });
   });
 });

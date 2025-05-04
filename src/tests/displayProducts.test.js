@@ -1,98 +1,120 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Displayproducts } from '../components/displayproducts';
-import { getDocs, updateDoc, collection, doc } from 'firebase/firestore';
+import {render, screen, fireEvent, waitFor} from '@testing-library/react';
+import {Displayproducts} from '../components/displayproducts';
+import {getDocs} from 'firebase/firestore';
+import {useNavigate} from 'react-router-dom';
 
-//mock the firestore database
+/*It is important to mock our resources rather than actually writing to the database
+mock navigation by fireEvents*/
+
 jest.mock('firebase/firestore', () => ({
-    getFirestore: jest.fn(), // ← This is the fix
-    collection: jest.fn(),
+    getFirestore: jest.fn(),
     getDocs: jest.fn(),
-    updateDoc: jest.fn(),
-    doc: jest.fn((db, collectionName, id) => ({ db, collectionName, id })),
-  }));
+    collection: jest.fn(),
+    query: jest.fn(),
+    where: jest.fn(),
+}));
 
+// Mock the DOM for page navigations
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: jest.fn(),
+}));
 
-describe('clears cache before test', () => {
+describe('testing Displayproducts Component ...', () => {
+    const navigate = jest.fn();
+    const testProduct = [{
+    imagelink: 'https://thisisamock.com/picture.img',
+    nameofproduct: 'Mock product 1',
+    description: 'This is a description',
+    price: 10,
+    quantity: 10,
+  }];
+
+  /* Clear all cache so that there is no memory leak
+  to the following test (we want these tests to run independantly)*/
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
-  }); // clears before each test 
-
-//test if "My Products appear on page"
-it('renders My Products test', async () => {
-    render(<Displayproducts/>);
-    expect(await screen.findByText(/My Products/i)).toBeInTheDocument();
+    useNavigate.mockReturnValue(navigate);
+    getDocs.mockResolvedValue({
+    forEach: (callback) => testProduct.forEach((product) => {
+    callback({ data: () => product,id: '012'});
+    })
+}); 
 });
 
-
-//mock an entry into a mock database
-const mockProduct = [{
-    id: 'id123',
-    imageURL: 'https://firebasestorage.googleapis.com/v0/b/sd-database-19b80.firebasestorage.app/o/products%2Fd6695ead-f478-4a29-9897-baae075a633b-Screenshot%202025-05-01%20104926.png?alt=media&token=77cfa528-906f-4bd6-b62f-910dae1061e1',
-    itemdescription: 'this is a product',
-    name: 'one',
-    price: 45,
-    quantity: 1,
-}];
-
-//test item description appears
-it('renders item description', async () => {
-    getDocs.mockResolvedValueOnce({
-        docs: mockProduct.map(product => ({
-            id: 'id123',
-            data: () => product,
-        }))
+it('displays the product data', async () => {
+    localStorage.setItem('shopid', 'shop012');
+    render(<Displayproducts/>);
+    
+    await waitFor(() => {
+        expect(screen.getByText(/Name: Mock product 1/i)).toBeInTheDocument();
+        expect(screen.getByText(/Description: This is a description/i)).toBeInTheDocument();
+        expect(screen.getByText(/Price:10/i)).toBeInTheDocument();
+        expect(screen.getByText(/Quantity:10/i)).toBeInTheDocument();
+        expect(screen.getByRole('img')).toHaveAttribute('src', 'https://thisisamock.com/picture.img');
     });
-
-    render(<Displayproducts/>);
-    const productDesc = await screen.findByText('Description:this is a product');
-    expect(productDesc).toBeInTheDocument();
+  });
+  
+it('displays the page banner My Products (text)', async () => {
+localStorage.setItem('shopid', 's012');
+render(<Displayproducts/>);
+expect(await screen.findByText(/My Products/i)).toBeInTheDocument();
 });
 
-//test item name appears
-it('renders item name', async () => {
-    getDocs.mockResolvedValueOnce({
-        docs: mockProduct.map(product => ({
-            id: 'id123',
-            data: () => product,
-        }))
+ 
+// tests if we can return to the dashboard from this page
+it('navigation to /dashboard from displayProducts', async () => {
+localStorage.setItem('shopid', 'shop012');
+render(<Displayproducts/>);
+fireEvent.click(screen.getByText(/← Dashboard/i));
+expect(navigate).toHaveBeenCalledWith('/shopdashboard');
+});
+
+it('clicking the Add product button', async () => {
+localStorage.setItem('shopid', 'shop012');
+render(<Displayproducts/>);
+fireEvent.click(screen.getByText(/Add product/i));
+expect(navigate).toHaveBeenCalledWith('/addproducts');
+});
+
+it('clicking the Update product button', async () => {
+localStorage.setItem('shopid', 'shop012');
+render(<Displayproducts/>);
+    
+await waitFor(()=> 
+    {fireEvent.click(screen.getByText(/Update Product/i));
+    expect(localStorage.getItem('item')).toBe('This is the new product name');});
+});
+
+  it('clicking the Remove product button', async () => {
+    localStorage.setItem('shopid', 'test123');
+    render(<Displayproducts />);
+    
+    await waitFor(() => {
+      fireEvent.click(screen.getByText(/Remove Product/i));
     });
+  });
 
+  // if the shop id is not available then getDocs since there are no records to be called 
+it('shows no products if the shopid is not available', async () => {
     render(<Displayproducts/>);
-    const productName = await screen.findByText('Name: one');
-    expect(productName).toBeInTheDocument();
+    expect(getDocs).not.toHaveBeenCalled();
 });
 
-
-//test price appears
-it('renders item price', async () => {
-    getDocs.mockResolvedValueOnce({
-        docs: mockProduct.map(product => ({
-            id: 'id123',
-            data: () => product,
-        }))
-    });
-
+//Might remove later, for console logging our records (testing purposes)
+it('logs product details during rendering', async () => {
+    localStorage.setItem('shopid', 'shop0123');
+    const monitorMyConsole = jest.spyOn(console, 'log');
     render(<Displayproducts/>);
-    const price = await screen.findByText('Price:45');
-    expect(price).toBeInTheDocument();
+    
+await waitFor(() => {
+    expect(monitorMyConsole).toHaveBeenCalledWith('Url is up there');
+    expect(monitorMyConsole).toHaveBeenCalledWith('https://mockimage.com/image.img');
 });
+    
+    monitorMyConsole.mockRestore();
 
-//test quantity appears
-it('renders item quantity', async () => {
-    getDocs.mockResolvedValueOnce({
-        docs: mockProduct.map(product => ({
-            id: 'id123',
-            data: () => product,
-        }))
-    });
-
-    render(<Displayproducts/>);
-    const quantity = await screen.findByText('Quantity:1');
-    expect(quantity).toBeInTheDocument();
+  });
 });
-
-
-
-});//end clear cache here
