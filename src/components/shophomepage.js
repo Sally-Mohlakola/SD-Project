@@ -99,7 +99,7 @@ const uploadimage= async()=>{
         {/*Can resize headers*/}
        <li> <Link to="/displayproducts">My Products</Link></li>
        <li> <Link to="/myorders"> My Orders </Link> </li>
-        <li><Link to="/inventory">Inventory</Link></li>
+        <li><Link to="/myinventory">Inventory</Link></li>
     </nav>
     <Link to="/homepage">Home</Link>
     
