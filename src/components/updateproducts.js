@@ -47,7 +47,7 @@ export const Updateproduct=()=>{
                 imageURL : downloadURL 
               });
               console.log("Field updated successfully!");
-              alert("Name of product has been updated successfully!");
+              alert("Your image has been updated successfully!");
 
     }catch(error){
       console.log(error);
