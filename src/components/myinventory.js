@@ -91,7 +91,9 @@ useEffect(() => {
 
 
 
-
+function Back(){
+        navigate('/shopdashboard');
+    }
 
 
 
