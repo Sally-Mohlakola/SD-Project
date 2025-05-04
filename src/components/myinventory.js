@@ -150,7 +150,7 @@ useEffect(() => {
   datas={products}
   text="Download Inventory CSV"
 />
-
+<button onClick={Back}>Back</button>
     
     </section>
     
