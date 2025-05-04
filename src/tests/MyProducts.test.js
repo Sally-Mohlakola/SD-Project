@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Addproduct } from '../components/addproduct';
+import { Addproduct } from '../components/addproducts';
 import { addDoc, collection } from 'firebase/firestore';
 import React from 'react';
 

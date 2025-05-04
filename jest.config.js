@@ -13,9 +13,7 @@ module.exports = {
   transformIgnorePatterns: ['node_modules/(?!react-router-dom)'],
 
   setupFiles: ['whatwg-fetch'],
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'], // updated to reference the correct path
-
-
- 
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'], 
+  
 
 };

@@ -4,7 +4,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { getDocs, updateDoc, doc } from 'firebase/firestore';
 
 jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(), // ← This is the fix
+  getFirestore: jest.fn(), 
   collection: jest.fn(),
   getDocs: jest.fn(),
   updateDoc: jest.fn(),

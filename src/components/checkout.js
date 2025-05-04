@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
+
 export const Checkout = () => {
   const navigate = useNavigate();
   const [mycart, setmycart] = useState([]);
 
   useEffect(() => {
+    //cart_items has stored this cart's info
     const cart = sessionStorage.getItem("cart_items");
     let parsedCart = [];
     try {
