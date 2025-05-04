@@ -10,6 +10,10 @@ import CsvDownloader from 'react-csv-downloader';
 export const  Inventory=()=>{
     useShopId();
     let navigate=useNavigate();
+
+    function navigateDashboard(){
+        navigate("/shopdashboard");
+    }
     const low_limit=5; // This is for when the product has a quantity of less than the low limit it should tell the seller
     
     
@@ -85,23 +89,13 @@ useEffect(() => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     return(<section className="Box">
+      
         <h1>Inventory</h1>
+        <button onClick={navigateDashboard}>← Back</button>
         {!restock || restock.length === 0 ? null : (
 
-        <section style={{marginBottom: "10px", border: "2px solid black", padding: "10px", borderRadius: "8px"  }}>{/*This is to warn the seller to restock when there's this items left */}
+        <section style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
         
         
         <section style={{ display: "flex", alignItems: "center", gap: "10px"}}>
@@ -128,7 +122,7 @@ useEffect(() => {
         )}
         
         {products.map((item)=>
-        <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px", border: "2px solid black", padding: "10px", borderRadius: "8px"  }}>
+        <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px", padding: "10px"  }}>
            <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>
            
            
@@ -151,7 +145,6 @@ useEffect(() => {
   text="Download Inventory CSV"
 />
 
-    
     </section>
     
     );

@@ -15,7 +15,7 @@ export const ShopHomepage =()=>{
     const [storename, setstorename] = useState("");
     const [imageupload,setimageupload]=useState(null);
     const [loading, setLoading] = useState(false); 
-    
+    const [ imageExists, setImageExits]= useState(false);
 useEffect(()=>{
     const getshoplist= async()=>{
         try{
@@ -34,26 +34,32 @@ useEffect(()=>{
     };
     getshoplist();
 },[]);
+
 const [shopimage,setshopimage]=useState("");
 console.log(shopimage)
 useEffect(() => {
   const setdisplay=async ()=>{
       const extensions = ['.jpg', '.jpeg', '.png'];
       const userShop = shoplist.find((shop) => shop.userid === currentUserId);
+      let exist = false; 
       if (userShop){
-      setstorename(userShop.nameofshop); 
+      setstorename(userShop.nameofshop);
+    
           for (const ext of extensions){
               
               try {
               const imagelistref=ref(storage,`Shop/${currentUserId}${ext}`);
               const url = await getDownloadURL(imagelistref);
               setshopimage(url);
+              exist = true;
               break;
+
               }catch(err){
                 console.log(err)
               }
             }
       }  
+      setImageExits(exist);
     };
     setdisplay()
     }, [shoplist, currentUserId]);
@@ -64,7 +70,8 @@ const uploadimage= async()=>{
           if (imageupload==null){
             alert('please select a image for your shop');
             return;
-          }
+          } setLoading(true); 
+        
           const extension = imageupload.name.split('.').pop();
           const imageref=ref(storage,`Shop/${currentUserId}.${extension}`);
           await uploadBytes(imageref,imageupload);
@@ -73,7 +80,8 @@ const uploadimage= async()=>{
           setLoading(false);
           }catch(err){
           console.error(err);
-          };
+          }
+          
          
         
         };
@@ -87,7 +95,9 @@ const uploadimage= async()=>{
  return(
     <section>
       <h1>Welcome : {storename}</h1>
-      {shopimage ? (
+      {!imageExists? (
+        <p>Loading...</p>
+      ): shopimage ? (
         <img src={shopimage} alt=" " style={{ width: '100px', height: '100px', objectFit: 'contain' }} />
       ) : (
         <>

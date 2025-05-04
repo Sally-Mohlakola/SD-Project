@@ -41,7 +41,9 @@ const Payment = () => {
     publicKey,
     text: "Make payment",
     currency: "ZAR",  // Add this line to specify ZAR for PayStack to work
-    onSuccess: () => alert("Thank you! Your payment was successful."),
+    onSuccess: () => {alert("Thank you! Your payment was successful.");
+      window.location.href = '/homepage';
+    },
     onClose: () => alert("You have exited the payment process. No charges were made."),
   
   };
