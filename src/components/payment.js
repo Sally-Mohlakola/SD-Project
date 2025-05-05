@@ -7,6 +7,7 @@ const Payment = () => {
 
   let navigate = useNavigate();
 
+  // Button to navigate back to checkout to review purchased items
   function navigateCheckout(){
     navigate("/checkout");
   }
@@ -34,9 +35,9 @@ const Payment = () => {
 
 
 
+
   const componentProps = {
 //Set up the Paystack order
-    
     email,
     amount: Number(amount) * 100, 
     metadata: { name, phoneNumber },
@@ -45,16 +46,16 @@ const Payment = () => {
     currency: "ZAR",  // Add this line to specify ZAR for PayStack to work
     onSuccess: () => {alert("Thank you! Your payment was successful.");
       window.location.href = '/homepage';
+      sessionStorage.removeItem("cart_items"); // after payment, reset the the cart to zero
     },
+    // Alert the buyer that their transaction failed
     onClose: () => alert("You have exited the payment process. No charges were made."),
   
   };
   
-
+// Return the required fields and the paystack button
   return (
     <section className="payment-container">
-      <h2>Select delivery location</h2>
-      
       <h2>Complete Your Purchase</h2>
       <p>Securely enter your payment details below to finalise your order.</p>
       <p>Order Total: <strong>R{amount}</strong></p>
@@ -63,6 +64,7 @@ const Payment = () => {
         <input type="email" value={email} placeholder="Email address" onChange={(e) => setEmail(e.target.value)} />
         <input type="tel" value={phoneNumber} placeholder="Phone number" onChange={(e) => setPhoneNumber(e.target.value)} />
       </section>
+      {/*Disable the button if not all fields are filled in*/}
       <PaystackButton className="pay-btn" {...componentProps}
         disabled={!email || !amount || !name || !phoneNumber} />
       <button onClick={navigateCheckout}>Back</button>

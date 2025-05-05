@@ -24,7 +24,7 @@ export const Checkout = () => {
     navigate('/homepage');
   };
 
-  // Remove items from cat until capacity of 0
+  // Remove items from cart until capacity of 0
   const removeFromCart = (index) => {
     const updatedCart = [...mycart];
     updatedCart.splice(index, 1);
@@ -51,6 +51,7 @@ export const Checkout = () => {
   };
   return (
     <section>
+      <h1>Checkout</h1>
       {mycart.length > 0 ? (
         mycart.map((item, index) => (
           <section key={index}>
@@ -74,7 +75,7 @@ export const Checkout = () => {
 
       <button onClick={backtoshops}>Back</button>
       {mycart.length > 0 && (
-        <button onClick={handleCheckout}>Proceed to Checkout</button>
+        <button onClick={handleCheckout}  style={{ marginBottom: '20px' }}>Proceed to Checkout</button>
       )}
     </section>
   );

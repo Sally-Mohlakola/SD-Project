@@ -11,6 +11,7 @@ export const Addproduct=()=>{
   const navigate=useNavigate();
     
       useShopId();
+      // get this user's shop id to query the database with
       let shopid=localStorage.getItem('shopid');
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
@@ -21,10 +22,7 @@ export const Addproduct=()=>{
         
         const[image, setimage]=useState(null);
        
-      
-      
-  
-
+      //Submit all fields to storage, make sure that they are non-empty
         const handleSubmit = async(e) => {
             e.preventDefault(); 
             if (!image) {
@@ -32,6 +30,7 @@ export const Addproduct=()=>{
               return;
             }
           
+            // mechanism for uploading the images
             try {
               const uniqueName = uuidv4() + "-" + image.name;
               const imageRef = storageRef(storage, `products/${uniqueName}`);
@@ -40,12 +39,13 @@ export const Addproduct=()=>{
               console.log("Image uploaded successfully.");
               const downloadURL = await getDownloadURL(imageRef);
            
+              // at the document to storage of all the updated fields (the default for sold is always 0 for newly created items)
               await addDoc(collection(db, "Shops", shopid,"Products"), {
                 name: itemName,
                 itemdescription:itemdescription,
                 price: Number(price),
                 quantity: Number(quantity),
-                sold:0,
+                sold:0, // default number
                 imageURL: downloadURL
                // timestamp: new Date(),
                
@@ -53,14 +53,14 @@ export const Addproduct=()=>{
 
               
               
-              
+              // Alerts to notify the seler that their updates are recorded
               console.log("Items have been added successfully");
               setitemname("");
               setprice("");
               setquantity("");
               setitemdescription("");
               alert("Your Product has been added successfully!");
-              navigate('/displayproducts');
+              navigate('/displayproducts'); // after alert, rediret user to the default display view (intuitive to want to see the update displayed on screen)
               setimage(null);
             } catch (error) {
               console.log("Items were not added successfully", error);
@@ -71,6 +71,7 @@ export const Addproduct=()=>{
         
            }
 
+           // return a form with all fields that can be altered
     return (
         <section className="Box">
             <h1>Add items</h1>
@@ -95,7 +96,7 @@ export const Addproduct=()=>{
                    <label htmlFor="image">Upload image of item below:</label><br/> 
                   <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
                     
-
+                  {/*Make sure that no product lacks an image*/}
                 </section>
                 <button type="submit" onClick={handleSubmit}>Add Product</button>
             </form>

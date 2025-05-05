@@ -87,14 +87,6 @@ useEffect(() => {
 
 
 
-
-
-
-
-
-
-
-
 //Diplay data from the fetched fields
     return(<section className="Box">
       
@@ -139,12 +131,10 @@ useEffect(() => {
         )}
     <CsvDownloader
   filename="Inventory_items"
-  
   datas={products}
   text="Download Inventory CSV"
 />
 
-    
     </section>
     
     );

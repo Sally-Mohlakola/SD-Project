@@ -10,6 +10,7 @@ export const  Displayproducts=()=>{
     useShopId();
     let navigate=useNavigate();
     
+    // The default view is the dashboard
     function navigateDashboard(){
         navigate('/shopdashboard');
     }
@@ -19,19 +20,15 @@ export const  Displayproducts=()=>{
     
     let product_object=new Object();
     const[products,setproducts]=useState([]);
-    
 
     
     const getproducts= async()=>{
         let product_array=[];
-
-    
-   
     
     product_object=new Object();
    
     
-    
+    // Fetch all revelant products by this user from the storage
     const q= query(collection(db,"Shops",shopid,"Products"));
     const snapshot=await getDocs(q);
     snapshot.forEach((doc)=>{
@@ -49,12 +46,12 @@ export const  Displayproducts=()=>{
 
     
     })
+    // allocated this to an array for later manipulations
     setproducts(product_array);
 
-
-  
 }
 
+// Fetch this user's shop id
 let shopid= localStorage.getItem('shopid');
     
 useEffect(() => {
@@ -66,11 +63,7 @@ useEffect(() => {
     }
 }, []);
 
-
-
-
-
-
+// Delete the product, navigate to removeproducts page
 const Button_delete=(e)=>{
     const id = e.target.id;
    if(id){
@@ -81,11 +74,13 @@ const Button_delete=(e)=>{
    localStorage.setItem('Item',id);
     setstore(id);
     console.log(store);
+    ///Log the items
     console.log("Item stored in localStorage:", localStorage.getItem("Item"));
     navigate('/removeproducts');
     
 
 };
+// Update fields of a product, hence navigate to update page
 const Button_update=(e)=>{ 
    
     const id = e.target.id;
@@ -101,16 +96,15 @@ const Button_update=(e)=>{
     navigate('/updateproducts');
 
 };
+
+// To add products navigate to addproducts page
 const Button_add=()=>{
     navigate('/addproducts');
 }
 
 
 
-
-
-
-
+// Return the product and the fields, as well as the three CRUD buttons above
     return(<section className="Box">
        
         <h1>My products</h1>

@@ -106,7 +106,7 @@ const Description=async(e)=>{
         await updateDoc(docdata, {
           itemdescription: description
         });
-        alert("Description of product has been updated successfully to " +description);
+        alert("Description of product has been updated successfully to '" +description + "'");
         console.log("Name has been changed");
         navigate('/displayproducts');
       } catch (error) {

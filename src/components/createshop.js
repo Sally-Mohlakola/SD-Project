@@ -73,7 +73,7 @@ const checkshopname=(shops)=>{
 
         <section>
         <h1>Creating my Shop</h1>
-        {/*this "submitted" checks if the person pressed the button to submit thier store to the admin" */}
+        {/*this "submitted" checks if the person pressed the button to submit their store to the admin" */}
         {submitted? (
             <section>
         <p>Your shop has been sent to admin</p>
