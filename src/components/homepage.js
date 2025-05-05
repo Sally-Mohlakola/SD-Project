@@ -273,7 +273,7 @@ export const Homepage = () => {
         <FilterPrice query={priceFilter} setPrice={setPriceFilter} />
         <h2>Artisanal works of {chosenShop.nameofshop}</h2>
 
-        <p>Number of listings: {filterProduct.length}</p>
+        <p>Total number of products in shop: {filterProduct.length}</p>
         {/* Show the filtered products here, images will also go here */}
         <section className="product-listing-to-buy-view">
           {filterProduct.length > 0 ? (
