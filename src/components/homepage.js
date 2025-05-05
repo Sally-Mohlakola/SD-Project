@@ -7,7 +7,6 @@ import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import '../styles/homepage.css';
 import { db } from "../config/firebase";
 import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
-import { updateCurrentUser } from 'firebase/auth/cordova';
 //Import the get products in a shop here. to update to get all products in all
 import { getProductsInShop } from "../components/myorders";
 
