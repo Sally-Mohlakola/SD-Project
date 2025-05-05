@@ -2,7 +2,7 @@ import React from 'react';
 import { Createshop} from '../components/createshop';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { getDocs,addDoc } from 'firebase/firestore';
+import { getDocs,addDoc, collection } from 'firebase/firestore';
 
 
 const mockNavigate = jest.fn();
@@ -28,6 +28,7 @@ afterEach(() => {
     localStorage.clear();
     jest.clearAllMocks();
     });
+    
 describe ('CreateShop component acceptance tests',()=>{
     test('displays alert when atleast one  field are empty on submit', async () => {
         getDocs.mockResolvedValueOnce({ docs: [] });
@@ -122,5 +123,38 @@ describe ('CreateShop component acceptance tests',()=>{
     });
   });
 
+///////////////////////////////////////////////////////
+test('should alert if shop name already exists', async () => {
+  getDocs.mockResolvedValueOnce({
+    docs: [
+      {
+        id: 'existing-shop-id',
+        data: () => ({ nameofshop: 'Existing Shop' }),
+      },
+    ],
+  });
 
+  render(
+    <MemoryRouter>
+      <Createshop />
+    </MemoryRouter>
+  );
+
+  fireEvent.change(screen.getByLabelText(/Name of shop/i), { target: { value: 'Existing Shop' } });
+  fireEvent.change(screen.getByLabelText(/Shop description/i), { target: { value: 'Some description' } });
+  fireEvent.change(screen.getByLabelText(/Category:/i), { target: { value: 'Pottery' } });
+
+  // Make sure to use a real File instance
+  const file = new File(['dummy content'], 'logo.png', { type: 'image/png' });
+  fireEvent.change(screen.getByLabelText(/Add logo\/image:/i), {
+    target: { files: [file] },
+  });
+
+  fireEvent.click(screen.getByText(/Submit to admin/i));
+
+  // Wait for alert to be called
+  await waitFor(() => {
+    expect(window.alert).toHaveBeenCalledWith('A store with that name exists');
+  });
+});
 });

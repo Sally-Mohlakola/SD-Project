@@ -64,6 +64,9 @@ const checkshopname=(shops)=>{
   if (userShop){
   setnameexists(true);
   }
+  else{
+    setnameexists(false);
+  }
 };
 
     return (

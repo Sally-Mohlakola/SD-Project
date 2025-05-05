@@ -97,14 +97,9 @@ const uploadimage= async()=>{
       <h1>Welcome : {storename}</h1>
       {!imageExists? (
         <p>Loading...</p>
-      ): shopimage ? (
+      ):(
         <img src={shopimage} alt=" " style={{ width: '100px', height: '100px', objectFit: 'contain' }} />
-      ) : (
-        <>
-        <p>upload an image</p>
-        <input type="file" onChange={(e)=> setimageupload(e.target.files[0]) }/>
-        <button onClick={()=>{setLoading(true);uploadimage()}}>uploadimage</button>
-        </>)}
+      ) }
       <nav>
         {/*Can resize headers*/}
        <li> <Link to="/displayproducts">My Products</Link></li>
