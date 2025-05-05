@@ -1,7 +1,5 @@
 
-* {
-  box-sizing: border-box;
-}
+
 
 body {
   margin: 0;
@@ -81,18 +79,13 @@ h2 {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-h3 {
+h4 {
   font-size: 20px;
   color: #5e4c36;
   margin: 15px 0 10px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-p {
-  font-size: 16px;
-  margin-bottom: 20px;
-  
-}
 
 
 .products-dropdown-menu {
@@ -106,11 +99,11 @@ width: 60%;
 padding: 12px 20px;
 border-radius: 25px;
 border: 1px solid #d1c4b2;
-  outline: none;
-  margin-bottom: 30px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
+outline: none;
+margin-bottom: 30px;
+background-color: #fff;
+box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+transition: all 0.3s ease;
 }
 
 .search-input:focus {
@@ -192,25 +185,18 @@ button:hover {
 }
 
 /* Cart button */
-#btn-cart {
-  position: fixed;
-  top: 20px;
-  right: 30px;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 101;
-}
 
 #img-cart-icon {
+  cursor: pointer;
   position: fixed;
   top: 20px;
   right: 30px;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  z-index: 101;
+  text-align:right;
+
+  
 }
+
+
 
 
 @media (max-width: 768px) {

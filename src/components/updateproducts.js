@@ -53,6 +53,7 @@ export const Updateproduct=()=>{
               });
               console.log("Field updated successfully!");
               alert("Your image has been updated successfully!");
+              navigate('/displayproducts');
 
     }catch(error){
       console.log(error);
@@ -85,6 +86,7 @@ const Name=async(e)=>{
         });
         console.log("Field updated successfully!");
         alert("Name of product has been updated successfully!");
+        navigate('/displayproducts');
       } catch (error) {
         console.error("Error updating field:", error);
       }
@@ -104,8 +106,9 @@ const Description=async(e)=>{
         await updateDoc(docdata, {
           itemdescription: description
         });
-        alert("Description of product has been updated successfully to " +productname);
+        alert("Description of product has been updated successfully to " +description);
         console.log("Name has been changed");
+        navigate('/displayproducts');
       } catch (error) {
         console.error("Error updating Name:", error);
       }
@@ -129,6 +132,7 @@ const Price=async(e)=>{
         });
         alert("Price of product has been updated successfully!");
         console.log("Price updated successfully!");
+        navigate('/displayproducts');
       } catch (error) {
         console.error("Error updating price:", error);
       }
@@ -149,7 +153,9 @@ const Setnewquantity=async(e)=>{
         await updateDoc(docdata, {
           quantity: newquantity 
         });
+        alert("New quantity has been updated successfully!");
         console.log("Quantity has been updated successfully!");
+        navigate('/displayproducts');
       } catch (error) {
         console.error("Error updating Quantity:", error);
       }

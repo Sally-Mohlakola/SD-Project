@@ -16,6 +16,9 @@
   "dependencies": {
 
 
+    "@react-google-maps/api": "^2.20.6",
+
+
     "@testing-library/dom": "^10.4.0",
 
 

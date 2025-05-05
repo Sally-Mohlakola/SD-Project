@@ -17,7 +17,7 @@ export const  Inventory=()=>{
     const low_limit=5; // This is for when the product has a quantity of less than the low limit it should tell the seller
     
     
-    const[store,setstore]=useState("");// This is to 
+    const[store,setstore]=useState("");
     
     let product_object=new Object();
     let restock_object=new Object();
@@ -30,7 +30,7 @@ export const  Inventory=()=>{
         let restock_array=[];
 
     
-   
+
     
     product_object=new Object();
     restock_object=new Object();
@@ -105,25 +105,19 @@ useEffect(() => {
         <section style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
         
         
-        <section style={{ display: "flex", alignItems: "center", gap: "10px"}}>
-        <img src="https://img.icons8.com/?size=96&id=5tH5sHqq0t2q&format=png" alt="warning sign" style={{ width: '20px', height: '20px' }}></img>
-        <h3>Warning!! You might want to stock up on these:</h3>
         
-        </section>
+        <img src="https://img.icons8.com/?size=96&id=5tH5sHqq0t2q&format=png" alt="warning sign" style={{ width: '20px', height: '20px' }}></img>
+        <p><strong>Warning!! You might want to stock up on these:</strong></p>
+        
+     
         
         
         {restock.map((value)=>
         <section key={value.Name} >
-           <p>"{value.Name}" is running low(Only {value.Quantity} is left in stock)</p>
-           
-           
-           
+           <p>"{value.Name}" is running low(Only {value.Quantity} is left in stock)</p> 
         </section>
 
         )}
-           
-
-        
         
         </section>
         )}
@@ -132,15 +126,13 @@ useEffect(() => {
         <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px", padding: "10px"  }}>
            <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>
            
-           
-            <h2>Name:</h2><h3> {item.Name}</h3><br/>
+            <p><strong>Name:</strong></p><p> {item.Name}</p><br/>
 
-            <h2>Price:</h2><h3>{item.Price}</h3><br/>
+            <p><strong>Price:</strong></p><p>{item.Price}</p><br/>
 
+            <p><strong>Quantity:</strong></p><p>{item.Quantity}</p><br/>
 
-            <h2>Quantity:</h2><h3>{item.Quantity}</h3><br/>
-
-            <h2>Sold:</h2><h3>{item.Sold}</h3><br/>
+            <p><strong>Sold:</strong></p><p>{item.Sold}</p><br/>
            
         </section>
 

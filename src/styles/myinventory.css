@@ -1,0 +1,8 @@
+
+#text-warning, #p-warning{
+    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    right: 0px;
+    text-align:right;
+}
