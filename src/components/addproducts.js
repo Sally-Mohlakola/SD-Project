@@ -25,8 +25,8 @@ export const Addproduct=()=>{
       //Submit all fields to storage, make sure that they are non-empty
         const handleSubmit = async(e) => {
             e.preventDefault(); 
-            if (!image) {
-              alert("Please select an image!");
+            if (!image || !itemName || !price || !quantity) {
+              alert("Please fill in the required fields");
               return;
             }
           
