@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 
-
 export const Addproduct=()=>{
   const navigate=useNavigate();
     

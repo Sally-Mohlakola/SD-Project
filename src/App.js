@@ -14,7 +14,7 @@ import {Displayproducts} from './components/displayproducts'
 import { Updateproduct } from './components/updateproducts';
 import {Checkout} from './components/checkout';
 import {Inventory} from './components/myinventory';
-import Payment from './components/payment'; 
+import {Payment }from './components/payment'; 
 function App() {
 
    return ( 
@@ -32,7 +32,7 @@ function App() {
           <Route path="/displayproducts" element={<Displayproducts />} />  
         <Route path="/removeproducts" element={<DeleteProduct />} />
         <Route path="/updateproducts" element={<Updateproduct />} />  
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment" element={<Payment/>} />
         <Route path="/checkout" element={< Checkout />} />  
             
        
