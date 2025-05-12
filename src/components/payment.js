@@ -124,7 +124,7 @@ export const Payment = () => {
         mapReference.current.panTo(newLocation);
       }
     } else {
-      alert("Please select a valid land address for delivery"); // might remove later
+      alert("Please select a valid address for delivery"); // might remove later
     }
   } catch (error) {
     console.error("ERROR validating delivery address:", error);
