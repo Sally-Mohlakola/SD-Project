@@ -47,6 +47,7 @@ export const MyOrders = () => {
     };
     
     fetchOrders();
+    
   }, []);
 
 
@@ -140,11 +141,11 @@ export const MyOrders = () => {
           <h3>Order #{index + 1}</h3>
 
           {ord.products.map((prod, index2) => (
-            <div key={index2}>
+            <section key={index2}>
               <p><strong>Name:</strong> {prod.nameofitem}</p>
               <p><strong>Quantity:</strong> {prod.quantity}</p>
               <p><strong>Price</strong>R{prod.price}</p>
-            </div>
+            </section>
           ))}
 
           <p><strong>Address: </strong>{ord.address}</p>

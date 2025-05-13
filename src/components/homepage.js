@@ -351,6 +351,7 @@ export const Homepage = () => {
         <Link to="/journal" className="btn-link-journal">Journal</Link>
         <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>
         <Link to="/contact" className="btn-link-contact">Contact</Link>
+         <Link to="/trackorders" className="btn-link-contact">Track My Orders</Link>
         <button onClick={logout}>Logout</button>
       </nav>
 

@@ -15,6 +15,7 @@ import { Updateproduct } from './components/updateproducts';
 import {Checkout} from './components/checkout';
 import {Inventory} from './components/myinventory';
 import {Payment }from './components/payment'; 
+import {TrackOrders} from './components/trackorders'; 
 function App() {
 
    return ( 
@@ -34,6 +35,8 @@ function App() {
         <Route path="/updateproducts" element={<Updateproduct />} />  
         <Route path="/payment" element={<Payment/>} />
         <Route path="/checkout" element={< Checkout />} />  
+        <Route path="/trackorders" element={< TrackOrders />} />  
+
             
        
    
