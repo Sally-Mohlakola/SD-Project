@@ -36,6 +36,10 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
   }
     return (
   <>
+  <section>
+        <h2>Track My Orders</h2>
+        <button onClick={navigatehomepage}>← Homepage</button>
+</section>
     {/* Loading state */}
     {loading && (
       <section>
@@ -45,8 +49,7 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
 
     {!loading && (
       <section>
-        <h2>Track My Orders</h2>
-        <button onClick={navigatehomepage}>← Homepage</button>
+    
 
         {/* Conditional rendering based on myorders */}
         {myorders.length > 0 ? (
