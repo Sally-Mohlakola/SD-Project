@@ -51,3 +51,28 @@ exports.getOrders = functions.https.onCall(async (data, context) => {
     );
   }
 });
+
+exports.updateShopStatus = functions.https.onCall(async (data, context) => {
+  const { shopName, newStatus } = data;
+
+  if (!shopName || !newStatus) {
+    throw new functions.https.HttpsError("invalid-argument", "Missing shopName or newStatus");
+  }
+
+  try {
+    const shopsRef = admin.firestore().collection("Shops");
+    const snapshot = await shopsRef.where("nameofshop", "==", shopName).get();
+
+    if (snapshot.empty) {
+      throw new functions.https.HttpsError("not-found", "Shop not found");
+    }
+
+    const docRef = snapshot.docs[0].ref;
+    await docRef.update({ status: newStatus });
+
+    return { message: "Shop status updated successfully." };
+  } catch (error) {
+    console.error("Error updating shop status:", error);
+    throw new functions.https.HttpsError("internal", "Failed to update shop status");
+  }
+});
