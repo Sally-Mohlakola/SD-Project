@@ -58,7 +58,7 @@ body {
 }
 
 .create-shop button {
-  background-color: #814646;
+  background-color: #5e4c36;
   color: white;
   padding: 0.6rem 1.2rem;
   border: none;
@@ -70,7 +70,7 @@ body {
 }
 
 .create-shop button:hover {
-  background-color: #6e3c3c;
+  background-color: #3a2f1d;
 }
 
 .create-shop a {
