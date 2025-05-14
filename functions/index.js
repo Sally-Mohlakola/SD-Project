@@ -76,3 +76,36 @@ exports.updateShopStatus = functions.https.onCall(async (data, context) => {
     throw new functions.https.HttpsError("internal", "Failed to update shop status");
   }
 });
+
+exports.addProduct = functions.https.onCall(async (data, context) => {
+  const {
+    shopId,
+    name,
+    itemdescription,
+    price,
+    quantity,
+    imageURL,
+  } = data;
+
+  // Validate the input.
+  if (!shopId || !name || !itemdescription || !price || !quantity || !imageURL) {
+    throw new functions.https.HttpsError("invalid-argument", "Missing required product fields");
+  }
+
+  try {
+    // Add the product to the shop's products collection
+    await admin.firestore().collection("Shops").doc(shopId).collection("Products").add({
+      name,
+      itemdescription,
+      price: Number(price),
+      quantity: Number(quantity),
+      sold: 0, // Default to 0 sold
+      imageURL,
+    });
+
+    return { message: "Product added successfully" };
+  } catch (error) {
+    console.error("Error adding product:", error);
+    throw new functions.https.HttpsError("internal", "Failed to add product");
+  }
+});
