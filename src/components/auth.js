@@ -55,21 +55,20 @@ export const Auth=()=>{
             }
     };
 
-    
-
-
-    return (
-        <section className="signup-section">
-          <article className="signup-article">
-            <h1>Crafts & Grain</h1>
-      
-            {/* Call the signInGoogle function when clicking the styled button */}
-            <button type="button" className="google-button" onClick={signInGoogle}>
-              <i className="fa-brands fa-google"></i> Sign in with Google
-            </button>
-          </article>
+return (
+      <section className='signup-section'>
+        <section className='sidebar'>
+          <h2>Crafts&Grain</h2>
+          <p>Discover unique handmade goods, fresh local produce, and one-of-a-kind treasures at our artisanal market, where creativity and craftsmanship come together in every shop.</p>
         </section>
-      );       
+        <section className='signup-article'>
+          <h1>Sign in</h1>
+          <button type="button" className="google-button" onClick={signInGoogle}>
+               <i className="fa-brands fa-google"></i> Sign in with Google
+             </button>
+        </section>
+      </section>
+    );
 
 }//export
 
