@@ -6,6 +6,7 @@ import {getDocs,collection} from "firebase/firestore"
 import {ref, getDownloadURL} from "firebase/storage";
 import { storage } from '../config/firebase';
 import {uploadBytes} from "firebase/storage";
+import '../styles/shopdashboard.css';
 
 
 export const ShopHomepage =()=>{
@@ -93,20 +94,26 @@ const uploadimage= async()=>{
         };
 
  return(
-    <section>
-      <h1>Welcome : {storename}</h1>
-      {!imageExists? (
+    <section className='storeDash-section'>
+      <h1 className='storeDash-heading'>Welcome  {storename}</h1>
+      <section className='shop-logo'>
+        {!imageExists? (
         <p>Loading...</p>
       ):(
-        <img src={shopimage} alt=" " style={{ width: '100px', height: '100px', objectFit: 'contain' }} />
+        <img src={shopimage} alt=" " className='shop-logo'/>
       ) }
-      <nav>
+      </section>
+      <section className='storeDash-links'>
+        <nav>
         {/*Can resize headers*/}
-       <li> <Link to="/displayproducts">My Products</Link></li>
+        <ul>
+          <li> <Link to="/displayproducts">My Products</Link></li>
        <li> <Link to="/myorders"> My Orders </Link> </li>
         <li><Link to="/myinventory">Inventory</Link></li>
+        </ul>
     </nav>
     <Link to="/homepage">Home</Link>
+      </section>
     
     </section>
   
