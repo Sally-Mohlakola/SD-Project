@@ -1,0 +1,87 @@
+.storeDash-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 12px;
+    background-color: #ffffff7c;
+    margin-left: 400px;
+}
+
+.storeDash-heading{
+    text-align: center;
+    padding: 2rem;
+    max-width: 600px;
+    width: 100%;
+    background-color: #cb9c9caa;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.storeDash-heading:hover {
+  transform: translateY(-2px);
+}
+
+.shop-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  margin-left: -95px;
+
+}
+
+.storeDash-links{
+  max-width: 600px;
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.storeDash-links nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.storeDash-links nav li {
+  font-weight: 500;
+}
+
+.storeDash-links a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 0.5rem 2rem;
+  border-radius: 6px;
+  background-color: #a57272;
+  transition: background-color 0.3s;
+}
+
+.storeDash-links a:hover {
+  background-color: #7f5757;
+}
+
+.home-link {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #905959;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}
