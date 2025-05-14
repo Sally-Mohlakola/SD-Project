@@ -4,6 +4,7 @@ import {collection,addDoc,getDocs} from "firebase/firestore"
 import { Link,useNavigate } from "react-router-dom";
 import { storage } from '../config/firebase';
 import {ref,uploadBytes} from "firebase/storage";
+import '../styles/createShop.css';
 export const Createshop=()=>{
 
 const navigate = useNavigate();
@@ -71,7 +72,7 @@ const checkshopname=(shops)=>{
 
     return (
 
-        <section>
+        <section className="create-shop">
         <h1>Creating my Shop</h1>
         {/*this "submitted" checks if the person pressed the button to submit their store to the admin" */}
         {submitted? (
