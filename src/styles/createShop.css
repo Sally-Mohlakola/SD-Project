@@ -1,0 +1,83 @@
+body {
+  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWxMqeEfI0F2qz94DawQDwP6nOiCAHA73GLA&s');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.create-shop {
+  max-width: 600px;
+  padding: 1.5rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  background-color: #fdfdfd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-left: 350px;
+  min-width: 50vw;
+  
+}
+
+.create-shop h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #582020;
+}
+
+.create-shop form p {
+  margin-bottom: 1rem;
+}
+
+.create-shop label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.create-shop input[type="text"],
+.create-shop select,
+.create-shop textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.create-shop textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.create-shop input[type="file"] {
+  border: none;
+}
+
+.create-shop button {
+  background-color: #814646;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  margin: 1rem auto;
+}
+
+.create-shop button:hover {
+  background-color: #6e3c3c;
+}
+
+.create-shop a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.create-shop a:hover {
+  text-decoration: underline;
+}
