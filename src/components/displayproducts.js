@@ -3,7 +3,7 @@ import { useShopId} from "./userinfo";
 import { db } from "../config/firebase";
 import { collection,  getDocs,query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-
+import '../styles/displayproducts.css';
 
 
 export const  Displayproducts=()=>{
@@ -105,12 +105,14 @@ const Button_add=()=>{
 
 
 // Return the product and the fields, as well as the three CRUD buttons above
-    return(<section className="Box">
+    return(<section className="disp-wrapper">
+       <section className="disp-section">
+            <section className="disp-section"><h1>My products</h1></section>
        
-        <h1>My products</h1>
-        <button onClick={navigateDashboard}>← Dashboard</button> {/*button to navitage to dasboard*/}
+        
+        <button className="dashboard-button" onClick={navigateDashboard}>← Dashboard</button> {/*button to navitage to dasboard*/}
         {products.map((item)=>
-        <section className="product"  key={item.Name} style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "10px" }}>
+        <section className="product"  key={item.Name}>
            <img src={item.ImageUrl} alt={item.Name}  width="200" height="auto" /><br/>
            {console.log(item.ImageUrl)}
            {console.log("Url is up there")}
@@ -118,8 +120,8 @@ const Button_add=()=>{
             <p><strong>Description:</strong> {item.Description}</p>
             <p><strong>Price:</strong> {item.Price}</p>
             <p><strong>Quantity:</strong> {item.Quantity}</p>
-            <button id={item.Name} onClick={Button_update}>Update Product</button>
-            <button id={item.Name} onClick={Button_delete}>Remove Product</button>
+            <button className="update-button" id={item.Name} onClick={Button_update}>Update Product</button>
+            <button className="remove-button" id={item.Name} onClick={Button_delete}>Remove Product</button>
             <br/><br/>
 
            
@@ -127,9 +129,9 @@ const Button_add=()=>{
 
         )}
     
-   
+   </section>
     
-    <button onClick={Button_add}>Add product</button>
+    <button className="add-button" onClick={Button_add}>Add product</button>
     
     </section>
     );
