@@ -24,6 +24,10 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
+const { createOrder } = require('./functions_orders');
+exports.createOrder = createOrder;
+
+
 exports.getOrders = functions.https.onCall(async (data, context) => {
   try {
     const ordersSnapshot = await admin.firestore().collection("Orders").get();
@@ -107,5 +111,74 @@ exports.addProduct = functions.https.onCall(async (data, context) => {
   } catch (error) {
     console.error("Error adding product:", error);
     throw new functions.https.HttpsError("internal", "Failed to add product");
+  }
+});
+
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+admin.initializeApp();
+const db = admin.firestore();
+
+exports.createOrder = functions.https.onCall(async (data, context) => {
+  // Verify authentication
+  if (!context.auth) {
+    throw new functions.https.HttpsError("unauthenticated", "Authentication required");
+  }
+
+  // Validate required fields
+  if (!data.address || !data.nameofshop || !data.userid || !data.cart_items) {
+    throw new functions.https.HttpsError(
+      "invalid-argument", 
+      "Missing required order data"
+    );
+  }
+
+  // Verify user matches auth context
+  if (data.userid !== context.auth.uid) {
+    throw new functions.https.HttpsError(
+      "permission-denied",
+      "User ID mismatch"
+    );
+  }
+
+  try {
+    // Create order document
+    const orderData = {
+      address: data.address,
+      nameofshop: data.nameofshop,
+      status: data.status || "Pending",
+      userid: data.userid,
+      
+    };
+
+    const orderRef = await db.collection("Orders").add(orderData);
+
+    // Add products subcollection
+    const batch = db.batch();
+    data.cart_items.forEach(item => {
+      const productRef = orderRef.collection("Products").doc();
+      batch.set(productRef, {
+        nameofitem: item.nameofitem,
+        price: parseFloat(item.price),
+        quantity: parseInt(item.quantity),
+    
+      });
+    });
+
+    await batch.commit();
+
+    return { 
+      success: true, 
+      orderId: orderRef.id,
+      message: "Order created successfully"
+    };
+
+  } catch (error) {
+    console.error("Order creation failed:", error);
+    throw new functions.https.HttpsError(
+      "internal", 
+      "Order creation failed",
+      error.message
+    );
   }
 });
