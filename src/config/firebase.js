@@ -12,7 +12,7 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
+  apiKey: "AIzaSyBvcYkjEEzozNpH6qjN5-8xKXGp5jZPEYg",
   authDomain: "sd-database-19b80.firebaseapp.com",
   projectId: "sd-database-19b80",
   storageBucket: "sd-database-19b80.firebasestorage.app",
@@ -28,4 +28,3 @@ export const provider = new GoogleAuthProvider();
 export const db=getFirestore(app);
 export const storage=  getStorage(app);
 export const functions = getFunctions(app);
-
