@@ -5,6 +5,7 @@ import { collection, addDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
+import '../styles/addproduct.css';
 
 export const Addproduct=()=>{
   const navigate=useNavigate();
@@ -71,9 +72,9 @@ export const Addproduct=()=>{
            }
 
            // return a form with all fields that can be altered
-    return (
-        <section className="Box">
-            <h1>Add items</h1>
+       return (
+        <section className="addprod-section">
+          <section className='addprod-heading'><h1>Add products</h1></section>
             <form onSubmit={handleSubmit}>
                 <section className="inputs">
                     <label htmlFor="itemName">Item:</label>
@@ -97,9 +98,9 @@ export const Addproduct=()=>{
                     
                   {/*Make sure that no product lacks an image*/}
                 </section>
-                <button type="submit" onClick={handleSubmit}>Add Product</button>
+                <button className="submit-button" type="submit" onClick={handleSubmit}>Add Product</button>
             </form>
-            <button onClick={Back}>← Back</button>
+            <button className="back-button" onClick={Back}>← Back</button>
         </section>
     );
 
