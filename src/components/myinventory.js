@@ -4,7 +4,7 @@ import { db } from "../config/firebase";
 import { collection,  getDocs,query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import CsvDownloader from 'react-csv-downloader';
-
+import '../styles/myinventory.css';
 
 // To view the inventory of items sold.
 export const  Inventory=()=>{
@@ -88,25 +88,27 @@ useEffect(() => {
 
 
 //Diplay data from the fetched fields
-    return(<section className="Box">
-      
-        <h1>Inventory</h1>
-        <button onClick={navigateDashboard}>← Dashboard</button>
+   return( 
+        <section className="inventory-wrapper">
+    <section className="inve-section">
+        <section className="inve-section"><h1>Inventory</h1></section>
+
+        <button className="dashboard-button" onClick={navigateDashboard}>← Dashboard</button>
         {!restock || restock.length === 0 ? null : (
 
-        <section style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
+        <section className="warning-section" style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
         
         
         
         <img src="https://img.icons8.com/?size=96&id=5tH5sHqq0t2q&format=png" alt="warning sign" style={{ width: '20px', height: '20px' }}></img>
-        <p><strong>Warning!! You might want to stock up on these:</strong></p>
+        <p><strong>Warning! You might want to stock up on these:</strong></p>
         
      
         
         
         {restock.map((value)=>
         <section key={value.Name} >
-           <p>"{value.Name}" is running low(Only {value.Quantity} is left in stock)</p> 
+           <p>"{value.Name}" is running low (Only {value.Quantity} is left in stock)</p> 
         </section>
 
         )}
@@ -129,15 +131,16 @@ useEffect(() => {
         </section>
 
         )}
-    <CsvDownloader
+    <CsvDownloader className="csv-download-button"
   filename="Inventory_items"
   datas={products}
   text="Download Inventory CSV"
 />
 
     </section>
-    
+    </section>
     );
+    
     
 
 
