@@ -1,0 +1,105 @@
+[debug] [2025-05-15T14:36:33.550Z] ----------------------------------------------------------------------
+[debug] [2025-05-15T14:36:33.552Z] Command:       /usr/local/bin/node /usr/local/bin/firebase functions:shell
+[debug] [2025-05-15T14:36:33.552Z] CLI Version:   14.3.1
+[debug] [2025-05-15T14:36:33.552Z] Platform:      darwin
+[debug] [2025-05-15T14:36:33.552Z] Node Version:  v22.14.0
+[debug] [2025-05-15T14:36:33.552Z] Time:          Thu May 15 2025 16:36:33 GMT+0200 (South Africa Standard Time)
+[debug] [2025-05-15T14:36:33.552Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-05-15T14:36:33.641Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-05-15T14:36:33.642Z] > authorizing via signed-in user (2676995@students.wits.ac.za)
+[debug] [2025-05-15T14:36:33.642Z] [iam] checking project sd-database-19b80 for permissions ["firebase.projects.get"]
+[debug] [2025-05-15T14:36:33.642Z] Checked if tokens are valid: true, expires at: 1747321856367
+[debug] [2025-05-15T14:36:33.642Z] Checked if tokens are valid: true, expires at: 1747321856367
+[debug] [2025-05-15T14:36:33.643Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/sd-database-19b80:testIamPermissions [none]
+[debug] [2025-05-15T14:36:33.643Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/sd-database-19b80:testIamPermissions x-goog-quota-user=projects/sd-database-19b80
+[debug] [2025-05-15T14:36:33.643Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sd-database-19b80:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2025-05-15T14:36:35.678Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/sd-database-19b80:testIamPermissions 200
+[debug] [2025-05-15T14:36:35.679Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/sd-database-19b80:testIamPermissions {"permissions":["firebase.projects.get"]}
+[warn] ⚠  functions: Functions Emulator unable to start on port 5000, starting on 5001 instead. {"metadata":{"emulator":{"name":"functions"},"message":"Functions Emulator unable to start on port 5000, starting on 5001 instead."}}
+[debug] [2025-05-15T14:36:35.775Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2025-05-15T14:36:35.845Z] defaultcredentials: writing to file /Users/shamoneruiters/.config/firebase/2676995_students_wits.ac.za_application_default_credentials.json
+[debug] [2025-05-15T14:36:35.846Z] DEBUG: Setting GAC to /Users/shamoneruiters/.config/firebase/2676995_students_wits.ac.za_application_default_credentials.json
+[debug] [2025-05-15T14:36:35.847Z] Checked if tokens are valid: true, expires at: 1747321856367
+[debug] [2025-05-15T14:36:35.847Z] Checked if tokens are valid: true, expires at: 1747321856367
+[debug] [2025-05-15T14:36:35.847Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/sd-database-19b80/adminSdkConfig [none]
+[debug] [2025-05-15T14:36:36.775Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/sd-database-19b80/adminSdkConfig 200
+[debug] [2025-05-15T14:36:36.776Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/sd-database-19b80/adminSdkConfig {"projectId":"sd-database-19b80","storageBucket":"sd-database-19b80.firebasestorage.app"}
+[debug] [2025-05-15T14:36:36.792Z] [functions] Watching "/Users/shamoneruiters/Documents/Sprint4Final/SD-Project/functions" for Cloud Functions...
+[debug] [2025-05-15T14:36:36.798Z] Validating nodejs source
+[debug] [2025-05-15T14:36:37.469Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2025-05-15T14:36:37.469Z] Building nodejs source
+[debug] [2025-05-15T14:36:37.470Z] Failed to find version of module node: reached end of search path /Users/shamoneruiters/Documents/Sprint4Final/SD-Project/functions/node_modules
+[info] ✔  functions: Using node@22 from host. 
+[debug] [2025-05-15T14:36:37.472Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-05-15T14:36:37.482Z] Found firebase-functions binary at '/Users/shamoneruiters/Documents/Sprint4Final/SD-Project/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8253
+
+[debug] [2025-05-15T14:36:37.866Z] Got response from /__/functions.yaml {"endpoints":{"getOrders":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getOrders"},"getShopsForAdmin":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getShopsForAdmin"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-05-15T14:36:41.886Z] [functions] Loaded functions definitions from source: getOrders, getShopsForAdmin.
+[debug] [2025-05-15T14:36:41.886Z] [functions[us-central1-getOrders]] http function initialized (http://127.0.0.1:5001/sd-database-19b80/us-central1/getOrders).
+[debug] [2025-05-15T14:36:41.887Z] [functions[us-central1-getShopsForAdmin]] http function initialized (http://127.0.0.1:5001/sd-database-19b80/us-central1/getShopsForAdmin).
+[info] i  functions: Loaded functions: getOrders, getShopsForAdmin 
+[warn] ⚠  functions: The following emulators are not running, calls to these services will affect production: firestore, database, pubsub, storage, eventarc, tasks 
+[debug] [2025-05-15T14:39:07.901Z] DEBUG: File /Users/shamoneruiters/Documents/Sprint4Final/SD-Project/functions/index.js changed, reloading triggers
+[debug] [2025-05-15T14:39:08.905Z] Validating nodejs source
+[debug] [2025-05-15T14:39:09.683Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2025-05-15T14:39:09.683Z] Building nodejs source
+[debug] [2025-05-15T14:39:09.683Z] Failed to find version of module node: reached end of search path /Users/shamoneruiters/Documents/Sprint4Final/SD-Project/functions/node_modules
+[info] ✔  functions: Using node@22 from host. 
+[debug] [2025-05-15T14:39:09.684Z] Could not find functions.yaml. Must use http discovery
+[debug] [2025-05-15T14:39:09.686Z] Found firebase-functions binary at '/Users/shamoneruiters/Documents/Sprint4Final/SD-Project/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8312
+
+[debug] [2025-05-15T14:39:09.984Z] Got response from /__/functions.yaml {"endpoints":{"getOrders":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getOrders"},"getShopsForAdmin":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"callableTrigger":{},"entryPoint":"getShopsForAdmin"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[debug] [2025-05-15T14:39:14.001Z] [functions] Loaded functions definitions from source: getOrders, getShopsForAdmin.

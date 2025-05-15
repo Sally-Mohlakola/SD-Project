@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { db } from '../config/firebase';
-import { useNavigate } from 'react-router-dom';
-import { getDocs, collection, updateDoc, doc } from 'firebase/firestore';
-import '../styles/adminshophomepage.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { updateDoc, doc } from "firebase/firestore";
+import { functions } from "../config/firebase";
+import { httpsCallable } from "firebase/functions";
+import { db } from "../config/firebase";
+import "../styles/adminshophomepage.css";
 
 export const AdminShopHomepage = () => {
   const [shops, setShops] = useState([]);
@@ -10,23 +12,18 @@ export const AdminShopHomepage = () => {
   const navigate = useNavigate();
 
   const navigateHome = () => {
-    navigate('/homepage');
+    navigate("/homepage");
   };
 
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const shopsRef = collection(db, 'Shops');
-        const data = await getDocs(shopsRef);
-
-        const shopsData = data.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setShops(shopsData);
+        const getShopsForAdmin = httpsCallable(functions, "getShopsForAdmin");
+        const result = await getShopsForAdmin();
+        const { shops } = result.data;
+        setShops(shops);
       } catch (error) {
-        console.error('Error fetching shops:', error);
+        console.error("Error fetching shops:", error);
       } finally {
         setLoading(false);
       }
@@ -37,7 +34,7 @@ export const AdminShopHomepage = () => {
 
   const handleStatusChange = async (shopId, newStatus) => {
     try {
-      const shopRef = doc(db, 'Shops', shopId);
+      const shopRef = doc(db, "Shops", shopId);
       await updateDoc(shopRef, { status: newStatus });
 
       setShops((prevShops) =>
@@ -46,7 +43,7 @@ export const AdminShopHomepage = () => {
         )
       );
     } catch (error) {
-      console.error('Error updating status:', error);
+      console.error("Error updating status:", error);
     }
   };
 
@@ -66,8 +63,8 @@ export const AdminShopHomepage = () => {
             Accept →
             <input
               type="checkbox"
-              checked={shop.status === 'Accepted'}
-              onChange={() => handleStatusChange(shop.id, 'Accepted')}
+              checked={shop.status === "Accepted"}
+              onChange={() => handleStatusChange(shop.id, "Accepted")}
             />
           </label>
           <br />
@@ -76,8 +73,8 @@ export const AdminShopHomepage = () => {
             Reject →
             <input
               type="checkbox"
-              checked={shop.status === 'Rejected'}
-              onChange={() => handleStatusChange(shop.id, 'Rejected')}
+              checked={shop.status === "Rejected"}
+              onChange={() => handleStatusChange(shop.id, "Rejected")}
             />
           </label>
 
