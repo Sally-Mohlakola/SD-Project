@@ -11,7 +11,7 @@ export const Payment = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY; // put in env file later
+  const publicKey = "pk_test_d444ad0b1ed380cbe61ce1d4d0b8804a3b6abb17"; // put in env file later
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [address, setAddress] = useState('');
