@@ -1,0 +1,164 @@
+/**/
+body{
+    margin:0;
+}
+/*
+html, body {
+    margin: 0;
+    height: 100vh;
+    width: fit-content;
+    overflow: hidden; 
+  }
+  
+  .root {
+   outline: 3px solid black;
+    height: 50vh;
+    width: fit-content;
+    background: lightblue;
+    margin: auto;
+  }
+  
+*/
+.Body{
+    
+    display:flex;
+    flex-wrap:wrap;
+   width:100vw;
+   height: fit-content;
+   flex-direction:row;
+    justify-content:flex-start;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    padding-top:0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+  
+   
+    background-image: url('https://images.unsplash.com/photo-1644656103801-32f760b65d45?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8bGlnaHQlMjBicm93bnxlbnwwfHwwfHx8MA%3D%3D');
+  background-size: cover;      /* Scale image to cover entire area */
+  background-repeat: no-repeat; 
+  background-position: center;
+
+    
+    
+    
+    
+}
+/**/
+.Body >section{
+    width:45vw;
+    height:100vh;
+   
+    margin: 0;
+    padding-left: 0;
+    padding-top:0;
+    font-family: "Arial", sans-serif;
+  font-size: 1vw;
+ 
+  
+  
+   
+
+}
+/**/
+.left{
+    display:flex;
+    flex-direction: column;
+   gap:30vh;
+    align-items:center;
+    padding-top: 30vh;
+      
+  
+
+
+}
+.left button{
+    padding-bottom:0px;
+    width:17vh;
+    border-radius:25px;
+    height:7vh;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: transparent;
+
+
+
+}
+.left h1{
+    padding-top:0px;
+    font-weight: 900;
+    font-size: 5vw;
+     color: #faf6f0;
+}
+/**/
+.right{
+    display:flex;
+    flex-direction:column;
+   
+
+}
+/**/
+
+
+.right>form{
+    display:flex;
+    outline: 3px solid gray;
+    border-radius: 40px;
+    width:50vw;
+    gap:0.5vh;
+    margin: 0;
+    padding-left: 0;
+    padding-top:0;
+    background-color: #faf6f0;
+  
+
+    
+
+}
+
+
+.right>form>section{
+    display:flex;
+    flex-direction:column;
+   gap:4vh;
+    justify-content: centre;
+   
+    width:20vw;
+    margin: 0;
+    padding-left: 0.5vw;
+    padding-top:2vh;
+    height:20vh;
+  
+
+}
+
+.form2 button{
+    width:30vh;
+    border-radius:25px;
+    height:5vh;
+   
+    
+   
+}
+ .form1 input{
+    width:15vw;
+    height:6vh;
+    border:None;
+    border-bottom:2px solid black;
+    background-color: #faf6f0;
+    
+ }
+ .form1 textarea{
+    width: 15vw;
+    border: 2px solid black;
+    background-color: #faf6f0
+ }
+ .form1 label{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: 1.5vw;
+
+    
+
+ }
+
