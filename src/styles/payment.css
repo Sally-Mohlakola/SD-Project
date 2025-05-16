@@ -1,0 +1,36 @@
+.Outer{
+    display:flex;
+    flex-direction:column;
+    font-family: "Arial", sans-serif;
+  font-size: 2vw;
+  position:absolute;
+  left:0;
+  right:0;
+ height:150vh;
+  top:0;
+  padding-left:6vh;
+  padding-right:6vh;
+  background-color: #f9f6f1;
+}
+.Outer input{
+    outline:3px solid brown;
+}
+.google-map{
+    height:400vh;
+}
+.section_map{
+    display:flex;
+    padding:0px;
+    gap:1vh;
+    height:120vh;
+    padding-bottom:0vh; 
+  flex-direction:column;
+  height:fit-content;
+  
+ 
+}
+.section_payment{
+    padding:0;
+
+
+}
