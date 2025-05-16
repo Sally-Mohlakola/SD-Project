@@ -50,6 +50,7 @@ export const AdminShopHomepage = () => {
   if (loading) return <section>Loading...</section>;
 
   return (
+    <section className='admin-wrapper'>
     <section className="admin-dashboard">
       <button onClick={navigateHome}>← Home</button>
       <h1>Admin Dashboard</h1>
@@ -83,5 +84,6 @@ export const AdminShopHomepage = () => {
         </article>
       ))}
     </section>
+</section>
   );
 };
