@@ -1,6 +1,15 @@
+.admin-wrapper {
+   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  margin-left: 350px;
+}
+
 .admin-dashboard {
-  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* or use your own wood texture */
-  background-color: #f5efe6;
+ background-color: #ffffff7c;
   background-blend-mode: multiply;
   color: #4e342e;
   min-height: 100vh;
@@ -11,6 +20,8 @@
   margin: auto;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+
+
 
 .admin-dashboard h1 {
   text-align: center;
@@ -61,4 +72,20 @@
   height: 1px;
   background-color: #d7ccc8;
   margin-top: 1rem;
+}
+
+.home-button {
+  display: inline-block;
+  background-color: #5e4c36;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+  background-color: #3a2f1d;
 }
