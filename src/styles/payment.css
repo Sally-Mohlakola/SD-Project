@@ -8,8 +8,10 @@
   right:0;
  height:150vh;
   top:0;
-  padding-left:6vh;
-  padding-right:6vh;
+  padding-left:6vw;
+  padding-right:6vw;
+    padding-bottom:0px;
+    
   background-color: #f9f6f1;
 }
 .Outer input{
