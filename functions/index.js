@@ -178,7 +178,7 @@ exports.deleteShop= onCall(async (request) => {
     await db.collection("Shops").doc(shopId).delete();
     console.log(`Deleted shop: ${shopId}`);
     console.log(`Deleted image for shop: ${shopId}`);
-    // Try deleting image with different extensions
+    // Try deleting image
     const filePath = `Shop/${url}`;
     const file = storage.file(filePath);
     const [exists] = await file.exists();
@@ -220,16 +220,16 @@ exports.findShopImage = onCall(async (request) => {
           "No shop image found for this user.",
       );
     }
-    return {imageUrl}; // Return as object for consistency
+    return {imageUrl}; // Return as object 
   } catch (error) {
     console.error("Error fetching shop image:", error);
 
-    // 5. Handle known Firebase errors differently
+
     if (error instanceof functions.https.HttpsError) {
       throw error; // Re-throw existing Firebase errors
     }
 
-    // 6. Wrap generic errors in an "internal" error
+   
     throw new functions.https.HttpsError(
         "internal",
         "Failed to retrieve shop image.",
