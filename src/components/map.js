@@ -15,7 +15,7 @@ height: '300px'
 
   const { initialisedMap } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyBQoVBhURy0Sg2SeM8AYMjAcMd0Rb-Stqo', // put keys in env folder soon
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, // put keys in env folder soon
     libraries: ['places']
   });
 
