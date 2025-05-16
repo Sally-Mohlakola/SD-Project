@@ -10,7 +10,7 @@ exports.createOrder = functions.https.onCall(async (data, context) => {
       nameofshop,
       status,
       userid,
-      cart_items // subcollection Products {nameofitem, price, quantity}
+      cart_items, // subcollection Products {nameofitem, price, quantity}
     } = data;
 
     if (!userid || !cart_items || !Array.isArray(cart_items)) {
@@ -22,26 +22,25 @@ exports.createOrder = functions.https.onCall(async (data, context) => {
       address,
       nameofshop,
       status: status || "Pending",
-      userid
+      userid,
     });
 
     // Create subcollection `products`
     const productsRef = orderRef.collection("Products");
 
     const batch = db.batch();
-    cart_items.forEach(item => {
+    cart_items.forEach((item) => {
       const itemRef = productsRef.doc(); // Auto-ID
       batch.set(itemRef, {
         nameofitem: item.nameofitem,
         price: item.price,
-        quantity: item.quantity
+        quantity: item.quantity,
       });
     });
 
     await batch.commit();
 
-    return { success: true, orderId: orderRef.id };
-
+    return {success: true, orderId: orderRef.id};
   } catch (error) {
     alert("Order creation failed:");
     throw new functions.https.HttpsError("internal", "Order creation failed");

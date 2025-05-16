@@ -1,12 +1,13 @@
-
 import React, { useState,useEffect } from 'react';
 //import { useNavigate } from "react-router-dom";
 //import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
-import {db} from "../config/firebase";
-import {getDocs,collection,deleteDoc ,doc} from "firebase/firestore"
+import {db,storage,app} from "../config/firebase";
+import {collection,deleteDoc ,doc} from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
+import { deleteObject, ref } from "firebase/storage";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 
 
@@ -17,21 +18,14 @@ export const MyShop=()=>{
     const navigate = useNavigate();
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
-    const shopcollectionRef=collection(db,"Shops");
 // this useeffect gets all the items form our database "Shops"  and fliters it bc firebase sends us a bunch of data that has nothing to do with us so we filter all of that and bring only the data we need which is our shops and thier fields
 useEffect(()=>{
     const getshoplist= async()=>{
         try{
-        const data=await getDocs(shopcollectionRef);
-        const filterddata = data.docs.map((doc) => ({
-           id:doc.id,
-            ...doc.data(), 
-            userid: doc.data().userid,
-            nameofshop: doc.data().nameofshop,
-            description: doc.data().description,
-            status: doc.data().status
-          }));
-        setShoplist(filterddata);
+        const functions = getFunctions(app);
+        const getAllShops = httpsCallable(functions, 'getAllShops');
+        const result = await getAllShops({});
+        setShoplist(result.data.shops);
         setLoading(false);
         }catch(err){
             console.error(err);
@@ -39,10 +33,6 @@ useEffect(()=>{
     };
     getshoplist();
 },[]);
-
-
-
-
 
 
 const [ispublic, setIspublic] = useState("");
@@ -75,14 +65,18 @@ const startshop=()=>{
   navigate('/createshop');
 };
 
-const deleterejectedshop =async (id)=>{
-  try{
-   const rejectedshop=doc(db,"Shops",id);
-  await deleteDoc(rejectedshop);
-  }catch(err){
-    console.error(err);
+const functions = getFunctions(app);
+
+const deleterejectedshop = async (id,Iurl) => {
+  try {
+    const deleteShop = httpsCallable(functions, "deleteShop");
+    const res = await deleteShop({shopId: id, userId: currentUserId,url: Iurl});
+    console.log(res.data.message);
+  } catch (err) {
+    console.error("Error deleting shop:", err);
   }
 };
+
 
 if (loading || !isReady) return <section></section>;
 
@@ -91,7 +85,7 @@ if (ispublic==="Rejected"){
   <section>
   <h2>Your request to open a  store was rejected,You need try again </h2>
   <button onClick={()=>{
-    deleterejectedshop(store.id);
+    deleterejectedshop(store.id,store.imageurl);
     navigate("/createshop") }}>Apply to open shop again</button>
   </section>
   )

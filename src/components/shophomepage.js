@@ -7,28 +7,26 @@ import {ref, getDownloadURL} from "firebase/storage";
 import { storage } from '../config/firebase';
 import {uploadBytes} from "firebase/storage";
 import '../styles/shopdashboard.css';
+import { getFunctions, httpsCallable } from "firebase/functions";
+
+
 
 
 export const ShopHomepage =()=>{
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
-    const shopcollectionRef=collection(db,"Shops"); 
     const [storename, setstorename] = useState("");
     const [imageupload,setimageupload]=useState(null);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(true); 
     const [ imageExists, setImageExits]= useState(false);
 useEffect(()=>{
     const getshoplist= async()=>{
-        try{
-        const data=await getDocs(shopcollectionRef);
-        const filterddata = data.docs.map((doc) => ({
-            ...doc.data(), 
-            userid: doc.data().userid,
-            nameofshop: doc.data().nameofshop,
-            description: doc.data().description,
-            status: doc.data().status
-          }));
-        setShoplist(filterddata);
+try{
+        const functions = getFunctions();
+        const getAllShops = httpsCallable(functions, 'getAllShops');
+        const result = await getAllShops({});
+        setShoplist(result.data.shops);
+        setLoading(false);
         }catch(err){
             console.error(err);
         }
@@ -37,33 +35,33 @@ useEffect(()=>{
 },[]);
 
 const [shopimage,setshopimage]=useState("");
-console.log(shopimage)
-useEffect(() => {
-  const setdisplay=async ()=>{
-      const extensions = ['.jpg', '.jpeg', '.png'];
-      const userShop = shoplist.find((shop) => shop.userid === currentUserId);
-      let exist = false; 
-      if (userShop){
-      setstorename(userShop.nameofshop);
-    
-          for (const ext of extensions){
-              
-              try {
-              const imagelistref=ref(storage,`Shop/${currentUserId}${ext}`);
-              const url = await getDownloadURL(imagelistref);
-              setshopimage(url);
-              exist = true;
-              break;
 
-              }catch(err){
-                console.log(err)
-              }
-            }
-      }  
+
+useEffect(() => {
+  const setDisplay = async () => {
+    const userShop = shoplist.find((shop) => shop.userid === currentUserId);
+    if (userShop) {
+      setstorename(userShop.nameofshop);
+      let exist = false;
+
+      try {
+        const functions = getFunctions();
+        const findShopImage = httpsCallable(functions, 'findShopImage');
+        const result = await findShopImage({ url: userShop.imageurl });
+        setshopimage(result.data.imageUrl);
+        exist = true;
+      } catch (err) {
+        console.error(err);
+      }
+
       setImageExits(exist);
-    };
-    setdisplay()
-    }, [shoplist, currentUserId]);
+    }
+  };
+
+  setDisplay();
+}, [shoplist, currentUserId]);
+  
+console.log("shopimage",shopimage);
 
  localStorage.setItem("shopname", storename);
 const uploadimage= async()=>{
@@ -89,7 +87,7 @@ const uploadimage= async()=>{
 
         if (loading){
           return (
-            <section>loading image...</section>
+            <section>loading...</section>
           );
         };
 

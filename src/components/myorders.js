@@ -77,9 +77,10 @@ export const MyOrders = () => {
   useEffect(() => {
     const fetchUserShopProducts = async () => {
       try {
-        const allShops = await getDocs(shopcollectionRef);
-        const userShop = allShops.docs.filter((doc) => doc.data().userid === currentUserId);
-
+        const functions = getFunctions();
+        const getAllShops = httpsCallable(functions, 'getAllShops');
+        const result = await getAllShops({});
+        const userShop=(result.data.shops).filter(shop => shop.userid === currentUserId);
         if (userShop.length > 0) {
           const shopId = userShop[0].id; // 1 shop per user
           const products = await getProductsInShop(shopId);

@@ -9,7 +9,7 @@ import { db } from "../config/firebase";
 import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 //Import the get products in a shop here. to update to get all products in all
 import { getProductsInShop } from "../components/myorders";
-
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Search tab for shops and products
 export function SearchTab({ query, setSearch }) {
@@ -130,26 +130,18 @@ export const Homepage = () => {
   // Fetch this logged in user's id from local storage.
   const currentUserID = localStorage.getItem("userid");
   // Fetching all the shop data
-  useEffect(() => {
-    const fetchShops = async () => {
-      try {
-        const shopsRef = collection(db, 'Shops'); // Referencing to Firestore 'Shops' collection
-        const data = await getDocs(shopsRef);
-
-        // Map the docs of each shop
-        const shopsData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-          shopid: doc.data().userid,
-          nameofshop: doc.data().nameofshop,
-          description: doc.data().description,
-        })).filter(shop => shop.userid !== currentUserID);;
-
-        setAllShops(shopsData); //Update array with all shops data
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);//Make sure that loading is set to false since data has loaded
+  useEffect(()=>{
+    const fetchShops= async()=>{
+        try{
+        const functions = getFunctions();
+        const getAllShops = httpsCallable(functions, 'getAllShops');
+        const result = await getAllShops({});
+        const shopsData=(result.data.shops).filter(shop => shop.userid !== currentUserID);
+        setAllShops(shopsData); 
+        }catch(err){
+            console.error('Error fetching shops:', err);
+        }finally {
+        setLoading(false);
       }
     };
     fetchShops();

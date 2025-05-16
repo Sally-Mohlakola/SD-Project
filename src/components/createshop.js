@@ -5,6 +5,7 @@ import { Link,useNavigate } from "react-router-dom";
 import { storage } from '../config/firebase';
 import {ref,uploadBytes} from "firebase/storage";
 import '../styles/createShop.css';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 export const Createshop=()=>{
 
 const navigate = useNavigate();
@@ -23,16 +24,10 @@ const [imageupload,setimageupload]=useState(null);
 useEffect(()=>{
     const getshoplist= async()=>{
         try{
-        const data=await getDocs(shopcollectionRef);
-        const filterddata = data.docs.map((doc) => ({
-           id:doc.id,
-            ...doc.data(), 
-            userid: doc.data().userid,
-            nameofshop: doc.data().nameofshop,
-            description: doc.data().description,
-            status: doc.data().status
-          }));
-        setShoplist(filterddata);
+                const functions = getFunctions();
+        const getAllShops = httpsCallable(functions, 'getAllShops');
+        const result = await getAllShops({});
+        setShoplist(result.data.shops);
         }catch(err){
             console.error(err);
         }
@@ -49,9 +44,10 @@ const userShop = shoplist.find((shop) => shop.userid === currentUserId);
             return;
           }
           const extension = imageupload.name.split('.').pop();
-           const imageref=ref(storage,`Shop/${currentUserId}.${extension}`);
+          const path=`${currentUserId}.${extension}`;
+           const imageref=ref(storage,`Shop/${path}`);
            uploadBytes(imageref,imageupload);
-           await addDoc(shopcollectionRef,{userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category})
+           await addDoc(shopcollectionRef,{userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category,imageurl:path})
             
           }catch(err){
           console.error(err);
