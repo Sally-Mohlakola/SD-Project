@@ -55,20 +55,51 @@ export const Auth=()=>{
             }
     };
 
-return (
-      <section className='signup-section'>
-        <section className='sidebar'>
-          <h2>Crafts&Grain</h2>
-          <p>Discover unique handmade goods, fresh local produce, and one-of-a-kind treasures at our artisanal market, where creativity and craftsmanship come together in every shop.</p>
-        </section>
-        <section className='signup-article'>
-          <h1>Sign in</h1>
-          <button type="button" className="google-button" onClick={signInGoogle}>
-               <i className="fa-brands fa-google"></i> Sign in with Google
-             </button>
-        </section>
+  // Scroll fade effect state
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const windowHeight = window.innerHeight;
+  const progress = Math.min(scrollY / windowHeight, 1);
+
+  return (
+    <section>
+      <section
+        className="landing"
+        style={{
+          opacity: 1 - progress,
+          transform: `translateY(${-progress * 50}px)`,
+          pointerEvents: progress === 1 ? 'none' : 'auto',
+        }}
+      >
+        <h1 className='glow-title'>Crafts&Grain</h1>
+        <p>local excellency.</p>
+        <section className='scroll'><p>↓</p></section>
       </section>
-    );
+
+      <section
+        className="sign-in"
+        style={{
+          opacity: progress,
+          transform: `translateY(${(1 - progress) * 50}px)`,
+          pointerEvents: progress === 0 ? 'none' : 'auto',
+        }}
+      >
+        <h2>Crafts&Grain</h2>
+        <p className='desc-section'>Explore a curated collection of unique, handcrafted goods and fresh local flavors.</p>
+        <p className='desc-section'>Our online artisanal market connects you directly with passionate creators, bringing the heart of craftsmanship and community right to your doorstep. </p>
+        
+        <button className="google-button" onClick={signInGoogle}>
+          <i className="fa-brands fa-google"></i> Sign in with Google
+        </button>
+      </section>
+</section>
+  );
 
 }//export
 
