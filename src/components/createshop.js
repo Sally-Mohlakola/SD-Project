@@ -34,25 +34,39 @@ useEffect(()=>{
     };
     getshoplist();
 },[]);
+
+    const toBase64 = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file); // This gives us base64
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+
 //Once the user creates a shop send it to admin
 const userShop = shoplist.find((shop) => shop.userid === currentUserId);
     const sendtoadmin= async()=>{
         try{
-          // If all fields are not filled in, don't submit te shop
+          // If all fields are not filled in, don't submit the shop
           if (!imageupload || !newshopname || !newshopdescription || !category ){
             alert('Please complete all fields before submitting ');
             return;
           }
+          const base64Image = await toBase64(imageupload);
           const extension = imageupload.name.split('.').pop();
-          const path=`${currentUserId}.${extension}`;
-           const imageref=ref(storage,`Shop/${path}`);
-           uploadBytes(imageref,imageupload);
-           await addDoc(shopcollectionRef,{userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category,imageurl:path})
-            
-          }catch(err){
+          const functions = getFunctions();
+          const createShop = httpsCallable(functions, 'createShop'); 
+          const result = await createShop({userid:currentUserId,nameofshop:newshopname,description:newshopdescription,status:"Awaiting",category:category,image: base64Image.split(',')[1],ext:extension});
+        if (result){
+          setSubmitted(true); 
+        }  
+        else{
+          setSubmitted(true); 
+          alert("not submitted due to some internal error");
+        }
+        }catch(err){
           console.error(err);
           };
-          setSubmitted(true); 
+          
         
         };
         //Prevent shops with Duplicate names

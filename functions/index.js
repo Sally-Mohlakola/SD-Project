@@ -237,3 +237,42 @@ exports.findShopImage = onCall(async (request) => {
     );
   }
 });
+exports.createShop = onCall(async (request) => {
+  const data = request.data;
+  const { userid, nameofshop, description, status, category, image, ext } = data;
+
+  const filePath = `Shop/${userid}.${ext}`;
+  const bucket = admin.storage().bucket();
+  const file = bucket.file(filePath);
+
+  try {
+    const buffer = Buffer.from(image, "base64"); // Just decode the image we encoded
+    await file.save(buffer, {
+      metadata: {
+        contentType: `image/${ext}`,
+      },
+      public: false,
+    });
+
+    const shopData = {
+      userid,
+      nameofshop,
+      description,
+      status,
+      category,
+      imageurl: `${userid}.${ext}`,
+    };
+
+    const db = admin.firestore();
+    await db.collection("Shops").add(shopData);
+
+    return { success: true, message: "Shop submitted successfully!" };
+  } catch (error) {
+    console.error("Error submitting shop:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to submit shop.",
+      error.message
+    );
+  }
+});
