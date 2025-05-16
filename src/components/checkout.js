@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import '../styles/checkout.css';
 
 export const Checkout = () => {
   const navigate = useNavigate();
@@ -50,16 +50,17 @@ export const Checkout = () => {
     }
   };
   return (
-    <section>
-      <h1>Checkout</h1>
+    <section className="checkout-wrapper">
+      <section className='checkout-section'>
+        <section className='checkout-section'><h1>Checkout</h1></section>
       {mycart.length > 0 ? (
         mycart.map((item, index) => (
-          <section key={index}>
+          <section className='product' key={index}>
             <p>Name: {item.name}</p>
             <p>Description: {item.itemdescription}</p>
             <p>Price: {item.price * item.quantity}</p>
             <p>Quantity: {item.quantity}</p>
-            <button onClick={() => removeFromCart(index)}>Remove from cart</button>
+            <button className="remove-button" onClick={() => removeFromCart(index)}>Remove from cart</button>
           </section>
         ))
       ) : (
@@ -67,16 +68,18 @@ export const Checkout = () => {
       )}
 
       {mycart.length > 0 && (
-        <section>
-          <h2>Total Cost: R{totalcost}</h2>
-          <h2>Total number of items: {numofitems}</h2>
+        <section className='cartSum-section'>
+          <section className='summary'><h2>Total Cost: R{totalcost}</h2></section>
+          <section className='summary'><h2>Total number of items: {numofitems}</h2></section>
+    
         </section>
       )}
 
-      <button onClick={backtoshops}>Back</button>
+      <button className='back-button' onClick={backtoshops}>Back</button>
       {mycart.length > 0 && (
-        <button onClick={handleCheckout}  style={{ marginBottom: '20px' }}>Proceed to Checkout</button>
+        <button  className='proceed-button' onClick={handleCheckout} >Proceed to Checkout</button>
       )}
+    </section>
     </section>
   );
 };
