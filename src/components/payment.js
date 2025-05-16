@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import {PaystackButton} from "react-paystack";
+import'../styles/payment.css'
 import {useLocation, useNavigate} from "react-router-dom";
 import {GoogleMap, Marker, Autocomplete, useJsApiLoader} from '@react-google-maps/api';
 
@@ -11,7 +12,7 @@ export const Payment = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY; // put in env file later
+  const publicKey = "pk_test_d444ad0b1ed380cbe61ce1d4d0b8804a3b6abb17"; // put in env file later
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [address, setAddress] = useState('');
@@ -30,7 +31,7 @@ export const Payment = () => {
   // Google Maps configuration, move to CSS
   const containerStyle = {
     width: '100%',
-    height: '300px'
+    height: '65vh'
   };
 
   const {isLoaded: isGoogleMapsLoaded, loadError} = useJsApiLoader({
@@ -191,7 +192,6 @@ export const Payment = () => {
       alert("Thank you! Your payment was successful.");
       window.location.href = '/homepage';
       sessionStorage.removeItem("cart_items");
-      //getOrders();
     },
     onClose: () => alert("You have exited the payment process. No charges were made."),
   };
@@ -206,7 +206,7 @@ export const Payment = () => {
   }
 
   return (
-    <>
+    <section className="Outer">
       <section className="section_map">
         <h2>Select Delivery Location</h2>
         <Autocomplete
@@ -223,6 +223,7 @@ export const Payment = () => {
         </Autocomplete>
 
         <GoogleMap
+        mapContainerClassName="google-map"
           mapContainerStyle={containerStyle}
           center={currentLocation}
           zoom={15}
@@ -237,7 +238,8 @@ export const Payment = () => {
               }}/>
           )}
         </GoogleMap>
-
+        
+        
         {selectedLocation ? (
           <p><strong>Selected Address:</strong> {address}</p>
         ) : (
@@ -269,7 +271,7 @@ export const Payment = () => {
         <button className="back-btn" onClick={navigateCheckout}>Back to Checkout</button>
         </section>
       </section>
-    </>
+    </section>
   );
 };
 
