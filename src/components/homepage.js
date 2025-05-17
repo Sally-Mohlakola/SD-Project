@@ -98,6 +98,8 @@ export const Homepage = () => {
   const hvchosenshop = sessionStorage.getItem("chosenshop");
   const [priceFilter, setPriceFilter] = useState("");//used for price filtering
   const [goingback, setgoingback] = useState(false);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+
 
   // Allow user to go to see cart items
   useEffect(() => {
@@ -148,24 +150,28 @@ export const Homepage = () => {
   }, []);
 
   //Once a user choses a shop, look through the products of that shop
-  useEffect(() => {
-  if (chosenShop) {
-    const fetchProducts = async () => {
+
+useEffect(() => {
+  const fetchProducts = async () => {
+    if (chosenShop && chosenShop.id) {
+      setLoadingProducts(true); // start loading
       try {
-        console.log("Chosen shop ID", chosenShop.id)
-        const functions = getFunctions(); 
-        const getProductsInShop = httpsCallable(functions, "getProductsInShop"); 
-        const response = await getProductsInShop({shopid: chosenShop.id}); 
+        const functions = getFunctions();
+        const getProductsInShop = httpsCallable(functions, "getProductsInShop");
+        const response = await getProductsInShop({ shopid: chosenShop.id });
         setAllProducts(response.data);
       } catch (error) {
-        console.error("Error fetching products for the shopID using the cloud functions", chosenShop.id);
+        console.error("Error fetching products via cloud function:", error);
         setAllProducts([]);
+      } finally {
+        setLoadingProducts(false); // done loading
       }
-    };
+    }
+  };
 
-    fetchProducts();
-  }
+  fetchProducts();
 }, [chosenShop]);
+
 
 
   const actionEnterShop = (shop) => {
@@ -269,81 +275,106 @@ export const Homepage = () => {
 
 
       {/* Show the products when a shop is selected and call filterProduct since it preps AllProducts for search */}
-      {chosenShop && (<>
-        <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
-        <FilterPrice query={priceFilter} setPrice={setPriceFilter} />
-        <h2>Artisanal works of {chosenShop.nameofshop}</h2>
+      {chosenShop && (
+  <>
+    <SearchTab query={search} setSearch={setSearch} />
+    <FilterPrice query={priceFilter} setPrice={setPriceFilter} />
+    <h2>Artisanal works of {chosenShop.nameofshop}</h2>
 
-        <p>Total number of products in shop: {filterProduct.length}</p>
-        {/* Show the filtered products here, images will also go here */}
-        <section className="product-listing-to-buy-view">
-          {filterProduct.length > 0 ? (
-            filterProduct
-              //filter products by price
-              .filter((product) => {
-                if (priceFilter === "under50" && product.price < 50 !== 0) {
-                  return product.price < 50;
-                } else if (priceFilter === "50to100" && product.price < 100 !== 0) {
-                  return product.price >= 50 && product.price <= 100;
-                } else if (priceFilter === "above100" && product.price >= 100 !== 0) {
-                  return product.price > 100;
-                }
-                else {
-                  return <p>No products</p>
-                }
+    {/* ✅ Wait for loading to finish before showing total */}
+    {!loadingProducts && (
+      <p>Total number of products in shop: {filterProduct.length}</p>
+    )}
 
-                return true; // No filter applied === "All prices"
-              })
-              .map((product) => (
-                <article key={product.id}>
-                  <h3>{product.name}</h3>
-                  <p>{product.itemdescription}</p>
-                  <p>Price: R{product.price}</p>
+    {/* Load products when fetching to prevent flickering of changes */}
+    {loadingProducts ? (
+      <p>Loading products...</p>
+    ) : (
 
-                  {product.id === itemimadding ? (
-                    <section>
-                      <p>
-                        <input type="number" min="1" max="999" onChange={(e) => setQuantity(e.target.value)}></input>
-                      </p>
-                      <button type="submit" onClick={() => {
+      <section className="product-listing-to-buy-view">
+        {filterProduct.length > 0 ? (
+          filterProduct
+            .filter((product) => {
+              if (priceFilter === "under50") {
+                return product.price < 50;
+              } else if (priceFilter === "50to100") {
+                return product.price >= 50 && product.price <= 100;
+              } else if (priceFilter === "above100") {
+                return product.price > 100;
+              }
+              return true;
+            })
+            .map((product) => (
+              <article key={product.id}>
+                <h3>{product.name}</h3>
+                <p>{product.itemdescription}</p>
+                <p>Price: R{product.price}</p>
+
+                {product.id === itemimadding ? (
+                  <section>
+                    <p>
+                      <input
+                        type="number"
+                        min="1"
+                        max="999"
+                        onChange={(e) => setQuantity(e.target.value)}
+                      />
+                    </p>
+                    <button
+                      type="submit"
+                      onClick={() => {
                         if (!quantity || quantity <= 0 || quantity >= 1000) {
-                          alert("Please add a valid quantity ");
-                        }
-                        else {
-                          AddtoCart(product.id, product.name, product.itemdescription, product.price, quantity);
+                          alert("Please add a valid quantity");
+                        } else {
+                          AddtoCart(
+                            product.id,
+                            product.name,
+                            product.itemdescription,
+                            product.price,
+                            quantity
+                          );
                           setitemimadding(null);
                         }
-                      }}>Add To Cart</button>
-                    </section>
-                  ) : (
-                    <button onClick={() => {
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+                  </section>
+                ) : (
+                  <button
+                    onClick={() => {
                       setitemimadding(product.id);
-                      console.log('productid', product.id);
-                    }
-                    }>Buy</button>)}
+                    }}
+                  >
+                    Buy
+                  </button>
+                )}
+              </article>
+            ))
+        ) : (
+          <p>No artisanal products.</p>
+        )}
 
-                </article>
-              ))
-          ) : (
-            <p>No artisanal products.</p>
-          )}
-
-          <button onClick={() => {
-            if (!cartitems.length == 0) {
-              const result = window.confirm("Going back to stores will clear your cart ,Are you sure you want to proceed?");
+        <button
+          onClick={() => {
+            if (cartitems.length !== 0) {
+              const result = window.confirm(
+                "Going back to stores will clear your cart. Are you sure you want to proceed?"
+              );
               if (result) {
                 goBackToDefaultHomePageView();
               }
-
-            }
-            else {
+            } else {
               goBackToDefaultHomePageView();
             }
-          }} >Back</button>
-        </section>
-      </>
-      )
-      }
+          }}
+        >
+          Back
+        </button>
+      </section>
+    )}
+  </>
+)}
 
      
 
