@@ -6,7 +6,6 @@
  *
  * See a full list of supported triggers at https://firebase.google.com/docs/functions
  */
-
 // const {onRequest} = require("firebase-functions/v2/https");
 // const logger = require("firebase-functions/logger");
 
@@ -301,3 +300,59 @@ exports.getProductsInShop = onCall(async (request) => {
     );
   }
 });
+const express = require("express");
+const multer = require("multer");
+const cors = require("cors");
+const { v4: uuidv4 } = require("uuid");
+const { onRequest } = require("firebase-functions/v2/https");
+
+const app = express();
+const upload = multer({ storage: multer.memoryStorage() });
+
+app.use(cors({ origin: true }));
+
+// Required because you're using admin.storage()
+const storage = admin.storage().bucket();
+
+app.post("/addProduct", upload.single("image"), async (req, res) => {
+  try {
+    const { itemName, itemdescription, price, quantity, shopid } = req.body;
+
+    if (!itemName || !itemdescription || !price || !quantity || !shopid || !req.file) {
+      return res.status(400).send({ error: "Missing fields" });
+    }
+
+    const file = req.file;
+    const uniqueName = uuidv4() + "-" + file.originalname;
+    const fileUpload = storage.file(`products/${uniqueName}`);
+
+    await fileUpload.save(file.buffer, {
+      metadata: {
+        contentType: file.mimetype,
+      },
+    });
+
+    const [url] = await fileUpload.getSignedUrl({
+      action: "read",
+      expires: "03-01-2030",
+    });
+
+    await db.collection("Shops").doc(shopid).collection("Products").add({
+      name: itemName,
+      itemdescription,
+      price: Number(price),
+      quantity: Number(quantity),
+      sold: 0,
+      imageURL: url,
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    return res.status(200).send({ success: true, message: "Product added!" });
+  } catch (error) {
+    console.error("Upload failed:", error);
+    return res.status(500).send({ error: "Internal server error" });
+  }
+});
+
+// Export Express API as Firebase Function
+exports.api = onRequest(app);
