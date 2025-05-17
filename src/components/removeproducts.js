@@ -60,7 +60,7 @@ navigate('/displayproducts');
 
     return(
         <section className="Wrap">
-        <section className="Blur"></section>
+        
 
             <section className="Popup">
             <h1>Do you want to remove "{Item}"</h1>
