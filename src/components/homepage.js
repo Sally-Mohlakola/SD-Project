@@ -149,14 +149,24 @@ export const Homepage = () => {
 
   //Once a user choses a shop, look through the products of that shop
   useEffect(() => {
-    if (chosenShop) {
-      const fetchProducts = async () => {
-        const products = await getProductsInShop(chosenShop.id);
-        setAllProducts(products); //Set the products for the chosenShop
-      };
-      fetchProducts();
-    }
-  }, [chosenShop]);
+  if (chosenShop) {
+    const fetchProducts = async () => {
+      try {
+        console.log("Chosen shop ID", chosenShop.id)
+        const functions = getFunctions(); 
+        const getProductsInShop = httpsCallable(functions, "getProductsInShop"); 
+        const response = await getProductsInShop({shopid: chosenShop.id}); 
+        setAllProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products for the shopID using the cloud functions", chosenShop.id);
+        setAllProducts([]);
+      }
+    };
+
+    fetchProducts();
+  }
+}, [chosenShop]);
+
 
   const actionEnterShop = (shop) => {
     setChosenShop(shop); //Set the chosenShop by clicking "Enter Shop" button

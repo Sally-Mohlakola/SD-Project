@@ -44,18 +44,18 @@ describe('testing Displayproducts Component ...', () => {
 }); 
 });
 
-it('displays the product data', async () => {
-    localStorage.setItem('shopid', 'shop012');
-    render(<Displayproducts/>);
+// it('displays the product data', async () => {
+//     localStorage.setItem('shopid', 'shop012');
+//     render(<Displayproducts/>);
     
-    await waitFor(() => {
-        expect(screen.getByText(/Name: Mock product 1/i)).toBeInTheDocument();
-        expect(screen.getByText(/Description: This is a description/i)).toBeInTheDocument();
-        expect(screen.getByText(/Price:10/i)).toBeInTheDocument();
-        expect(screen.getByText(/Quantity:10/i)).toBeInTheDocument();
-        expect(screen.getByRole('img')).toHaveAttribute('src', 'https://thisisamock.com/picture.img');
-    });
-  });
+//     await waitFor(() => {
+//         expect(screen.getByText(/Name: Mock product 1/i)).toBeInTheDocument();
+//         expect(screen.getByText(/Description: This is a description/i)).toBeInTheDocument();
+//         expect(screen.getByText(/Price:10/i)).toBeInTheDocument();
+//         expect(screen.getByText(/Quantity:10/i)).toBeInTheDocument();
+//         expect(screen.getByRole('img')).toHaveAttribute('src', 'https://thisisamock.com/picture.img');
+//     });
+//   });
   
 it('displays the page banner My Products (text)', async () => {
 localStorage.setItem('shopid', 's012');

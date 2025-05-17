@@ -22,8 +22,12 @@
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const { onCall } = require("firebase-functions/v2/https");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 admin.initializeApp();
+
+const db = admin.firestore();
+
+const logger = console;
 
 exports.getOrders = functions.https.onCall(async (data, context) => {
   try {
@@ -74,8 +78,8 @@ exports.getShopsForAdmin = functions.https.onCall(async (data, context) => {
 
 
 exports.createOrder = onCall(async (data, context) => {
-  //const data = request.data;
-  //const context = request;  // context.auth is available on request.auth
+  // const data = request.data;
+  // const context = request;  // context.auth is available on request.auth
 
   // if (!context.auth) {
   //   throw new HttpsError("unauthenticated", "Authentication required");
@@ -260,6 +264,39 @@ exports.createShop = onCall(async (request) => {
     throw new functions.https.HttpsError(
       "internal",
       "Failed to submit shop.",
+      error.message
+    );
+  }
+});
+
+
+exports.getProductsInShop = onCall(async (request) => {
+  const { shopid } = request.data;
+
+  if (!shopid) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Missing or invalid 'shopid' parameter."
+    );
+  }
+
+  try {
+    const db = admin.firestore();
+    const productsRef = db.collection("Shops").doc(shopid).collection("Products");
+    const snapshot = await productsRef.get();
+
+    const allProducts = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return allProducts;
+
+  } catch (error) {
+    console.error("ERROR getting products: ", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to get products from shop.",
       error.message
     );
   }
