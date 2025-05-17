@@ -1,103 +1,132 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    max-width: fit-content;
-    max-height: fit-content;
-    display: flex;
-  }
-  
-  .signup-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-width: 100vw;
-    min-height: 100vh;
-    background: url('https://images.unsplash.com/photo-1597696929736-6d13bed8e6a8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-    padding: 20px;
-  }
+html, body {
+  scroll-behavior: smooth;
+  margin: 0; padding: 0;
+  height: 200vh; 
+  overflow-x: hidden;
+  background: url('https://images.unsplash.com/photo-1597696929736-6d13bed8e6a8?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  
-  .signup-article {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 40px 30px;
+.landing, .sign-in {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  background: rgba(100, 71, 71, 0.7);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: opacity, transform;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.landing h1 {
+  font-family: 'Brush Script MT', cursive;
+  font-size: 4rem;
+  margin: 0 0 1rem 0;
+}
+
+.landing p {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.sign-in h1 {
+  font-family: 'Gill Sans', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #121212;
+  background: rgba(255 255 255 / 0.7);
+  padding: 1rem 2rem;
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  width: 340px;
-  text-align: center;
-  align-self: center;
-  transition: transform 0.3s ease-in-out;
 }
 
-.signup-article:hover {
-  transform: scale(1.02);
-}
-  
-  .signup-article h1 {
-    color: #121212;
-    font-size: 30px;
-    font-family:'Gill Sans', sans-serif;
-    margin-bottom: 30px;
-  }
-  
-  .google-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-
-  width: 100%;
-  padding: 12px;
+.google-button {
+  font-size: 1.2rem;
+  font-weight: bold;
   background-color: #5e4c36;
-  color: white;
   border: none;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 1rem 2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-  
-  
-.google-button i {
-  font-size: 18px;
+  color: white;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .google-button:hover {
   background-color: #3a2f1d;
 }
 
-.sidebar {
-    flex: 1;
-    color: white;
-    font-size: 20px;
-    text-align: left;
-    padding: 20px;
-    background: rgba(100, 71, 71, 0.556); 
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    height: 38vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
+.desc-section {
+  max-width: 600px;
+  margin: 1rem auto;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #ffffff; 
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(94, 76, 54, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  transition: background-color 0.3s ease;
 }
 
-.sidebar h2 {
-    font-size: 28px;
-    font-family: 'Brush Script MT', cursive;
-    color: #f5f5f5;
-    margin-bottom: 130px;
-    font-size: 50px;
+.desc-section:hover {
+  background: rgba(255, 255, 255, 0.142);
+  box-shadow: 0 6px 18px rgba(94, 76, 54, 0.3);
+  cursor: default;
 }
 
-.sidebar p {
-    color: #e0e0e0;
-    line-height: 1.5;
-    margin-bottom: -50px;
-    margin-left: -220px;
+.scroll {
+  position: fixed;
+  bottom: 20px;        
+  left: 42%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  cursor: default;
+  animation: bounce 2s infinite;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+.arrow {
+  font-size: 1.5rem;
+}
+
+.glow-title {
+  font-size: 4rem;
+  font-family: 'Brush Script MT', cursive;
+  color: white;
+  transition: text-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.glow-title:hover {
+  text-shadow: 0 0 10px #fff, 0 0 20px #f7c8a0, 0 0 30px #ffddb0;
+  transform: scale(1.05);
 }

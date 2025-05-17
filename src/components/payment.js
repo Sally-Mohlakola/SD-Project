@@ -1,11 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
-import { PaystackButton } from "react-paystack";
-import { useLocation, useNavigate } from "react-router-dom";
-import { GoogleMap, Marker, Autocomplete, useJsApiLoader } from '@react-google-maps/api';
-import { getFunctions, httpsCallable } from "firebase/functions";
-import { getApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-
+import React, {useState, useEffect, useRef} from "react";
+import {PaystackButton} from "react-paystack";
+import {useLocation, useNavigate} from "react-router-dom";
+import {GoogleMap, Marker, Autocomplete, useJsApiLoader} from '@react-google-maps/api';
 
 export const Payment = () => {
   const cart = sessionStorage.getItem("cart_items");
@@ -19,7 +15,7 @@ export const Payment = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY;
+  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY; // put in env file later
 
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [address, setAddress] = useState('');
@@ -31,7 +27,7 @@ export const Payment = () => {
 
   const containerStyle = {
     width: '100%',
-    height: '300px'
+    height: '65vh'
   };
 
   const { isLoaded: isGoogleMapsLoaded, loadError } = useJsApiLoader({
@@ -171,43 +167,11 @@ export const Payment = () => {
     publicKey,
     text: "Make payment",
     currency: "ZAR",
-    onSuccess: async () => {
-      try {
-
-          const auth = getAuth();
-          const user = auth.currentUser;
-          onAuthStateChanged(auth, (user) => {
-         if (user) {
-            console.log("User is signed in:", user.uid);
-        } else {
-            console.log("User is not signed in.");
-          }
-});
-      console.log(auth.currentUser)
-    if (!user) {
-      console.log("User must sign in before placing order");
-      return;
-    }
-
-        const functions = getFunctions(getApp());
-        const createOrder = httpsCallable(functions, "createOrder");
-
-  
-        await createOrder({
-          userid: user.uid,
-          address: address,
-          nameofshop: chosenShop,
-          cart_items: parsedCart,
-        });
-
-        alert("Thank you! Your payment was successful and your order has been placed.");
-        sessionStorage.removeItem("cart_items");
-        window.location.href = '/homepage';
-      } catch (error) {
-        alert(JSON.stringify(parsedCart, null, 2));
-        console.error("Order creation error:", error);
-        alert("Order processing error. Please contact support");
-      }
+    onSuccess: () => {
+      alert("Thank you! Your payment was successful.");
+      window.location.href = '/homepage';
+      sessionStorage.removeItem("cart_items");
+      //getOrders();
     },
     onClose: () => alert("You have exited the payment process. No charges were made."),
   };
@@ -216,7 +180,7 @@ export const Payment = () => {
   if (!isGoogleMapsLoaded || loadingLocation) return <section className="loading">Loading ...</section>;
 
   return (
-    <>
+    <section className="Outer">
       <section className="section_map">
         <h2>Select Delivery Location</h2>
         <Autocomplete
@@ -233,6 +197,7 @@ export const Payment = () => {
         </Autocomplete>
 
         <GoogleMap
+        mapContainerClassName="google-map"
           mapContainerStyle={containerStyle}
           center={currentLocation}
           zoom={15}
@@ -250,7 +215,8 @@ export const Payment = () => {
             />
           )}
         </GoogleMap>
-
+        
+        
         {selectedLocation ? (
           <p><strong>Selected Address:</strong> {address}</p>
         ) : (
@@ -298,6 +264,6 @@ export const Payment = () => {
           </button>
         </section>
       </section>
-    </>
+    </section>
   );
 };
