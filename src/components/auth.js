@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 import React, { useEffect, useState } from 'react'
 import '../styles/SignUp.css';
-
 import {db} from "../config/firebase";
 import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
 

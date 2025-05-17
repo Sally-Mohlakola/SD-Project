@@ -22,7 +22,7 @@
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const {onCall} = require("firebase-functions/v2/https");
+const { onCall } = require("firebase-functions/v2/https");
 admin.initializeApp();
 
 exports.getOrders = functions.https.onCall(async (data, context) => {
@@ -30,25 +30,25 @@ exports.getOrders = functions.https.onCall(async (data, context) => {
     const ordersSnapshot = await admin.firestore().collection("Orders").get();
 
     const orders = await Promise.all(
-        ordersSnapshot.docs.map(async (doc) => {
-          const productsSnapshot = await doc.ref.collection("Products").get();
-          const products = productsSnapshot.docs.map(
-              (itemDoc) => itemDoc.data());
+      ordersSnapshot.docs.map(async (doc) => {
+        const productsSnapshot = await doc.ref.collection("Products").get();
+        const products = productsSnapshot.docs.map(
+          (itemDoc) => itemDoc.data());
 
-          return {
-            orderid: doc.id,
-            ...doc.data(),
-            products: products,
-          };
-        }),
+        return {
+          orderid: doc.id,
+          ...doc.data(),
+          products: products,
+        };
+      }),
     );
 
-    return {orders};
+    return { orders };
   } catch (error) {
     console.error("Error getting orders:", error);
     throw new functions.https.HttpsError(
-        "internal",
-        "Error fetching order data",
+      "internal",
+      "Error fetching order data",
     );
   }
 });
@@ -62,60 +62,50 @@ exports.getShopsForAdmin = functions.https.onCall(async (data, context) => {
       ...doc.data(),
     }));
 
-    return {shops};
+    return { shops };
   } catch (error) {
     console.error("Error getting shops:", error);
     throw new functions.https.HttpsError(
-        "internal",
-        "Error fetching shop data",
+      "internal",
+      "Error fetching shop data",
     );
   }
 });
-const db = admin.firestore();
 
-exports.createOrder = functions.https.onCall(async (data, context) => {
-  // Verify authentication
-  if (!context.auth) {
-    throw new functions.https.HttpsError("unauthenticated", "Authentication required");
-  }
 
-  // Validate required fields
+exports.createOrder = onCall(async (data, context) => {
+  //const data = request.data;
+  //const context = request;  // context.auth is available on request.auth
+
+  // if (!context.auth) {
+  //   throw new HttpsError("unauthenticated", "Authentication required");
+  // }
+
   if (!data.address || !data.nameofshop || !data.userid || !data.cart_items) {
-    throw new functions.https.HttpsError(
-        "invalid-argument",
-        "Missing required order data",
-    );
+    throw new HttpsError("invalid-argument", "Missing required order data");
   }
 
-  // Verify user matches auth context
-  if (data.userid !== context.auth.uid) {
-    throw new functions.https.HttpsError(
-        "permission-denied",
-        "User ID mismatch",
-    );
-  }
+  // if (data.userid !== context.auth.uid) {
+  //   throw new HttpsError("permission-denied", "User ID mismatch");
+  // }
 
   try {
-    // Create order document
     const orderData = {
       address: data.address,
       nameofshop: data.nameofshop,
-      status: data.status || "Pending",
+      status: data.status || "Ordered",
       userid: data.userid,
-
     };
 
     const orderRef = await db.collection("Orders").add(orderData);
 
-    // Add products subcollection
     const batch = db.batch();
     data.cart_items.forEach((item) => {
       const productRef = orderRef.collection("Products").doc();
       batch.set(productRef, {
-        nameofitem: item.nameofitem,
-        price: parseFloat(item.price),
-        quantity: parseInt(item.quantity),
-
+        name: item.name,
+        price: Number(item.price),
+        quantity: Number(item.quantity),
       });
     });
 
@@ -127,45 +117,43 @@ exports.createOrder = functions.https.onCall(async (data, context) => {
       message: "Order created successfully",
     };
   } catch (error) {
-    console.error("Order creation failed:", error);
-    throw new functions.https.HttpsError(
-        "internal",
-        "Order creation failed",
-        error.message,
-    );
+    logger.error("Order creation failed:", error);
+    throw new HttpsError("internal", "Order creation failed", error.message);
   }
 });
+
+
 exports.getAllShops = functions.https.onCall(async (data, context) => {
   try {
     const shopsSnapshot = await admin.firestore().collection("Shops").get();
 
     const shops = await Promise.all(
-        shopsSnapshot.docs.map(async (doc) => {
-          const productsSnapshot = await doc.ref.collection("Products").get();
-          const products = productsSnapshot.docs.map(
-              (itemDoc) => itemDoc.data());
+      shopsSnapshot.docs.map(async (doc) => {
+        const productsSnapshot = await doc.ref.collection("Products").get();
+        const products = productsSnapshot.docs.map(
+          (itemDoc) => itemDoc.data());
 
-          return {
-            id: doc.id,
-            ...doc.data(),
-            products: products,
-          };
-        }),
+        return {
+          id: doc.id,
+          ...doc.data(),
+          products: products,
+        };
+      }),
     );
 
-    return {shops};
+    return { shops };
   } catch (error) {
     console.error("Error getting shops:", error);
     throw new functions.https.HttpsError(
-        "internal",
-        "Error fetching order data",
+      "internal",
+      "Error fetching order data",
     );
   }
 });
 
-exports.deleteShop= onCall(async (request) => {
+exports.deleteShop = onCall(async (request) => {
   const data = request.data;
-  const {shopId, userId, url} = data;
+  const { shopId, userId, url } = data;
 
   console.log(`shopid: ${shopId}`);
   console.log(`userid: ${userId}`);
@@ -186,7 +174,7 @@ exports.deleteShop= onCall(async (request) => {
       await file.delete();
       console.log(`Deleted image: ${filePath}`);
     }
-    return {success: true, message: "Shop and image deleted successfully."};
+    return { success: true, message: "Shop and image deleted successfully." };
   } catch (error) {
     console.error("Error deleting shop/image:", error);
     throw new functions.https.HttpsError("internal", "Failed to delete shop or image.");
@@ -194,7 +182,7 @@ exports.deleteShop= onCall(async (request) => {
 });
 exports.findShopImage = onCall(async (request) => {
   const data = request.data;
-  const {url} = data;
+  const { url } = data;
   console.log("Received url:", data.url);
   try {
     const storage = admin.storage().bucket();
@@ -216,11 +204,11 @@ exports.findShopImage = onCall(async (request) => {
 
     if (!imageUrl) {
       throw new functions.https.HttpsError(
-          "not-found",
-          "No shop image found for this user.",
+        "not-found",
+        "No shop image found for this user.",
       );
     }
-    return {imageUrl}; // Return as object 
+    return { imageUrl }; // Return as object 
   } catch (error) {
     console.error("Error fetching shop image:", error);
 
@@ -229,11 +217,11 @@ exports.findShopImage = onCall(async (request) => {
       throw error; // Re-throw existing Firebase errors
     }
 
-   
+
     throw new functions.https.HttpsError(
-        "internal",
-        "Failed to retrieve shop image.",
-        error.message,
+      "internal",
+      "Failed to retrieve shop image.",
+      error.message,
     );
   }
 });
