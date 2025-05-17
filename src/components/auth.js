@@ -78,7 +78,7 @@ export const Auth=()=>{
       >
         <h1 className='glow-title'>Crafts&Grain</h1>
         <p>local excellency.</p>
-        <section className='scroll'><p>↓</p></section>
+        <section className='scroll'><p className='scroll'>↓</p></section>
       </section>
 
       <section
