@@ -116,7 +116,7 @@ html, body {
 }
 
 .arrow {
-  font-size: 1.5rem;
+  font-size: 3.5rem !important;
 }
 
 .glow-title {
