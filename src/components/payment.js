@@ -8,7 +8,7 @@ export const Payment = () => {
   const parsedCart = JSON.parse(cart || "[]");
   const location = useLocation();
   const navigate = useNavigate();
-  const auth = getAuth();
+  //const auth = getAuth();
   //const user = auth.currentUser;
   console.log( "https://us-central1-sd-database-19b80.cloudfunctions.net/createOrder");
   const [email, setEmail] = useState("");
