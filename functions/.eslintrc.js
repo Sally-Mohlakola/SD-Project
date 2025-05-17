@@ -30,7 +30,9 @@ module.exports = {
       env: {
         mocha: true,
       },
-      rules: {},
+     rules: {
+  "linebreak-style": 0 // disables the LF/CRLF rule
+},
     },
   ],
   globals: {},

@@ -6,17 +6,16 @@ import {GoogleMap, Marker, Autocomplete, useJsApiLoader} from '@react-google-map
 export const Payment = () => {
   const cart = sessionStorage.getItem("cart_items");
   const parsedCart = JSON.parse(cart || "[]");
-  const location = useLocation();
+
   const navigate = useNavigate();
-  //const auth = getAuth();
-  //const user = auth.currentUser;
-  console.log( "https://us-central1-sd-database-19b80.cloudfunctions.net/createOrder");
+ 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY; // put in env file later
+  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY; 
 
+  const location = useLocation();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [address, setAddress] = useState('');
   const [currentLocation, setCurrentLocation] = useState(null);
