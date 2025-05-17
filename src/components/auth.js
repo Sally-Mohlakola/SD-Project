@@ -40,7 +40,7 @@ export const Auth=()=>{
                 const userEmail = user.email;
               localStorage.setItem("userEmail",userEmail);
 
-            
+            window.scrollTo(0,0);
               if (adminEmail.includes(user.email)) {
                 navigate('/admin');  // Navigate to the admin dashboard
               } else {
