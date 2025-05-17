@@ -2,7 +2,7 @@ import { doc, deleteDoc,where ,collection,query,getDocs} from "firebase/firestor
 import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-
+import '../styles/removeproducts.css'
 import { useShopId } from "./userinfo";
 
 
@@ -59,15 +59,19 @@ navigate('/displayproducts');
 
 
     return(
-        <section className="Box">
+        <section className="Wrap">
+        
+
+            <section className="Popup">
             <h1>Do you want to remove "{Item}"</h1>
             <section className="Buttons">
             <button onClick={Back}>Back</button>
             <button onClick={delete_item}>Confirm</button>
             </section>
+            
 
-
-        </section>
+            </section>
+            </section>
     );
 
 };

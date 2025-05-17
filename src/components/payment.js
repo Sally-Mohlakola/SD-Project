@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import {PaystackButton} from "react-paystack";
+import '../styles/payment.css'
 import {useLocation, useNavigate} from "react-router-dom";
 import {GoogleMap, Marker, Autocomplete, useJsApiLoader} from '@react-google-maps/api';
 
