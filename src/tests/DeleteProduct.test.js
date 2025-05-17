@@ -1,79 +1,233 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { DeleteProduct } from '../components/removeproducts'; 
-import { MemoryRouter } from 'react-router-dom';
-import { collection, doc, setDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
-import { db } from '../config/firebase';
 
-jest.mock('firebase/firestore', () => ({
-  addDoc: jest.fn(),
-  collection: jest.fn(),
-  getFirestore: jest.fn(() => ({})),
-  query: jest.fn(),
-  where: jest.fn(),
-  getDocs: jest.fn(),
-  deleteDoc: jest.fn(),
-  doc: jest.fn(),
-  setDoc: jest.fn(),
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { DeleteProduct } from '../components/removeproducts';
+import React from 'react';
+
+// Mock Firebase services
+jest.mock('firebase/app', () => ({
+  initializeApp: jest.fn(() => ({})), 
 }));
 
+jest.mock('firebase/auth', () => ({
+  getAuth: jest.fn(() => ({})),
+  GoogleAuthProvider: jest.fn(),
+}));
+
+jest.mock('firebase/firestore', () => ({
+  getFirestore: jest.fn(() => ({})),
+  collection: jest.fn((db, path) => ({path, withConverter: jest.fn()})),
+  doc: jest.fn((db, path, id) => ({ path, id })),
+  where: jest.fn((field, op, value) => ({ field, op, value })),
+  query: jest.fn((ref, ...queries) => ({ ref, queries })),
+  getDocs: jest.fn(() => Promise.resolve({ 
+    empty: false, docs: [{ id: 'doc1', data: () => ({ name: 'Test Item' })}] })),
+  deleteDoc: jest.fn(() => Promise.resolve()),}));
+
+jest.mock('firebase/storage', () => ({
+  getStorage: jest.fn(() => ({})), 
+}));
+
+jest.mock('firebase/functions', () => ({
+  getFunctions: jest.fn(() => ({})),
+}));
+
+// Mock react-router
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
 
-// Mock localStorage to simulate the shop and product info
-beforeEach(() => {
-  localStorage.setItem('shopid', 'shop123');
-  localStorage.setItem('Item', 'Clay Mug');
-});
+// Mock userinfo hook
+jest.mock('../components/userinfo.js', () => ({
+  useShopId: () => 'mockShopId',
+}));
 
-it('adds a product to the store and deletes it', async () => {
-  const mockProduct = {
-    id: 'product123',
-    data: () => ({
-      name: 'Clay Mug',
-      description: 'A beautiful clay mug',
-      price: 15,
-      quantity: 10,
-    }),
-  };
-
-  // Simulate the "add" operation by mocking Firestore's setDoc and collection
-  setDoc.mockResolvedValueOnce({});
-
-  // Simulate the product being in the Firestore database
-  getDocs.mockResolvedValueOnce({
-    empty: false,
-    docs: [mockProduct],
+describe('DeleteProduct Component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.useFakeTimers();
+    localStorage.clear();
   });
 
-  // Render the DeleteProduct component
-  render(
-    <MemoryRouter>
-      <DeleteProduct />
-    </MemoryRouter>
-  );
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
-  // Check that the product name appears on the screen (this simulates that the product is in the store)
-  expect(screen.getByText(/Clay Mug/i)).toBeInTheDocument();
-
-  // Simulate clicking the Confirm button to delete the product
-  fireEvent.click(screen.getByText(/Confirm/i));
-
-  // Wait for the delete operation to complete and verify the Firestore delete function was called
-  await waitFor(() => {
-    expect(deleteDoc).toHaveBeenCalledWith(
-      doc(
-        expect.anything(),
-        'Shops',
-        'shop123',
-        'products',
-        'product123'
-      )
+  it('renders confirmation UI with the correct item name', () => {
+    localStorage.setItem('Item', 'Test Item');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+    
+    expect(screen.getByText(/Do you want to remove/i)).toHaveTextContent(
+      'Do you want to remove "Test Item"'
     );
-    // Check that the user is redirected to the products page after deletion
-    expect(mockNavigate).toHaveBeenCalledWith('/products');
+    expect(screen.getByRole('button', { name: /Back/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Confirm/i })).toBeInTheDocument();
   });
+
+  it('navigates back when Back button is clicked', () => {
+    localStorage.setItem('Item', 'Test Item');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+    
+    fireEvent.click(screen.getByRole('button', { name: /Back/i }));
+    expect(mockNavigate).toHaveBeenCalledWith('/displayproducts');
+  });
+
+  it('deletes product and navigates on Confirm click', async () => {
+    const { getDocs, doc, deleteDoc } = require('firebase/firestore');
+
+    localStorage.setItem('Item', 'Test Item');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+
+    fireEvent.click(screen.getByRole('button', { name: /Confirm/i }));
+
+    await waitFor(() => {
+      expect(getDocs).toHaveBeenCalled();
+      expect(doc).toHaveBeenCalledWith(
+        expect.anything(),
+        'Shops','shop123', 'Products', 'doc1');
+      expect(deleteDoc).toHaveBeenCalled();
+      expect(mockNavigate).toHaveBeenCalledWith('/displayproducts');
+    });
+  });
+
+  it('handles empty query snapshot', async () => {
+    const { getDocs } = require('firebase/firestore');
+    getDocs.mockResolvedValueOnce({ empty: true });
+
+    localStorage.setItem('Item', 'Test Item');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+
+    fireEvent.click(screen.getByRole('button', { name: /Confirm/i }));
+
+    await waitFor(() => {
+      expect(getDocs).toHaveBeenCalled();
+      expect(mockNavigate).toHaveBeenCalledWith('/displayproducts');
+    });
+  });
+
+  it('handles delete error', async () => {
+    const { getDocs, deleteDoc } = require('firebase/firestore');
+    deleteDoc.mockRejectedValueOnce(new Error('Delete failed'));
+
+    localStorage.setItem('Item', 'Test Item');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+
+    fireEvent.click(screen.getByRole('button', { name: /Confirm/i }));
+
+    await waitFor(() => {
+      expect(getDocs).toHaveBeenCalled();
+      expect(mockNavigate).toHaveBeenCalledWith('/displayproducts');
+    });
+  });
+
+  it('shows empty item name when Item is not in localStorage', () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+    expect(screen.getByText(/Do you want to remove ""/i)).toBeInTheDocument();
+  });
+
+  it('polls for Item in localStorage and updates when found', () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+    
+    // Initial render shows empty item name
+    expect(screen.getByText(/Do you want to remove ""/i)).toBeInTheDocument();
+    
+    // Advance timers and add Item to localStorage
+    jest.advanceTimersByTime(5000);
+    localStorage.setItem('Item', 'New Item');
+    jest.advanceTimersByTime(5000);
+    
+    // Verify component updates with new item name
+    expect(screen.getByText(/Do you want to remove "New Item"/i)).toBeInTheDocument();
+  });
+
+  it('cleans up interval on unmount', () => {
+    localStorage.setItem('shopid', 'shop123');
+    const { unmount } = render(<DeleteProduct />);
+    const clearIntervalSpy = jest.spyOn(window, 'clearInterval');
+    
+    unmount();
+    
+    expect(clearIntervalSpy).toHaveBeenCalled();
+    clearIntervalSpy.mockRestore();
+  });
+
+  it('logs messages while waiting for Item', () => {
+    const consoleSpy = jest.spyOn(console, 'log');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+    
+    jest.advanceTimersByTime(5000);
+    expect(consoleSpy).toHaveBeenCalledWith('still waiting for item');
+    
+    consoleSpy.mockRestore();
+  });
+
+  it('stops polling when Item is found', () => {
+    const consoleSpy = jest.spyOn(console, 'log');
+    localStorage.setItem('shopid', 'shop123');
+    render(<DeleteProduct />);
+    
+    // First poll
+    jest.advanceTimersByTime(5000);
+    expect(consoleSpy).toHaveBeenCalledWith('still waiting for item');
+    
+    // Add Item and advance timers
+    localStorage.setItem('Item', 'Found Item');
+    jest.advanceTimersByTime(5000);
+    expect(consoleSpy).toHaveBeenCalledWith('Item captured');
+    
+    // Verify no more polling
+    consoleSpy.mockClear();
+    jest.advanceTimersByTime(5000);
+    expect(consoleSpy).not.toHaveBeenCalled();
+    
+    consoleSpy.mockRestore();
+
+  });
+
+
+describe('DeleteProduct Component', () => {
+    // ... (keep all your existing test cases)
+
+    it('logs messages while waiting for Item', () => {
+        const consoleSpy = jest.spyOn(console, 'log');
+        localStorage.setItem('shopid', 'shop123');
+        render(<DeleteProduct />);
+        
+        jest.advanceTimersByTime(5000);
+        expect(consoleSpy).toHaveBeenCalledWith('still waiting for item');
+        
+        consoleSpy.mockRestore();
+    });
+
+    it('stops polling when Item is found', () => {
+        const consoleSpy = jest.spyOn(console, 'log');
+        localStorage.setItem('shopid', 'shop123');
+        const { rerender } = render(<DeleteProduct />);
+        
+        // First poll
+        jest.advanceTimersByTime(5000);
+        expect(consoleSpy).toHaveBeenCalledWith('still waiting for item');
+        
+        // Add Item and rerender
+        localStorage.setItem('Item', 'Found Item');
+        rerender(<DeleteProduct />);
+        jest.advanceTimersByTime(5000);
+        expect(consoleSpy).toHaveBeenCalledWith('Item captured');
+        
+        // Verify no more polling
+        consoleSpy.mockClear();
+        jest.advanceTimersByTime(5000);
+        expect(consoleSpy).not.toHaveBeenCalled();
+        
+        consoleSpy.mockRestore();
+    });
+});
 });

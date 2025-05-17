@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import '../styles/removeproducts.css'
 import { useShopId } from "./userinfo";
+import React from "react";
 
 
 export const DeleteProduct=()=>{

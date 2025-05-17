@@ -15,5 +15,16 @@ module.exports = {
   setupFiles: ['whatwg-fetch'],
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'], 
   
+// Jest configuration
+  "jest": {
+    "setupFilesAfterEnv": ["./jest.setup.js"],
+    "moduleNameMapper": {
+      "^firebase/app$": "<rootDir>/__mocks__/firebase.js",
+      "^firebase/auth$": "<rootDir>/__mocks__/firebase-auth.js",
+      "^firebase/firestore$": "<rootDir>/__mocks__/firebase-firestore.js",
+      "^firebase/storage$": "<rootDir>/__mocks__/firebase-storage.js",
+      "^firebase/functions$": "<rootDir>/__mocks__/firebase-functions.js"
+    }
+  }
 
 };

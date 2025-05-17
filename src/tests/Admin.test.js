@@ -1,138 +1,162 @@
 import React from 'react';
-import { AdminShopHomepage } from '../components/admin';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { getDocs, updateDoc, doc, collection } from 'firebase/firestore';
+import { AdminShopHomepage } from '../components/admin';
 import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('firebase/firestore', () => ({
   getFirestore: jest.fn(),
   collection: jest.fn(),
-  getDocs: jest.fn(),
-  updateDoc: jest.fn(),
-  doc: jest.fn((db, collectionName, id) => ({ db, collectionName, id })),
+  doc: jest.fn((db, path, id) => ({ db, path, id })),
+  updateDoc: jest.fn(() => Promise.resolve()),
 }));
 
-describe('AdminShopHomepage', () => {
-  const mockShop = [{
-    id: 'id123',
-    nameofshop: 'Shop 0',
-    description: 'This is a description',
-    status: 'Pending',
-    category: 'Pottery',
-    userID: 'id123',
-  }];
+jest.mock('firebase/functions', () => ({
+  httpsCallable: jest.fn((functions, name) => jest.fn(() => Promise.resolve({
+    data: { shops: [] }
+  })))
+}));
+
+jest.mock('../config/firebase', () => ({
+  db: {},
+  functions: {}
+}));
+
+
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
+
+//Encapsulates all tests within the component
+describe('AdminShopHomepage Component', () => {
+  const mockShops = [
+    {
+      id: 'shop1',
+      nameofshop: 'Test Shop',
+      description: 'Test description',
+      status: 'Pending',
+      category: 'Test Category',
+      userID: 'user1'
+    }
+  ];
 
   beforeEach(() => {
     jest.clearAllMocks();
-    localStorage.clear();
+    require('firebase/functions').httpsCallable.mockImplementation(() => 
+      jest.fn(() => Promise.resolve({ data: { shops: mockShops } })));
   });
 
-  const renderWithRouter = (ui) => {
-    return render(<BrowserRouter>{ui}</BrowserRouter>);
+  const renderComponent = () => {
+    return render(
+      <BrowserRouter>
+        <AdminShopHomepage />
+      </BrowserRouter>
+    );
   };
 
   it('renders loading message', () => {
-    renderWithRouter(<AdminShopHomepage />);
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
+    renderComponent();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-  it('renders Admin Dashboard after loading', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: mockShop.map(shop => ({
-        id: 'id123',
-        data: () => shop,
-      })),
-    });
-
-    renderWithRouter(<AdminShopHomepage />);
-    expect(await screen.findByText(/Admin Dashboard/i)).toBeInTheDocument();
+  it('renders admin dashboard after loading', async () => {
+    renderComponent();
+    expect(await screen.findByText('Admin Dashboard')).toBeInTheDocument();
   });
 
-  it('renders shop details', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: mockShop.map(shop => ({
-        id: 'id123',
-        data: () => shop,
-      })),
-    });
-
-    renderWithRouter(<AdminShopHomepage />);
-    expect(await screen.findByText('Shop 0')).toBeInTheDocument();
-    expect(await screen.findByText('This is a description')).toBeInTheDocument();
-    expect(await screen.findByText(/Status: Pending/i)).toBeInTheDocument();
+  it('displays shop data correctly', async () => {
+    renderComponent();
+    
+    expect(await screen.findByText('Test Shop')).toBeInTheDocument();
+    expect(screen.getByText('Test description')).toBeInTheDocument();
+    expect(screen.getByText('Status: Pending')).toBeInTheDocument();
   });
 
-  it('updates status on Accept checkbox', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: mockShop.map(shop => ({
-        id: 'id123',
-        data: () => shop,
-      })),
-    });
-
-    renderWithRouter(<AdminShopHomepage />);
-    await screen.findByText('Shop 0');
-
-    const acceptCheckbox = screen.getByLabelText(/Accept →/i);
+  it('handles status change to Accepted', async () => {
+    const { updateDoc } = require('firebase/firestore');
+    renderComponent();
+    
+    await screen.findByText('Test Shop');
+    const acceptCheckbox = screen.getByLabelText('Accept →');
     fireEvent.click(acceptCheckbox);
-
+    
     await waitFor(() => {
-      expect(updateDoc).toHaveBeenCalled();
-      expect(screen.getByText('Status: Accepted')).toBeInTheDocument();
+      expect(updateDoc).toHaveBeenCalledWith(
+        { db: {}, path: 'Shops', id: 'shop1' },
+        { status: 'Accepted' }
+      );
     });
   });
 
-  it('updates status on Reject checkbox', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: mockShop.map(shop => ({
-        id: 'id123',
-        data: () => shop,
-      })),
-    });
-
-    renderWithRouter(<AdminShopHomepage />);
-    await screen.findByText('Shop 0');
-
-    const rejectCheckbox = screen.getByLabelText(/Reject →/i);
+  it('handles status change to Rejected', async () => {
+    const { updateDoc } = require('firebase/firestore');
+    renderComponent();
+    
+    await screen.findByText('Test Shop');
+    const rejectCheckbox = screen.getByLabelText('Reject →');
     fireEvent.click(rejectCheckbox);
-
+    
     await waitFor(() => {
-      expect(updateDoc).toHaveBeenCalled();
-      expect(screen.getByText('Status: Rejected')).toBeInTheDocument();
+      expect(updateDoc).toHaveBeenCalledWith(
+        { db: {}, path: 'Shops', id: 'shop1' },
+        { status: 'Rejected' }
+      );
     });
   });
 
-  it('navigates to Home when Home button is clicked', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: [],
-    });
-
-    renderWithRouter(<AdminShopHomepage />);
-    await screen.findByText(/Admin Dashboard/i);
-
-    const homeButton = screen.getByText(/← Home/i);
+  it('navigates to homepage when home button is clicked', async () => {
+    renderComponent();
+    
+    await screen.findByText('Test Shop');
+    const homeButton = screen.getByText('← Home');
     fireEvent.click(homeButton);
-    // We can only check that the button is clickable. For full router test, you'd mock useNavigate.
-    expect(homeButton).toBeInTheDocument();
+    
+    expect(mockNavigate).toHaveBeenCalledWith('/homepage');
   });
 
-  it('handles no shop data gracefully', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: [],
+  it('throws error if fetching shops does not happen correctly', async () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    require('firebase/functions').httpsCallable.mockImplementation(() => 
+      jest.fn(() => Promise.reject(new Error('Fetch error')))
+    );
+    
+    renderComponent();
+    
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith('ERROR fetching shops:', expect.any(Error));
     });
-
-    renderWithRouter(<AdminShopHomepage />);
-    await screen.findByText(/Admin Dashboard/i);
-    expect(screen.queryByText(/Status:/i)).not.toBeInTheDocument();
+    
+    consoleSpy.mockRestore();
   });
 
-  it('handles Firestore error gracefully', async () => {
-    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    getDocs.mockRejectedValueOnce(new Error('Firestore error'));
+  it('throws error when updating status does not happen correctly', async () => {
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    const {updateDoc} = require('firebase/firestore');
+    updateDoc.mockRejectedValueOnce(new Error('Update error'));
+    
+    renderComponent();
+    
+    await screen.findByText('Test Shop');
+    const acceptCheckbox = screen.getByLabelText('Accept →');
+    fireEvent.click(acceptCheckbox);
+    
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith('Error updating status:', expect.any(Error));
+    });
+    
+    consoleSpy.mockRestore();
+  });
 
-    renderWithRouter(<AdminShopHomepage />);
-    await screen.findByText(/Admin Dashboard/i);
-    expect(errorSpy).toHaveBeenCalled();
-    errorSpy.mockRestore();
+  it('displays correctly when no shops are available', async () => {
+    require('firebase/functions').httpsCallable.mockImplementation(() => 
+      jest.fn(() => Promise.resolve({ data: { shops: [] } }))
+    );
+    
+    renderComponent();
+    
+    await waitFor(() => {
+      expect(screen.queryByText('Test Shop')).not.toBeInTheDocument();
+    });
   });
 });

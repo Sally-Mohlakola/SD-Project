@@ -6,13 +6,13 @@ import { getDocs } from 'firebase/firestore';
 
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-...jest.requireActual('react-router-dom'),
-useNavigate: () => mockNavigate,
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
 }));
 
 
 jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(), 
+  getFirestore: jest.fn(),
   getDocs: jest.fn(),
   collection: jest.fn(),
   query: jest.fn(),
@@ -24,20 +24,20 @@ jest.mock('firebase/firestore', () => ({
 
 
 beforeEach(() => {
-localStorage.setItem('userid', 'u123');
+  localStorage.setItem('userid', 'u123');
 });
 
 afterEach(() => {
-localStorage.clear();
-jest.clearAllMocks();
+  localStorage.clear();
+  jest.clearAllMocks();
 });
 
 //When button is clicked this page must appear
 const renderComponent = () => {
-return render(
-<MemoryRouter>
-<MyShop /> 
-</MemoryRouter>);
+  return render(
+    <MemoryRouter>
+      <MyShop />
+    </MemoryRouter>);
 };
 
 describe('MyShop component acceptance tests', () => {
@@ -71,19 +71,21 @@ describe('MyShop component acceptance tests', () => {
 
     renderComponent();
     await waitFor(() => {
-    expect(screen.getByText(/The admin has not cleared your store yet!/i)).toBeInTheDocument();
+      expect(screen.getByText(/The admin has not cleared your store yet!/i)).toBeInTheDocument();
     });
   });
 
 
   test('navigates to shop dashboard if shop is accepted', async () => {
     getDocs.mockResolvedValueOnce({
-    docs: [{
+      docs: [{
         data: () => ({
-        userid: 'u123',
-        nameofshop: 'New shop',
-        description: 'This is a description',
-        status: 'Accepted',}),},],
+          userid: 'u123',
+          nameofshop: 'New shop',
+          description: 'This is a description',
+          status: 'Accepted',
+        }),
+      },],
     });
 
     renderComponent();
@@ -100,10 +102,10 @@ describe('MyShop component acceptance tests', () => {
     await waitFor(() => {
       expect(screen.getByText(/My Shop/i)).toBeInTheDocument();
     });
-//Fire events simulate the actions are user will do, hence .change is for user typing...
-// Mock the user typing, not berate them... but pretend to be them
+    //Fire events simulate the actions are user will do, hence .change is for user typing...
+    // Mock the user typing, not berate them... but pretend to be them
 
-//Name, descriotion, category, click button to submit
+    //Name, descriotion, category, click button to submit
     fireEvent.change(screen.getByLabelText(/Name of shop/i), {
       target: { value: 'New Shop' },
     });
@@ -112,13 +114,14 @@ describe('MyShop component acceptance tests', () => {
       target: { value: 'This is a description' },
     });
 
-fireEvent.change(screen.getByLabelText(/Category:/i), {
-target: { value: 'Pottery' },});
+    fireEvent.change(screen.getByLabelText(/Category:/i), {
+      target: { value: 'Pottery' },
+    });
 
-fireEvent.click(screen.getByText(/Submit to admin/i));
-await waitFor(() => {
-expect(screen.getByText(/Your shop has been sent to admin/i)).toBeInTheDocument();
-});
-});
+    fireEvent.click(screen.getByText(/Submit to admin/i));
+    await waitFor(() => {
+      expect(screen.getByText(/Your shop has been sent to admin/i)).toBeInTheDocument();
+    });
+  });
 
 });//end of cache statement

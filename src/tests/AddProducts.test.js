@@ -1,40 +1,50 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Addproduct } from '../components/addproducts';
+import {Addproduct} from '../components/addproducts';
+import {addDoc, collection} from 'firebase/firestore';
+import {uploadBytes} from 'firebase/storage';
 import React from 'react';
 
-// Fully mock the entire firebase/firestore module
-jest.mock('firebase/firestore', () => ({
-  addDoc: jest.fn(),
-  collection: jest.fn(),
-  getFirestore: jest.fn(() => ({})),
-}));
 
-// Fully mock the firebase/storage module
-jest.mock('firebase/storage', () => ({
-  ref: jest.fn(),
-  uploadBytes: jest.fn(),
-  getDownloadURL: jest.fn(() => Promise.resolve('https://fakeurl.com/fakeimage.jpg')),
-  getStorage: jest.fn(() => ({})),
-}));
+jest.mock('../config/firebase.js', () => ({
+  db: {}, storage: {},}));
 
-// Mock userinfo hook
+jest.mock('firebase/firestore', () => {
+return {
+    addDoc: jest.fn(),
+    collection: jest.fn(),
+    getFirestore: jest.fn(() => ({})),
+  };
+});
+
+// For image uploads and fetches
+jest.mock('firebase/storage', () => {
+  return {
+    ref: jest.fn(),
+    uploadBytes: jest.fn(),
+    getDownloadURL: jest.fn(() => Promise.resolve('https://mockwebsite.com/mockimage.jpg')),
+    getStorage: jest.fn(() => ({})),
+  };
+});
+
 jest.mock('../components/userinfo.js', () => ({
-  useUserId: () => 'id123',
-  useShopId: () => 'shop123',
+  useUserId: () => 'id123', useShopId: () => 'shop123',
 }));
 
-// Mock react-router
-jest.mock('react-router-dom', () => ({
-  useNavigate: () => jest.fn(),
-}));
 
-describe('clears all AddProducts test cache', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({useNavigate: () => mockNavigate,}));
 
-  it('renders form and the submit button', () => {
-    render(<Addproduct />);
+// Clear all mock storages so that each test runs independantly
+beforeEach(() => {
+  localStorage.setItem('shopid', 'shop123');
+  jest.clearAllMocks();
+});
+
+
+
+describe('AddProduct Component', () => {
+  it('renders the add-product form and submit button', () => {
+    render(<Addproduct/>);
 
     expect(screen.getByLabelText(/Item:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Description:/i)).toBeInTheDocument();
@@ -43,84 +53,73 @@ describe('clears all AddProducts test cache', () => {
     expect(screen.getByRole('button', { name: /Add Product/i })).toBeInTheDocument();
   });
 
-  it('handles input changes', () => {
+  it('updates input values correctly', () => {
     render(<Addproduct />);
 
-    const nameInput = screen.getByLabelText(/Item:/i);
-    fireEvent.change(nameInput, { target: { value: 'Pottery Mug' } });
-    expect(nameInput.value).toBe('Pottery Mug');
+    fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Scandinavian pottery' } });
+    fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Terracota vase' } });
+    fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '45' } });
+    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '1000' } });
 
-    const descInput = screen.getByLabelText(/Description:/i);
-    fireEvent.change(descInput, { target: { value: 'Handmade clay mug' } });
-    expect(descInput.value).toBe('Handmade clay mug');
-
-    const priceInput = screen.getByLabelText(/Price:/i);
-    fireEvent.change(priceInput, { target: { value: '50' } });
-    expect(priceInput.value).toBe('50');
-
-    const quantityInput = screen.getByLabelText(/Quantity/i);
-    fireEvent.change(quantityInput, { target: { value: '10' } });
-    expect(quantityInput.value).toBe('10');
+    expect(screen.getByLabelText(/Item:/i).value).toBe('Scandinavian Mug');
+    expect(screen.getByLabelText(/Description:/i).value).toBe('Clay Terracota');
+    expect(screen.getByLabelText(/Price:/i).value).toBe('45');
+    expect(screen.getByLabelText(/Quantity/i).value).toBe('1000');
   });
 
-  it('submits form and calls addDoc', async () => {
-    const { addDoc, collection } = require('firebase/firestore');
-    const { uploadBytes } = require('firebase/storage');
-
+  it('submits the add-product form and calls addDoc with correct data', async () => {
     addDoc.mockResolvedValueOnce({});
     uploadBytes.mockResolvedValueOnce({});
 
-    render(<Addproduct />);
+    render(<Addproduct/>);
 
-    fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Ceremonial vase' } });
-    fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Inspired by ancient Mapunguwe' } });
-    fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '80' } });
-    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '5' } });
+    fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Ceremonial Vase' } });
+    fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Inspired by Mapungubwe' } });
+    fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '100' } });
+    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '2' } });
 
-    // Simulate selecting a file
-    const file = new File(['dummy content'], 'example.png', { type: 'image/png' });
-    const fileInput = screen.getByLabelText(/Upload image of item below:/i);
-    fireEvent.change(fileInput, { target: { files: [file] } });
+    const file = new File(['dummy content'], 'image.png', { type: 'image/png' });
+    fireEvent.change(screen.getByLabelText(/Upload image of item below:/i), { target: { files: [file] } });
 
     fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
 
     await waitFor(() => {
       expect(collection).toHaveBeenCalledWith(expect.anything(), 'Shops', 'shop123', 'Products');
       expect(addDoc).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({
-        name: 'Ceremonial vase',
-        itemdescription: 'Inspired by ancient Mapunguwe',
-        price: 80,
-        quantity: 5,
+        name: 'Ceremonial Vase',
+        itemdescription: 'Inspired by Mapungubwe',
+        price: 100,
+        quantity: 2,
         sold: 0,
         imageURL: 'https://fakeurl.com/fakeimage.jpg',
       }));
     });
+
+    expect(mockNavigate).toHaveBeenCalledWith('/displayproducts');
   });
 
-  it('handles addDoc errors', async () => {
-    const { addDoc } = require('firebase/firestore');
-    const { uploadBytes } = require('firebase/storage');
+// For if addDoc fails the error is recorded
+  it('handles addDoc failure gracefully', async () => {
+  addDoc.mockRejectedValueOnce(new Error('Firestore error'));
+  uploadBytes.mockResolvedValueOnce({});
 
-    console.error = jest.fn(); // suppress error logs
-    addDoc.mockRejectedValueOnce(new Error('Firestore error'));
-    uploadBytes.mockResolvedValueOnce({});
+  render(<Addproduct/>);
 
-    render(<Addproduct />);
+  fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Clay Plate' } });
+  fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Elegant Plate' } });
+  fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '120' } });
+  fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '4' } });
 
-    fireEvent.change(screen.getByLabelText(/Item:/i), { target: { value: 'Clay Plate' } });
-    fireEvent.change(screen.getByLabelText(/Description:/i), { target: { value: 'Elegant dining plate' } });
-    fireEvent.change(screen.getByLabelText(/Price:/i), { target: { value: '100' } });
-    fireEvent.change(screen.getByLabelText(/Quantity/i), { target: { value: '3' } });
+//Renders the image corresponding to the item/ product
+  const imageFromFile = new File(['dummy content'], 'plate.png', { type: 'image/png' });
+  fireEvent.change(screen.getByLabelText(/Upload image of item below:/i), { target: { files: [imageFromFile] } });
 
-    const file = new File(['dummy content'], 'plate.png', { type: 'image/png' });
-    const fileInput = screen.getByLabelText(/Upload image of item below:/i);
-    fireEvent.change(fileInput, { target: { files: [file] } });
+  fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
 
-    fireEvent.click(screen.getByRole('button', { name: /Add Product/i }));
-
-    await waitFor(() => {
-      expect(addDoc).toHaveBeenCalled();
-      expect(console.error).toHaveBeenCalled();
-    });
+  await waitFor(() => {
+    expect(addDoc).toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
+});
+
 });

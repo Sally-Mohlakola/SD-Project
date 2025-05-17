@@ -1,120 +1,165 @@
 import React from 'react';
-import {render, screen, fireEvent, waitFor} from '@testing-library/react';
-import {Displayproducts} from '../components/displayproducts';
-import {getDocs} from 'firebase/firestore';
-import {useNavigate} from 'react-router-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { Displayproducts } from '../components/displayproducts';
+import { getDocs, collection, query } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
-/*It is important to mock our resources rather than actually writing to the database
-mock navigation by fireEvents*/
+jest.mock('../config/firebase.js', () => ({
+  db: {},
+  auth: {},
+  provider: {},
+  storage: {}
+}));
 
+// Mock Firebase services
 jest.mock('firebase/firestore', () => ({
-    getFirestore: jest.fn(),
-    getDocs: jest.fn(),
-    collection: jest.fn(),
-    query: jest.fn(),
-    where: jest.fn(),
+  getFirestore: jest.fn(),
+  collection: jest.fn(),
+  query: jest.fn(),
+  getDocs: jest.fn(),
+  where: jest.fn(),
 }));
 
-// Mock the DOM for page navigations
+// Mock react-router-dom
+const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: jest.fn(),
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+  useLocation: () => ({}),
 }));
 
-describe('testing Displayproducts Component ...', () => {
-    const navigate = jest.fn();
-    const testProduct = [{
-    imagelink: 'https://thisisamock.com/picture.img',
-    nameofproduct: 'Mock product 1',
-    description: 'This is a description',
-    price: 10,
-    quantity: 10,
-  }];
+// Mock userinfo hook
+jest.mock('../components/userinfo.js', () => ({
+  useShopId: jest.fn(),
+}));
 
-  /* Clear all cache so that there is no memory leak
-  to the following test (we want these tests to run independantly)*/
+describe('Displayproducts Component', () => {
+  const mockProducts = [
+    {
+      imageURL: 'https://example.com/image1.jpg',
+      name: 'Product 1',
+      itemdescription: 'Description 1',
+      price: 10,
+      quantity: 5
+    },
+    {
+      imageURL: 'https://example.com/image2.jpg',
+      name: 'Product 2',
+      itemdescription: 'Description 2',
+      price: 20,
+      quantity: 10
+    }
+  ];
+
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
-    useNavigate.mockReturnValue(navigate);
-    getDocs.mockResolvedValue({
-    forEach: (callback) => testProduct.forEach((product) => {
-    callback({ data: () => product,id: '012'});
-    })
-}); 
-});
-
-// it('displays the product data', async () => {
-//     localStorage.setItem('shopid', 'shop012');
-//     render(<Displayproducts/>);
     
-//     await waitFor(() => {
-//         expect(screen.getByText(/Name: Mock product 1/i)).toBeInTheDocument();
-//         expect(screen.getByText(/Description: This is a description/i)).toBeInTheDocument();
-//         expect(screen.getByText(/Price:10/i)).toBeInTheDocument();
-//         expect(screen.getByText(/Quantity:10/i)).toBeInTheDocument();
-//         expect(screen.getByRole('img')).toHaveAttribute('src', 'https://thisisamock.com/picture.img');
-//     });
-//   });
-  
-it('displays the page banner My Products (text)', async () => {
-localStorage.setItem('shopid', 's012');
-render(<Displayproducts/>);
-expect(await screen.findByText(/My Products/i)).toBeInTheDocument();
-});
+    // Mock getDocs implementation
+    getDocs.mockImplementation(() => ({
+      forEach: (callback) => {
+        mockProducts.forEach(product => {
+          callback({ 
+            id: 'doc123',
+            data: () => product 
+          });
+        });
+      }
+    }));
+  });
 
- 
-// tests if we can return to the dashboard from this page
-it('navigation to /dashboard from displayProducts', async () => {
-localStorage.setItem('shopid', 'shop012');
-render(<Displayproducts/>);
-fireEvent.click(screen.getByText(/← Dashboard/i));
-expect(navigate).toHaveBeenCalledWith('/shopdashboard');
-});
+  it('renders loading state when shopid is not available', () => {
+    render(<Displayproducts />);
+    expect(screen.queryByText('My products')).not.toBeInTheDocument();
+  });
 
-it('clicking the Add product button', async () => {
-localStorage.setItem('shopid', 'shop012');
-render(<Displayproducts/>);
-fireEvent.click(screen.getByText(/Add product/i));
-expect(navigate).toHaveBeenCalledWith('/addproducts');
-});
-
-it('clicking the Update product button', async () => {
-localStorage.setItem('shopid', 'shop012');
-render(<Displayproducts/>);
+  it('renders products when shopid is available', async () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<Displayproducts />);
     
-await waitFor(()=> 
-    {fireEvent.click(screen.getByText(/Update Product/i));
-    expect(localStorage.getItem('item')).toBe('This is the new product name');});
-});
+    // Check if product data is rendered
+    expect(await screen.findByText('My products')).toBeInTheDocument();
+    expect(screen.getByText('Product 1')).toBeInTheDocument();
+    expect(screen.getByText('Description 1')).toBeInTheDocument();
+    expect(screen.getByText('10')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
+    
+    // Check if images are rendered
+    const images = screen.getAllByRole('img');
+    expect(images[0]).toHaveAttribute('src', 'https://example.com/image1.jpg');
+    expect(images[1]).toHaveAttribute('src', 'https://example.com/image2.jpg');
+  });
 
-  it('clicking the Remove product button', async () => {
-    localStorage.setItem('shopid', 'test123');
+  it('navigates to dashboard when dashboard button is clicked', async () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<Displayproducts />);
+    
+    await screen.findByText('My products');
+    fireEvent.click(screen.getByText('← Dashboard'));
+    expect(mockNavigate).toHaveBeenCalledWith('/shopdashboard');
+  });
+
+  it('navigates to add products page when add button is clicked', async () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<Displayproducts />);
+    
+    await screen.findByText('My products');
+    fireEvent.click(screen.getByText('Add product'));
+    expect(mockNavigate).toHaveBeenCalledWith('/addproducts');
+  });
+
+  it('sets item in localStorage and navigates when update button is clicked', async () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<Displayproducts />);
+    
+    await screen.findByText('My products');
+    const updateButtons = screen.getAllByText('Update Product');
+    fireEvent.click(updateButtons[0]);
+    
+    expect(localStorage.getItem('Item')).toBe('Product 1');
+    expect(mockNavigate).toHaveBeenCalledWith('/updateproducts');
+  });
+
+  it('sets item in localStorage and navigates when remove button is clicked', async () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<Displayproducts />);
+    
+    await screen.findByText('My products');
+    const removeButtons = screen.getAllByText('Remove Product');
+    fireEvent.click(removeButtons[0]);
+    
+    expect(localStorage.getItem('Item')).toBe('Product 1');
+    expect(mockNavigate).toHaveBeenCalledWith('/removeproducts');
+  });
+
+  it('handles Firestore error gracefully', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    getDocs.mockRejectedValueOnce(new Error('Firestore error'));
+    
+    localStorage.setItem('shopid', 'shop123');
     render(<Displayproducts />);
     
     await waitFor(() => {
-      fireEvent.click(screen.getByText(/Remove Product/i));
+      expect(consoleSpy).toHaveBeenCalled();
     });
+    
+    consoleSpy.mockRestore();
   });
 
-  // if the shop id is not available then getDocs since there are no records to be called 
-it('shows no products if the shopid is not available', async () => {
-    render(<Displayproducts/>);
+  it('does not call getDocs when shopid is not available', () => {
+    render(<Displayproducts />);
     expect(getDocs).not.toHaveBeenCalled();
-});
+  });
 
-//Might remove later, for console logging our records (testing purposes)
-it('logs product details during rendering', async () => {
-    localStorage.setItem('shopid', 'shop0123');
-    const monitorMyConsole = jest.spyOn(console, 'log');
-    render(<Displayproducts/>);
+  it('correctly formats and displays product data', async () => {
+    localStorage.setItem('shopid', 'shop123');
+    render(<Displayproducts />);
     
-await waitFor(() => {
-    expect(monitorMyConsole).toHaveBeenCalledWith('Url is up there');
-    expect(monitorMyConsole).toHaveBeenCalledWith('https://mockimage.com/image.img');
-});
-    
-    monitorMyConsole.mockRestore();
-
+    await waitFor(() => {
+      expect(screen.getByText('Name: Product 1')).toBeInTheDocument();
+      expect(screen.getByText('Description: Description 1')).toBeInTheDocument();
+      expect(screen.getByText('Price: 10')).toBeInTheDocument();
+      expect(screen.getByText('Quantity: 5')).toBeInTheDocument();
+    });
   });
 });

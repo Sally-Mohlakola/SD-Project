@@ -3,15 +3,22 @@ import { Auth } from '../components/auth';
 import { signInWithPopup } from 'firebase/auth';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useNavigate } from 'react-router-dom';
-// Note similar imports for Auth component
+import { getDocs, collection } from 'firebase/firestore';
 
-//All mocks for firebase and navigation events (crucial because it is not necessarily to simulate these actions on real events)
+
 jest.mock('firebase/auth', () => ({
   signInWithPopup: jest.fn(),
 }));
 
 jest.mock('../config/firebase', () => ({
-  auth: {}, provider: {},
+  auth: {}, 
+  provider: {},
+  db: {},
+}));
+
+jest.mock('firebase/firestore', () => ({
+  getDocs: jest.fn(),
+  collection: jest.fn(),
 }));
 
 const mockNavigate = jest.fn();
@@ -19,11 +26,18 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-describe('clears cache before test', () => {
+
+beforeAll(() => {
+  Object.defineProperty(window, 'innerHeight', { value: 800 });
+  Object.defineProperty(window, 'scrollY', { value: 0 });
+});
+
+describe('Auth Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
-  }); // clears before each test 
+    window.scrollY = 0;
+  });
 
   it('renders Web app name text', () => {
     render(<Auth />);
@@ -31,57 +45,116 @@ describe('clears cache before test', () => {
   });
 
   it("renders sign in button", () => {
-    // Renders the mock DOM object of this page without needing a broswer
-
     render(<Auth />);
-    // DOM component expected to appear
     expect(screen.getByRole('button', { name: /Sign in with Google/i })).toBeInTheDocument();
   });
 
+  describe('Admin email handling', () => {
+    it('fetches admin emails on mount', async () => {
+      const mockAdminEmails = ['admin@example.com'];
+      getDocs.mockResolvedValueOnce({
+        docs: [{ data: () => ({ AdminEmail: 'admin@example.com' }) }]
+      });
+      
+      render(<Auth />);
+      
+      await waitFor(() => {
+        expect(collection).toHaveBeenCalledWith(expect.anything(), 'Admin');
+        expect(getDocs).toHaveBeenCalled();
+      });
+    });
 
-  // SIGN-IN POP-UP actions, which incurs navigation event as well
-  it('Admin email logs in, navigates to home page', async () => {
-    const mockUser = {
-      uid: 'a496#',
-      email: 'craftgrainlocalartisanmarketpl@gmail.com', // this is the admin email
-    };
-
-    signInWithPopup.mockResolvedValueOnce({ user: mockUser });
-
-    render(<Auth />);
-    fireEvent.click(screen.getByRole('button', { name: /Sign in with Google/i }));
-
-    //Check if navigation event is handled
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/admin'));
-    expect(localStorage.getItem('userid')).toBe(mockUser.uid);
-    expect(localStorage.getItem('userEmail')).toBe(mockUser.email);
+    it('handles admin email fetch error', async () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      getDocs.mockRejectedValueOnce(new Error('Fetch failed'));
+      
+      render(<Auth />);
+      
+      await waitFor(() => {
+        expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error));
+      });
+      consoleSpy.mockRestore();
+    });
   });
 
-  it('User email logs in, navigates to home page', async () => {
-    const mockUser = {
-      uid: 'u400#',
-      email: 'userEmail@gmail.com',
-    };
+  describe('Sign-in functionality', () => {
+    it('Admin email logs in, navigates to admin page', async () => {
+      const mockUser = {
+        uid: 'a496#',
+        email: 'craftgrainlocalartisanmarketpl@gmail.com',
+      };
+      
+      getDocs.mockResolvedValueOnce({
+        docs: [{ data: () => ({ AdminEmail: mockUser.email }) }]
+      });
+      signInWithPopup.mockResolvedValueOnce({ user: mockUser });
 
-    signInWithPopup.mockResolvedValueOnce({ user: mockUser });
+      render(<Auth />);
+      fireEvent.click(screen.getByRole('button', { name: /Sign in with Google/i }));
 
-    render(<Auth />);
+      await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalledWith('/admin');
+        expect(localStorage.getItem('userid')).toBe(mockUser.uid);
+        expect(localStorage.getItem('userEmail')).toBe(mockUser.email);
+      });
+    });
 
-    fireEvent.click(screen.getByRole('button', { name: /Sign in with Google/i }));
-    await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/homepage'));
-    expect(localStorage.getItem('userid')).toBe(mockUser.uid);
-    expect(localStorage.getItem('userEmail')).toBe(mockUser.email);
+    it('Regular user logs in, navigates to homepage', async () => {
+      const mockUser = {
+        uid: 'u400#',
+        email: 'user@gmail.com',
+      };
+      
+      getDocs.mockResolvedValueOnce({
+        docs: [{ data: () => ({ AdminEmail: 'admin@example.com' }) }]
+      });
+      signInWithPopup.mockResolvedValueOnce({ user: mockUser });
+
+      render(<Auth />);
+      fireEvent.click(screen.getByRole('button', { name: /Sign in with Google/i }));
+
+      await waitFor(() => {
+        expect(mockNavigate).toHaveBeenCalledWith('/homepage');
+        expect(localStorage.getItem('userid')).toBe(mockUser.uid);
+        expect(localStorage.getItem('userEmail')).toBe(mockUser.email);
+      });
+    });
+
+    it('Logs error for failed sign-in', async () => {
+      const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+      signInWithPopup.mockRejectedValueOnce(new Error('Popup failed'));
+
+      render(<Auth />);
+      fireEvent.click(screen.getByRole('button', { name: /sign in with google/i }));
+
+      await waitFor(() => expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error)));
+      consoleSpy.mockRestore();
+    });
   });
 
-  it('Logs error for failed sign-in', async () => {
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => { });
-    signInWithPopup.mockRejectedValueOnce(new Error('Popup failed'));
+  describe('Scroll effects', () => {
+    it('responds to scroll events', () => {
+      render(<Auth />);
+      
+   
+      window.scrollY = 400;
+      fireEvent.scroll(window);
+      
+     
+      expect(window.scrollY).toBe(400);
+    });
 
-    render(<Auth />); // after rendering DOM...
-
-    fireEvent.click(screen.getByRole('button', { name: /sign in with google/i }));
-    // Wait for the err and verify that it indeed did happen
-    await waitFor(() => expect(consoleSpy).toHaveBeenCalledWith(expect.any(Error)));
-    consoleSpy.mockRestore();
+    it('cleans up scroll event listener on unmount', () => {
+      const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener');
+      const { unmount } = render(<Auth />);
+      
+      unmount();
+      
+      expect(removeEventListenerSpy).toHaveBeenCalledWith(
+        'scroll',
+        expect.any(Function)
+      );
+      removeEventListenerSpy.mockRestore();
+    });
   });
 });
