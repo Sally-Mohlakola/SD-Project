@@ -10,9 +10,14 @@
    background-image: url('https://images.unsplash.com/photo-1597696929736-6d13bed8e6a8?q=80&w=2070&auto=format&fit=crop') no-repeat center center fixed;
   background-size: cover;
    scroll-behavior: smooth;
-  margin: 0; padding: 0;
-  height: 200vh; 
-  overflow-x: hidden;
+ position:absolute;
+  left:0;
+  right:0;
+ height:2000vh;
+  top:0;
+  padding-left:6vh;
+  padding-right:6vh;
+  padding-bottom: 0px;;
   
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
