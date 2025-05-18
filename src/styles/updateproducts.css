@@ -51,8 +51,8 @@ html, body {
     height:120vh;
    
     margin: 0;
-    padding-left: 0;
-    padding-top:0;
+    padding-left: 0.5vw;
+    padding-top:0.5vh;
     font-family: "Arial", sans-serif;
   font-size: 1vw;
   
@@ -110,7 +110,7 @@ html, body {
 /**/
 .right form:hover{
     padding-left:5vw;
-    height: 40vh;
+    height: 75vh;
     box-shadow: 10px 10px #494747;}
 
 .right>form{
@@ -120,10 +120,12 @@ html, body {
     width:50vw;
     gap:0.4vh;
     margin: 0;
-   
+    height: 70vh;
     padding-top:0.5vh;
     background-color: #faf6f0;
     position:relative;
+    padding-left:5vw;
+    box-shadow: 5px 5px #585757;
   
 
     
@@ -135,7 +137,7 @@ html, body {
     position:relative;
     display:flex;
     flex-direction:column;
-   gap:2vh;
+   gap:1vh;
     justify-content: centre;
    
     width:20vw;
