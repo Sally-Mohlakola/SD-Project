@@ -10,23 +10,26 @@
     font-size: 1vw;
    justify-content: center;
    align-items: center;
-   background-color: #d1c4b2;
+  background-color: #e4d9dc;
+  
+ 
   
   
 
 }
+
+
 .delete_wrapper{
     display:flex;
    flex-direction: column;
     width:fit-content;
-    outline: 0.2vw solid brown;
+    outline: 0.2vw solid rgb(69, 61, 53);
     padding: 0px;
     height:60vh;
     gap:4vh;
-    background-color: #f9f6f1;
-    box-shadow: 0.6vw 0.6vh rgb(71, 71, 70);
-    border-radius: 0.1vw;
-  
+   background-color:#f9f6f1;
+    border-radius: 1vw;
+    
 
     
 
@@ -57,6 +60,8 @@
     border-radius:0.5vw;
     height: 6vh;
     width:7vw;
+    background-color: #432a14;
+    color: white;
 }
 .myicon{
     display:flex;
@@ -91,12 +96,17 @@
     display:flex;
     justify-content: center;
     
+    
+    
 }
 .delete_button button{
     width:10vw;
     height:5vh;
-    color:white;
-    border-radius: 1vw;
+    border-radius: 0.5vw;
     box-shadow: 10px 10px gray;
-    background-color: rgb(51, 31, 24);
+   /* background-color: rgb(51, 31, 24);*/
+      background-color: #432a14;
+}
+.delete_wrapper button:hover{
+
 }
