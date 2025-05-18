@@ -4,7 +4,7 @@
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background-color: #f9f6f1;
+  background-color: #f9f6f1 !important;
   color: #4c3d2b;
   line-height: 1.6;
 }
