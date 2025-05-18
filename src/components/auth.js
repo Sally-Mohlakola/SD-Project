@@ -11,8 +11,9 @@ import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
 
 export const Auth=()=>{
     const navigate = useNavigate();
-    
+    const [progress, setProgress] = useState(0);
     const [adminEmail, setAdminEmail] = useState([]);
+
     //fetch admin email from firebase
     useEffect(() => {
       const fetchAdmin = async () => {
@@ -28,6 +29,10 @@ export const Auth=()=>{
       };
       fetchAdmin();
     }, []);
+
+    const goToSignIn = () => {
+    setProgress(1);
+  };
 
     //Sign in with google pop-up
     const signInGoogle = async()=>{
@@ -54,17 +59,30 @@ export const Auth=()=>{
             }
     };
 
-  // Scroll fade effect state
-  const [scrollY, setScrollY] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  const windowHeight = window.innerHeight;
-  const progress = Math.min(scrollY / windowHeight, 1);
+
+const text = "Crafts&Grain";
+
+function AnimatedTitle() {
+  return (
+    <h1 className="animated-text">
+      {text.split("").map((char, i) => (
+        <section
+          key={i}
+          className="letter-fade-in"
+          style={{ animationDelay: `${i * 0.05}s` }}
+        >
+          {char}
+        </section>
+      ))}
+    </h1>
+  );
+}
+
+
+
+
 
   return (
     <section className="whole_">
@@ -76,9 +94,10 @@ export const Auth=()=>{
           pointerEvents: progress === 1 ? 'none' : 'auto',
         }}
       >
-        <h1 className='glow-title'>Crafts&Grain</h1>
-        <p>local excellency.</p>
-        <section className='scroll'><p className='scroll'>↓</p></section>
+        <h1 className="tracking-in-contract-bck-top">Crafts&Grain</h1>
+
+        <p className='fade-in-up'>local excellency.</p>
+        <button className='first-button fade-in-up' onClick={goToSignIn} style={{ animationDelay: "1.2s" }}>Next</button>
       </section>
 
       <section
@@ -101,4 +120,3 @@ export const Auth=()=>{
   );
 
 }//export
-
