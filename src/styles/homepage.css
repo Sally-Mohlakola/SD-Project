@@ -4,7 +4,7 @@
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background-color: #a29f99 !important;
+  background-color: #f9f6f1 !important;
   color: #4c3d2b;
   line-height: 1.6;
 }
@@ -27,10 +27,6 @@ top: 0;
 left: 0;
 overflow-y: auto;
 z-index: 100;
-}
-
-#img-welcome{
-  border-radius: 2%;
 }
 
 .sidebar-menu h1 {
@@ -143,7 +139,7 @@ transition: all 0.3s ease;
 article {
   background-color: #fff;
   padding: 20px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
