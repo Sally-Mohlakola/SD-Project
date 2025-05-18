@@ -13,7 +13,7 @@
  position:absolute;
   left:0;
   right:0; 
- height:200vh;
+ height:100vh;
   top:0;
   padding-left:6vh;
   padding-right:6vh;
@@ -49,6 +49,44 @@
   font-size: 2rem;
   margin: 0;
 }
+
+.first-button {
+  font-size: 1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6b573e, #4c3d26);
+  border: none;
+  border-radius: 50px; /* pill shape */
+  padding: 1rem 3rem;
+  cursor: pointer;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 12px rgba(94, 76, 54, 0.4);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+  user-select: none;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+}
+
+.first-button:hover {
+  background: linear-gradient(135deg, #7a6848, #5a4e34);
+  box-shadow: 0 10px 20px rgba(94, 76, 54, 0.6);
+  transform: scale(1.07);
+}
+
+.first-button:active {
+  background: linear-gradient(135deg, #554429, #3f2f1f);
+  box-shadow: 0 4px 8px rgba(94, 76, 54, 0.3);
+  transform: scale(0.97);
+}
+
+.first-button:focus {
+  outline: 3px solid #bca78d;
+  outline-offset: 3px;
+}
+
 
 .sign-in h1 {
   font-family: 'Gill Sans', sans-serif;
@@ -142,4 +180,74 @@
 .glow-title:hover {
   text-shadow: 0 0 10px #fff, 0 0 20px #f7c8a0, 0 0 30px #ffddb0;
   transform: scale(1.05);
+}
+
+
+
+@keyframes tracking-in-contract-bck-top {
+  0% {
+    letter-spacing: 1em;
+    transform: translateZ(400px) translateY(-300px);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    letter-spacing: normal;
+    transform: translateZ(0) translateY(0);
+    opacity: 1;
+  }
+}
+
+.tracking-in-contract-bck-top {
+  animation: tracking-in-contract-bck-top 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  font-size: 4rem;
+  font-family: 'Brush Script MT', cursive;
+  color: white;
+  text-align: center;
+  margin: 0 0 1rem 0;
+}
+
+
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.landing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1597696929736-6d13bed8e6a8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+  z-index: -2;
+  filter: blur(4px) brightness(0.6);
+}
+
+.landing::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+.tracking-in-contract-bck-top {
+  text-shadow: 0 0 10px rgba(255, 240, 200, 0.5);
+  letter-spacing: 2px;
+}
+
+
+.first-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px #c4b59a;
 }
