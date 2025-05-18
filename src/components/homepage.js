@@ -262,7 +262,7 @@ useEffect(() => {
                   <h3>{shop.nameofshop}</h3>
                   <p>{shop.description}</p>
                   <p>Category: {shop.category}</p>
-                  <button onClick={() => actionEnterShop(shop)}>Enter Shop</button>
+                  <button className='button' onClick={() => actionEnterShop(shop)}>Enter Shop</button>
                 </article>
               ))
             ) : (

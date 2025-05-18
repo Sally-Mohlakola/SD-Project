@@ -11,8 +11,9 @@ import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
 
 export const Auth=()=>{
     const navigate = useNavigate();
-    
+    const [progress, setProgress] = useState(0);
     const [adminEmail, setAdminEmail] = useState([]);
+
     //fetch admin email from firebase
     useEffect(() => {
       const fetchAdmin = async () => {
@@ -28,6 +29,10 @@ export const Auth=()=>{
       };
       fetchAdmin();
     }, []);
+
+    const goToSignIn = () => {
+    setProgress(1);
+  };
 
     //Sign in with google pop-up
     const signInGoogle = async()=>{
@@ -54,20 +59,10 @@ export const Auth=()=>{
             }
     };
 
-  // Scroll fade effect state
-  const [scrollY, setScrollY] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const windowHeight = window.innerHeight;
-  const progress = Math.min(scrollY / windowHeight, 1);
 
   return (
-    <section>
+    <section className="whole_">
       <section
         className="landing"
         style={{
@@ -76,9 +71,10 @@ export const Auth=()=>{
           pointerEvents: progress === 1 ? 'none' : 'auto',
         }}
       >
-        <h1 className='glow-title'>Crafts&Grain</h1>
-        <p>local excellency.</p>
-        <section className='scroll'><p className='scroll'>↓</p></section>
+        <h1 className="tracking-in-contract-bck-top">Crafts&Grain</h1>
+
+        <p className='fade-in-up'>local excellency.</p>
+        <button className='first-button fade-in-up' onClick={goToSignIn} style={{ animationDelay: "1.2s" }}>Next</button>
       </section>
 
       <section
@@ -90,15 +86,14 @@ export const Auth=()=>{
         }}
       >
         <h2>Crafts&Grain</h2>
-        <p className='desc-section'>Explore a curated collection of unique, handcrafted goods and fresh local flavors.</p>
-        <p className='desc-section'>Our online artisanal market connects you directly with passionate creators, bringing the heart of craftsmanship and community right to your doorstep. </p>
-        
+        <p className='desc-section' style={{ animationDelay: '0.7s', animationFillMode: 'forwards' }}>Explore a curated collection of unique, handcrafted goods and fresh local flavors.</p>
+        <p className='desc-section' style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>Connect with passionate creators to bring the heart of craftsmanship and community right to your doorstep. </p>
+   
         <button className="google-button" onClick={signInGoogle}>
           <i className="fa-brands fa-google"></i> Sign in with Google
         </button>
-      </section>
+</section>
 </section>
   );
 
 }//export
-

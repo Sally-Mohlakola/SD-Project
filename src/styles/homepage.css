@@ -4,7 +4,7 @@
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background-color: #f9f6f1;
+  background-color: #f9f6f1 !important;
   color: #4c3d2b;
   line-height: 1.6;
 }
@@ -149,7 +149,7 @@ article:hover {
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-button {
+.button {
   background-color: #5a422a;
   color: white;
   padding: 10px 20px;

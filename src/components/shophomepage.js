@@ -1,11 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
-import {db} from "../config/firebase";
-import {getDocs,collection} from "firebase/firestore"
-import {ref, getDownloadURL} from "firebase/storage";
-import { storage } from '../config/firebase';
-import {uploadBytes} from "firebase/storage";
 import '../styles/shopdashboard.css';
 import { getFunctions, httpsCallable } from "firebase/functions";
 
@@ -16,7 +11,7 @@ export const ShopHomepage =()=>{
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
     const [storename, setstorename] = useState("");
-    const [imageupload,setimageupload]=useState(null);
+   // const [imageupload,setimageupload]=useState(null);
     const [loading, setLoading] = useState(true); 
     const [ imageExists, setImageExits]= useState(false);
 useEffect(()=>{
@@ -64,7 +59,7 @@ useEffect(() => {
 console.log("shopimage",shopimage);
 
  localStorage.setItem("shopname", storename);
-const uploadimage= async()=>{
+/*const uploadimage= async()=>{
         try{
           if (imageupload==null){
             alert('please select a image for your shop');
@@ -83,7 +78,7 @@ const uploadimage= async()=>{
           
          
         
-        };
+        };*/
 
         if (loading){
           return (
