@@ -67,7 +67,7 @@ export const Auth=()=>{
   const progress = Math.min(scrollY / windowHeight, 1);
 
   return (
-    <section className="whole">
+    <section className="whole_">
       <section
         className="landing"
         style={{
