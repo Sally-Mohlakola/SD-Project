@@ -115,7 +115,7 @@ html, body {
 
 .right>form{
     display:flex;
-    outline: 3px solid #9c6644;
+    outline: 1px solid #9c6644;
     border-radius: 40px;
     width:50vw;
     gap:0.4vh;
