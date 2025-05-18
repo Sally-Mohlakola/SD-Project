@@ -1,0 +1,38 @@
+.Cover{
+    display:flex;
+    flex-direction:column;
+    
+  font-size: 1vw;
+  position:absolute;
+  left:0;
+  right:0;
+ height:150vh;
+  top:0;
+  padding-left:6vh;
+  padding-right:6vh;
+  padding-bottom: 0px;
+  gap: 1vh;
+  background-color: #f9f6f1;
+    
+}
+.Cover h2,h3{
+    font-size:1vw;
+}
+.back_button {
+    width:10vw;
+}
+.Order:hover{
+    outline:  2px solid gray;
+    border-radius: 10px;
+    width:50vw;
+    box-shadow: 10px 10px #494747;
+}
+.Cover button{
+    cursor: pointer;
+}
+button:active {
+
+}
+button:hover{
+    
+}
