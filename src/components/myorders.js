@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import '../styles/myorders.css'
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import { db } from "../config/firebase";
@@ -134,18 +135,18 @@ export const MyOrders = () => {
 
   return (
     
-    <section>
+    <section className='Cover'>
       <h2>My Orders</h2>
-      <button onClick={navigateDashboard}>← Dashboard</button>
+      <button  className="back_button" onClick={navigateDashboard}>← Dashboard</button>
       {myorders.map((ord, index) => (
-        <section key={index}>
+        <section className="Order" key={index}>
           <h3>Order #{index + 1}</h3>
 
           {ord.products.map((prod, index2) => (
             <section key={index2}>
               <p><strong>Name:</strong> {prod.nameofitem}</p>
               <p><strong>Quantity:</strong> {prod.quantity}</p>
-              <p><strong>Price</strong>R{prod.price}</p>
+              <p><strong>Price:</strong>R{prod.price}</p>
             </section>
           ))}
 
