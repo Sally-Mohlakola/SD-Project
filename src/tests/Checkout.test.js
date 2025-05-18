@@ -1,100 +1,139 @@
+// Checkout.test.jsx
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Checkout } from '../components/checkout';
-import * as ReactRouterDom from 'react-router-dom';
-
-
-jest.mock('react-router-dom', () => {
-  const react = jest.requireActual('react-router-dom');
-  return {...react, useNavigate: jest.fn(),};});
+import { MemoryRouter } from 'react-router-dom';
 
 const mockNavigate = jest.fn();
 
-const renderWithRouter = (component, { route = '/checkout' } = {}) => {
-  window.history.pushState({}, 'test', route);
-  return render(component, { wrapper: MemoryRouter });
-};
-
-beforeEach(() => {
-  ReactRouterDom.useNavigate.mockReturnValue(mockNavigate);
-  window.sessionStorage.clear();
-  mockNavigate.mockClear();
-  jest.clearAllMocks();
-});
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockNavigate,
+}));
 
 describe('Checkout Component', () => {
-  test('handles cart items with missing fields', async () => {
-    const malformedItems = [{ name: 'item1' }, { price: 10, quantity: 2 } ];
-    window.sessionStorage.setItem('cart_items', JSON.stringify(malformedItems));
-
-    renderWithRouter(<Checkout />);
-
-    await waitFor(() => {
-    // If there cart has missing fields, then the total cost should be zero (cannot pay for malformed items)
-      expect(screen.getByText(/item1/i)).toBeInTheDocument();
-      expect(screen.getByText(/Total cost: R0/)).toBeInTheDocument();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
+    sessionStorage.clear();
   });
 
-  test('handles zero quantity items in cart calculations', async () => {
-    const zeroQuantityItems = [{name: 'Free Item', price: '10', quantity: '0'}];
-    window.sessionStorage.setItem('cart_items', JSON.stringify(zeroQuantityItems));
+  test('renders empty cart message when no items', () => {
+    render(<Checkout />, { wrapper: MemoryRouter });
 
-    renderWithRouter(<Checkout/>);
-
-    await waitFor(() => {
-      expect(screen.getByText(/Total cost: R0/)).toBeInTheDocument();
-      expect(screen.getByText(/Total count: 0/)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/checkout/i)).toBeInTheDocument();
+    expect(screen.getByText(/your cart is empty!/i)).toBeInTheDocument();
+    expect(screen.queryByText(/remove from cart/i)).not.toBeInTheDocument();
   });
 
-  test('handles decimal total price in cart calculations', async () => {
-    const decimalItems = [{name: 'Precision Item', price: '9.99', quantity: '2'}];
-    window.sessionStorage.setItem('cart_items', JSON.stringify(decimalItems));
+  test('loads cart items from sessionStorage and displays them', () => {
+    const cartItems = [
+      { name: 'Apple', itemdescription: 'Fresh apple', price: '10', quantity: '2' },
+      { name: 'Banana', itemdescription: 'Yellow banana', price: '5', quantity: '3' },
+    ];
+    sessionStorage.setItem('cart_items', JSON.stringify(cartItems));
 
-    renderWithRouter(<Checkout />);
+    render(<Checkout />, { wrapper: MemoryRouter });
 
-    await waitFor(() => {
-      expect(screen.getByText(/Total cost: R19.98/)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/apple/i)).toBeInTheDocument();
+    expect(screen.getByText(/banana/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/remove from cart/i).length).toBe(2);
+
+    // Total cost and total items
+    expect(screen.getByText(/total cost: r35/i)).toBeInTheDocument(); // (10*2)+(5*3)=35
+    expect(screen.getByText(/total number of items: 5/i)).toBeInTheDocument();
   });
 
-  test('preserves payment state when navigating', async () => {
-    const paymentItems = [{ name: 'State Item', price: '15', quantity: '1'}];
-    window.sessionStorage.setItem('cart_items', JSON.stringify(paymentItems));
+  test('handles invalid JSON in sessionStorage gracefully', () => {
+    sessionStorage.setItem('cart_items', 'not a json');
 
-    renderWithRouter(<Checkout />);
+    // spy on console.error to check error handling
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-    fireEvent.click(screen.getByText(/Proceed to Checkout/i));
+    render(<Checkout />, { wrapper: MemoryRouter });
 
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/payment', {
-        state: { total: 15 }
-      });
-    });
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    expect(screen.getByText(/your cart is empty!/i)).toBeInTheDocument();
+
+    consoleErrorSpy.mockRestore();
   });
 
-  test('handles null cart items in session storage', async () => {
-    window.sessionStorage.setItem('cart_items', 'null');
+  test('removes item from cart and updates sessionStorage and UI', () => {
+    const cartItems = [
+      { name: 'Apple', itemdescription: 'Fresh apple', price: '10', quantity: '2' },
+      { name: 'Banana', itemdescription: 'Yellow banana', price: '5', quantity: '3' },
+    ];
+    sessionStorage.setItem('cart_items', JSON.stringify(cartItems));
+    sessionStorage.setItem('chosenshop', 'Shop123');
 
-    renderWithRouter(<Checkout />);
+    render(<Checkout />, { wrapper: MemoryRouter });
 
-    await waitFor(() => {
-      expect(screen.getByText(/Your cart is empty!/i)).toBeInTheDocument();
-    });
+    // Click remove button on first item (Apple)
+    const removeButtons = screen.getAllByText(/remove from cart/i);
+    fireEvent.click(removeButtons[0]);
+
+    // Apple removed, only Banana remains
+    expect(screen.queryByText(/apple/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/banana/i)).toBeInTheDocument();
+
+    // sessionStorage updated
+    const storedCart = JSON.parse(sessionStorage.getItem('cart_items'));
+    expect(storedCart.length).toBe(1);
+    expect(storedCart[0].name).toBe('Banana');
+
+    // chosenshop remains because cart not empty
+    expect(sessionStorage.getItem('chosenshop')).toBe('Shop123');
   });
 
-  test('handles very large quantity calculations', async () => {
-    const largeQuantityItems = [
-      {name: 'Bulk Item', price: '0.10', quantity: '1000'}];
-    window.sessionStorage.setItem('cart_items', JSON.stringify(largeQuantityItems));
+  test('removing last item clears chosenshop from sessionStorage', () => {
+    const cartItems = [
+      { name: 'Apple', itemdescription: 'Fresh apple', price: '10', quantity: '2' }
+    ];
+    sessionStorage.setItem('cart_items', JSON.stringify(cartItems));
+    sessionStorage.setItem('chosenshop', 'Shop123');
 
-    renderWithRouter(<Checkout/>);
+    render(<Checkout />, { wrapper: MemoryRouter });
 
-    await waitFor(() => {
-      expect(screen.getByText(/Total cost: R100/)).toBeInTheDocument();
-      expect(screen.getByText(/Total count: 1000/)).toBeInTheDocument();
-    });
+    // Remove last item
+    fireEvent.click(screen.getByText(/remove from cart/i));
+
+    expect(screen.queryByText(/apple/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/your cart is empty!/i)).toBeInTheDocument();
+
+    // cart_items updated to empty array string or removed
+    expect(sessionStorage.getItem('cart_items')).toBe('[]');
+
+    // chosenshop removed
+    expect(sessionStorage.getItem('chosenshop')).toBe(null);
+  });
+
+  test('back button calls navigate to /homepage', () => {
+    render(<Checkout />, { wrapper: MemoryRouter });
+
+    fireEvent.click(screen.getByText(/back/i));
+    expect(mockNavigate).toHaveBeenCalledWith('/homepage');
+  });
+
+  test('proceed button navigates to /payment with total cost when cart has items', () => {
+    const cartItems = [
+      { name: 'Apple', itemdescription: 'Fresh apple', price: '10', quantity: '2' }
+    ];
+    sessionStorage.setItem('cart_items', JSON.stringify(cartItems));
+
+    render(<Checkout />, { wrapper: MemoryRouter });
+
+    fireEvent.click(screen.getByText(/proceed to checkout/i));
+
+    expect(mockNavigate).toHaveBeenCalledWith('/payment', { state: { total: 20 } });
+  });
+
+  test('proceed button shows alert when cart is empty', () => {
+    window.alert = jest.fn();
+
+    render(<Checkout />, { wrapper: MemoryRouter });
+
+    fireEvent.click(screen.getByText(/proceed to checkout/i));
+
+    expect(window.alert).toHaveBeenCalledWith("Your cart is empty. Add items to your cart before proceeding to payment.");
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

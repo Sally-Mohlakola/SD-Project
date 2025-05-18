@@ -1,130 +1,108 @@
+// src/tests/CreateShop.test.js
 import React from 'react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import { Createshop } from '../components/createshop';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { getDocs, addDoc } from 'firebase/firestore';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
 
-// MOCK FIREBASE CONFIG
+// Mock Firebase modules completely
 jest.mock('../config/firebase', () => ({
   db: {},
   storage: {},
-  auth: {},
-  provider: {},
 }));
 
-// MOCK REACT ROUTER
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-}));
-
-// MOCK FIREBASE SDKs
 jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(),
-  getDocs: jest.fn(),
-  addDoc: jest.fn(),
-  updateDoc: jest.fn(),
   collection: jest.fn(),
-  doc: jest.fn(),
+  addDoc: jest.fn(),
+  getDocs: jest.fn(),
+}));
+
+jest.mock('firebase/storage', () => ({
+  ref: jest.fn(),
+  uploadBytes: jest.fn(),
 }));
 
 jest.mock('firebase/functions', () => ({
-  getFunctions: jest.fn(),
-  httpsCallable: jest.fn(),
+  getFunctions: jest.fn(() => ({})),
+  httpsCallable: jest.fn(() => async (params) => {
+    if (params.nameofshop === 'error') throw new Error('Mocked Error');
+    return { data: { shops: [{ userid: '123', nameofshop: 'testshop' }] } };
+  }),
 }));
 
-beforeEach(() => {
-  localStorage.setItem('userid', 'u123');
+jest.mock('react-router-dom', () => ({
+  Link: ({ children }) => <div>{children}</div>,
+  useNavigate: () => jest.fn(),
+}));
+
+describe('Createshop component', () => {
+  beforeEach(() => {
+    localStorage.setItem('userid', '123');
+  });
+
+  it('renders without crashing', () => {
+    render(<Createshop />);
+    expect(screen.getByText('Creating my Shop')).toBeInTheDocument();
+  });
+
+  it('displays alert when fields incomplete', async () => {
+    window.alert = jest.fn();
+    render(<Createshop />);
+    fireEvent.click(screen.getByText('Submit to admin'));
+    expect(window.alert).toHaveBeenCalledWith('Please complete all fields before submitting ');
+  });
+test('checks for duplicate shop name and shows alert', async () => {
   window.alert = jest.fn();
-});
 
-afterEach(() => {
-  localStorage.clear();
-  jest.clearAllMocks();
-});
-
-describe('Createshop component acceptance tests', () => {
-  test('displays alert when at least one field is empty on submit', async () => {
-    getDocs.mockResolvedValueOnce({ docs: [] });
-    httpsCallable.mockReturnValue(() =>
-      Promise.resolve({ data: { shops: [] } })
-    );
-
-    render(
-      <MemoryRouter>
-        <Createshop />
-      </MemoryRouter>
-    );
-
-    const submitButton = screen.getByText(/Submit to admin/i);
-
-    fireEvent.change(screen.getByLabelText(/Name of shop/i), { target: { value: '' } });
-    fireEvent.change(screen.getByLabelText(/Shop description/i), { target: { value: 'A great shop' } });
-    fireEvent.change(screen.getByLabelText(/Category:/i), { target: { value: 'Pottery' } });
-    fireEvent.change(screen.getByLabelText(/Add logo\/image:/i), { target: { files: [new File([''], 'logo.png')] } });
-
-    fireEvent.click(submitButton);
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Please complete all fields before submitting ');
+  // Mock httpsCallable to return a shop with name 'testshop'
+  httpsCallable.mockImplementation(() => {
+    return async () => ({
+      data: {
+        shops: [
+          { userid: 'someUserId', nameofshop: 'testshop' }, // Duplicate shop here!
+        ],
+      },
     });
   });
 
-  test('should alert if shop name already exists', async () => {
-    httpsCallable.mockReturnValue(() =>
-      Promise.resolve({ data: { shops: [{ userid: 'another', nameofshop: 'Existing Shop' }] } })
-    );
+  render(<Createshop />);
 
-    render(
-      <MemoryRouter>
-        <Createshop />
-      </MemoryRouter>
-    );
-
-    fireEvent.change(screen.getByLabelText(/Name of shop/i), { target: { value: 'Existing Shop' } });
-    fireEvent.change(screen.getByLabelText(/Shop description/i), { target: { value: 'Some description' } });
-    fireEvent.change(screen.getByLabelText(/Category:/i), { target: { value: 'Pottery' } });
-    fireEvent.change(screen.getByLabelText(/Add logo\/image:/i), {
-      target: { files: [new File(['dummy'], 'logo.png', { type: 'image/png' })] },
-    });
-
-    fireEvent.click(screen.getByText(/Submit to admin/i));
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('A store with that name exists');
-    });
+  // Wait for the shoplist to be set (because of async useEffect)
+  await waitFor(() => {
+    // We can check for something in the DOM or just wait for any state change
+    expect(screen.getByLabelText('Name of shop')).toBeInTheDocument();
   });
 
-  test('sends data to Firebase and displays confirmation paragraph', async () => {
-    httpsCallable.mockImplementation((_, name) => {
-      if (name === 'getAllShops') {
-        return () => Promise.resolve({ data: { shops: [] } });
-      } else if (name === 'createShop') {
-        return () => Promise.resolve({ data: { success: true } });
-      }
-      return () => Promise.resolve();
-    });
+  // Fill all required fields:
+  fireEvent.change(screen.getByLabelText('Name of shop'), { target: { value: 'testshop' } });
+  fireEvent.change(screen.getByLabelText('Category:'), { target: { value: 'Pottery' } });
+  fireEvent.change(screen.getByLabelText('Shop description'), { target: { value: 'Test description' } });
 
-    render(
-      <MemoryRouter>
-        <Createshop />
-      </MemoryRouter>
-    );
+  // File input dummy file
+  const file = new File(['dummy content'], 'logo.png', { type: 'image/png' });
+  const inputFile = screen.getByLabelText('Add logo/image:');
+  Object.defineProperty(inputFile, 'files', { value: [file] });
+  fireEvent.change(inputFile);
 
-    fireEvent.change(screen.getByLabelText(/Name of shop/i), { target: { value: 'Ashopname' } });
-    fireEvent.change(screen.getByLabelText(/Shop description/i), { target: { value: 'A great shop' } });
-    fireEvent.change(screen.getByLabelText(/Category:/i), { target: { value: 'Pottery' } });
+  fireEvent.click(screen.getByText('Submit to admin'));
 
-    const file = new File(['dummy content'], 'logo.png', { type: 'image/png' });
-    fireEvent.change(screen.getByLabelText(/Add logo\/image:/i), {
-      target: { files: [file] },
-    });
+  expect(window.alert).toHaveBeenCalledWith('A store with that name exists');
+});
+  it('submits successfully when all fields are filled and no duplicate name', async () => {
+    window.alert = jest.fn();
+    render(<Createshop />);
+    fireEvent.change(screen.getByLabelText('Name of shop'), { target: { value: 'uniqueShop' } });
+    fireEvent.change(screen.getByLabelText('Category:'), { target: { value: 'Pottery' } });
+    fireEvent.change(screen.getByLabelText('Shop description'), { target: { value: 'Description' } });
 
-    fireEvent.click(screen.getByText(/Submit to admin/i));
+    // Mock file input
+    const file = new File(['dummy content'], 'shop.png', { type: 'image/png' });
+    const fileInput = screen.getByLabelText('Add logo/image:');
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    fireEvent.click(screen.getByText('Submit to admin'));
 
     await waitFor(() => {
-      expect(screen.getByText(/Your shop has been sent to admin/i)).toBeInTheDocument();
+      expect(screen.getByText('Your shop has been sent to admin')).toBeInTheDocument();
     });
   });
 });
