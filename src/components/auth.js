@@ -61,29 +61,6 @@ export const Auth=()=>{
 
 
 
-
-const text = "Crafts&Grain";
-
-function AnimatedTitle() {
-  return (
-    <h1 className="animated-text">
-      {text.split("").map((char, i) => (
-        <section
-          key={i}
-          className="letter-fade-in"
-          style={{ animationDelay: `${i * 0.05}s` }}
-        >
-          {char}
-        </section>
-      ))}
-    </h1>
-  );
-}
-
-
-
-
-
   return (
     <section className="whole_">
       <section
@@ -109,13 +86,13 @@ function AnimatedTitle() {
         }}
       >
         <h2>Crafts&Grain</h2>
-        <p className='desc-section'>Explore a curated collection of unique, handcrafted goods and fresh local flavors.</p>
-        <p className='desc-section'>Our online artisanal market connects you directly with passionate creators, bringing the heart of craftsmanship and community right to your doorstep. </p>
-        
+        <p className='desc-section' style={{ animationDelay: '0.7s', animationFillMode: 'forwards' }}>Explore a curated collection of unique, handcrafted goods and fresh local flavors.</p>
+        <p className='desc-section' style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>Connect with passionate creators to bring the heart of craftsmanship and community right to your doorstep. </p>
+   
         <button className="google-button" onClick={signInGoogle}>
           <i className="fa-brands fa-google"></i> Sign in with Google
         </button>
-      </section>
+</section>
 </section>
   );
 
