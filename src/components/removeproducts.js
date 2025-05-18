@@ -61,18 +61,34 @@ navigate('/displayproducts');
 
     return(
         <section className="Wrap">
-        
+            <section className="delete_wrapper">
 
-            <section className="Popup">
-            <h1>Do you want to remove "{Item}"</h1>
-            <section className="Buttons">
-            <button onClick={Back}>Back</button>
+
+
+            <section className="back_button">
+            <button  onClick={Back}><i className="bx bx-x"> close</i></button>
+            </section>
+
+           
+            <section className="myicon"><i className="bx bx-trash"></i> </section>
+           
+
+            <section className="H2">
+            <h1>Do you want to remove</h1><br/>
+            </section>
+
+            <section className="H1">
+            <h1>{Item}</h1>
+            </section>
+
+            <section className="delete_button">
             <button onClick={delete_item}>Confirm</button>
             </section>
             
 
             </section>
             </section>
+           
     );
 
 };

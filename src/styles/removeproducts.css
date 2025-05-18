@@ -95,7 +95,8 @@
 .delete_button button{
     width:10vw;
     height:5vh;
-    border-radius: 0.5vw;
+    color:white;
+    border-radius: 1vw;
     box-shadow: 10px 10px gray;
     background-color: rgb(51, 31, 24);
 }

@@ -1,127 +1,283 @@
 import React from 'react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MyShop } from '../components/myshop';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { getDocs } from 'firebase/firestore';
 
+// Mock all dependancies
+
+// Mock Firebase completely
+jest.mock('../config/firebase', () => ({
+  db: {}, storage: {}, app: {}, auth: {
+    currentUser: { uid: 'user123' }
+  }
+}));
+
+//Firebase Cloud Functions
+const mockGetAllShops = jest.fn();
+const mockDeleteShop = jest.fn();
+
+jest.mock('firebase/functions', () => ({
+  getFunctions: jest.fn(() => ({})),
+  httpsCallable: jest.fn((_, name) => {
+    if (name === 'getAllShops') return mockGetAllShops;
+    if (name === 'deleteShop') return mockDeleteShop;
+    return jest.fn();
+  })
+}));
+
+//firebase/firestore and firebase/storage
+jest.mock('firebase/firestore', () => ({
+  collection: jest.fn(), deleteDoc: jest.fn(), doc: jest.fn()
+}));
+
+jest.mock('firebase/storage', () => ({
+  deleteObject: jest.fn(),
+  ref: jest.fn()
+}));
+
+// Mock react-router
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
+  Link: ({ children, to }) => <a href={to} data-testid="router-link">{children}</a>,
 }));
 
+describe('MyShop component', () => {
+  beforeEach(() => {
+    // Clear all mocks and set localStorage
+    jest.clearAllMocks();
+    localStorage.clear();
+    localStorage.setItem('userid', 'u123');
 
-jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(),
-  getDocs: jest.fn(),
-  collection: jest.fn(),
-  query: jest.fn(),
-  where: jest.fn(),
-  doc: jest.fn(),
-  updateDoc: jest.fn(),
-  addDoc: jest.fn(),
-}));
-
-
-beforeEach(() => {
-  localStorage.setItem('userid', 'u123');
-});
-
-afterEach(() => {
-  localStorage.clear();
-  jest.clearAllMocks();
-});
-
-//When button is clicked this page must appear
-const renderComponent = () => {
-  return render(
-    <MemoryRouter>
-      <MyShop />
-    </MemoryRouter>);
-};
-
-describe('MyShop component acceptance tests', () => {
-  test('renders form for user with no shop', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: [], //initialise with no shops
-    });
-
-    renderComponent();
-
-    await waitFor(() => {
-      expect(screen.getByText(/My Shop/i)).toBeInTheDocument();
-    });
-
-    expect(screen.getByText(/Name of shop/i)).toBeInTheDocument();
+    // Reset console.error mock to avoid test noise
+    jest.spyOn(console, 'error').mockImplementation(() => { });
   });
 
-  test('renders a awaiting message if shop is pending admin approval', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: [
-        {
-          data: () => ({
-            userid: 'u123',
-            nameofshop: 'New shop',
-            description: 'This is a description',
-            status: 'Awaiting',
-          }),
-        },
-      ],
+  afterEach(() => {
+    // Restore console.error
+    console.error.mockRestore();
+  });
+
+  test('renders loading state initially', async () => {
+    // Don't resolve the mockGetAllShops promise yet
+    mockGetAllShops.mockImplementation(() => new Promise(() => { }));
+
+    const { container } = render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
+    // Should render an empty section while loading
+    expect(container.firstChild).toBeEmptyDOMElement();
+  });
+
+  test('renders no shop message when user has no shop', async () => {
+    mockGetAllShops.mockResolvedValue({
+      data: { shops: [] }
     });
 
-    renderComponent();
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/You dont have a shop yet/i)).toBeInTheDocument();
+    });
+
+    const startButton = screen.getByText(/Start my shop?/i);
+    expect(startButton).toBeInTheDocument();
+
+    // Test navigation on button click
+    fireEvent.click(startButton);
+    expect(mockNavigate).toHaveBeenCalledWith('/createshop');
+  });
+
+  test('renders awaiting approval message when shop status is Awaiting', async () => {
+    mockGetAllShops.mockResolvedValue({
+      data: {
+        shops: [{
+          id: 'shop1',
+          userid: 'u123',
+          nameofshop: 'Test Shop',
+          description: 'Test description',
+          status: 'Awaiting',
+          imageurl: 'test-image.jpg'
+        }]
+      }
+    });
+
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
     await waitFor(() => {
       expect(screen.getByText(/The admin has not cleared your store yet!/i)).toBeInTheDocument();
     });
+
+    const homeLink = screen.getByText(/Home/i);
+    expect(homeLink).toBeInTheDocument();
+    expect(homeLink.getAttribute('href')).toBe('/homepage');
   });
 
-
-  test('navigates to shop dashboard if shop is accepted', async () => {
-    getDocs.mockResolvedValueOnce({
-      docs: [{
-        data: () => ({
+  test('navigates to dashboard when shop status is Accepted', async () => {
+    mockGetAllShops.mockResolvedValue({
+      data: {
+        shops: [{
+          id: 'shop1',
           userid: 'u123',
-          nameofshop: 'New shop',
-          description: 'This is a description',
+          nameofshop: 'Test Shop',
+          description: 'Test description',
           status: 'Accepted',
-        }),
-      },],
+          imageurl: 'test-image.jpg'
+        }]
+      }
     });
 
-    renderComponent();
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/shopdashboard');
     });
   });
 
-  test('renders an acceptance message after shop form is submitted', async () => {
-    getDocs.mockResolvedValueOnce({ docs: [] });
+  test('shows rejection message and delete button when shop status is Rejected', async () => {
+    mockGetAllShops.mockResolvedValue({
+      data: {
+        shops: [{
+          id: 'shop1',
+          userid: 'u123',
+          nameofshop: 'Test Shop',
+          description: 'Test description',
+          status: 'Rejected',
+          imageurl: 'test-url'
+        }]
+      }
+    });
 
-    renderComponent();
+    mockDeleteShop.mockResolvedValue({ data: { message: 'Deleted' } });
+
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
     await waitFor(() => {
-      expect(screen.getByText(/My Shop/i)).toBeInTheDocument();
-    });
-    //Fire events simulate the actions are user will do, hence .change is for user typing...
-    // Mock the user typing, not berate them... but pretend to be them
-
-    //Name, descriotion, category, click button to submit
-    fireEvent.change(screen.getByLabelText(/Name of shop/i), {
-      target: { value: 'New Shop' },
+      expect(screen.getByText(/Your request to open a store was rejected/i)).toBeInTheDocument();
     });
 
-    fireEvent.change(screen.getByLabelText(/Shop description/i), {
-      target: { value: 'This is a description' },
-    });
+    const reapplyButton = screen.getByText(/Apply to open shop again/i);
+    expect(reapplyButton).toBeInTheDocument();
 
-    fireEvent.change(screen.getByLabelText(/Category:/i), {
-      target: { value: 'Pottery' },
-    });
+    fireEvent.click(reapplyButton);
 
-    fireEvent.click(screen.getByText(/Submit to admin/i));
     await waitFor(() => {
-      expect(screen.getByText(/Your shop has been sent to admin/i)).toBeInTheDocument();
+      expect(mockDeleteShop).toHaveBeenCalledWith({
+        shopId: 'shop1',
+        userId: 'u123',
+        url: 'test-url'
+      });
+      expect(mockNavigate).toHaveBeenCalledWith('/createshop');
     });
   });
 
-});//end of cache statement
+  test('handles case when no user ID is found in localStorage', async () => {
+    localStorage.removeItem('userid');
+
+    mockGetAllShops.mockResolvedValue({
+      data: { shops: [] }
+    });
+
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/You dont have a shop yet/i)).toBeInTheDocument();
+    });
+  });
+
+  test('handles error when fetching shops from Firebase', async () => {
+    mockGetAllShops.mockRejectedValue(new Error('Network error'));
+
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
+  test('handles error when deleting a rejected shop', async () => {
+    mockGetAllShops.mockResolvedValue({
+      data: {
+        shops: [{
+          id: 'shop1',
+          userid: 'u123',
+          nameofshop: 'Test Shop',
+          description: 'Test description',
+          status: 'Rejected',
+          imageurl: 'test-url'
+        }]
+      }
+    });
+
+    mockDeleteShop.mockRejectedValue(new Error('Delete error'));
+
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/Your request to open a store was rejected/i)).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText(/Apply to open shop again/i));
+
+    await waitFor(() => {
+      expect(console.error).toHaveBeenCalledWith("Error deleting shop:", expect.any(Error));
+    });
+  });
+
+  test('handles multiple shops in the data but finds the correct user shop', async () => {
+    mockGetAllShops.mockResolvedValue({
+      data: {
+        shops: [
+          {
+            id: 'shop1', userid: 'user123', nameofshop: 'shop123', description: 'description',
+            status: 'Accepted', imageurl: 'shopimage.jpg'
+          }, {
+            id: 'shop2', nuserid: 'user456', nameofshop: 'shop456', description: 'description',
+            status: 'Accepted', imageurl: 'shopimage.jpg'
+          }
+        ]
+      }
+    });
+
+    render(
+      <MemoryRouter>
+        <MyShop />
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/The admin has not cleared your store yet!/i)).toBeInTheDocument();
+    });
+  });
+});

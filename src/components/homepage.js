@@ -240,7 +240,7 @@ useEffect(() => {
   return (
     <section>
       <h6 id="img-cart-icon" onClick={Showcartitems}>Cart({cartitems.length})</h6>
-      <h1>Natural Craft. Rooted in Care</h1>
+      <h1 id="message">Natural Craft. Rooted in Care</h1>
       <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
       <img id="img-welcome" alt="welcome banner" src="https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg" ></img>{/*Welcome IMage*/}
 
@@ -281,7 +281,7 @@ useEffect(() => {
     <FilterPrice query={priceFilter} setPrice={setPriceFilter} />
     <h2>Artisanal works of {chosenShop.nameofshop}</h2>
 
-    {/* ✅ Wait for loading to finish before showing total */}
+
     {!loadingProducts && (
       <p>Total number of products in shop: {filterProduct.length}</p>
     )}

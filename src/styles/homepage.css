@@ -139,6 +139,7 @@ transition: all 0.3s ease;
 article {
   background-color: #fff;
   padding: 20px;
+  margin-bottom: 30px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -150,15 +151,15 @@ article:hover {
 }
 
 .button {
-  background-color: #5a422a;
-  color: white;
-  padding: 10px 20px;
-  border: n;
-  border-radius: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-family: 'Georgia', serif;
+  background-color: #5a422a !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease !important;
+  font-family: 'Georgia', serif !important;
   
 }
 

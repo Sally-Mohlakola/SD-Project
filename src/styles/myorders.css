@@ -20,6 +20,7 @@
 }
 .back_button {
     width:10vw;
+    height:5vh;
 }
 .Order:hover{
     outline:  2px solid gray;
