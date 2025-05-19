@@ -382,8 +382,8 @@ useEffect(() => {
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
         <Link to="/myshop" className="btn-link-myshop"> My Shop </Link> {/*has JS file, the rest of links do not*/}
         <Link to="/trackorders" className="btn-link-contact">Track My Orders</Link>
-       /* <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>*/
-      /*  <Link to="/contact" className="btn-link-contact">Contact</Link>*/
+        <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>*/
+       <Link to="/contact" className="btn-link-contact">Contact</Link>*/
          
         <button onClick={logout}>Logout</button>
       </nav>
