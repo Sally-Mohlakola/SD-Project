@@ -273,14 +273,14 @@ useEffect(() => {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
-    <section>
+    <section className='section-home'>
       <h6 id="img-cart-icon" onClick={Showcartitems}>Cart({cartitems.length})</h6>
       <h1 id="message">Natural Craft. Rooted in Care</h1>
       <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
       <img id="img-welcome" alt="welcome banner" src="https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg" ></img>{/*Welcome IMage*/}
 
       {/*Put search bar over image if possible, referencing Uber Eats website*/}
-      <h2>Featured Artisan Picks</h2>
+      <section className='feature'><h2>Featured Artisan Picks</h2></section>
       {/*The items to add to cart will appear here. Coming soon.*/}
       {/*Display products here */}
 
@@ -288,24 +288,27 @@ useEffect(() => {
       {!chosenShop && (
         <>
           <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
-          <h2>Featured Shops</h2>
+          <section className='featShops'><h2>Featured Shops</h2></section>
           {loading ? (
             <p>Loading shops...</p>) : (
             filterShop.length > 0 ? (
               filterShop.map(shop => (
                 <article className="shop-card" key={shop.id}>
-                  <h3>{shop.nameofshop}</h3>
-                  <p>{shop.description}</p>
-                  <p>Category: {shop.category}</p>
-                  {shopImages[shop.id] && (
-                    <img
-                      src={shopImages[shop.id]}
-                      alt={`${shop.nameofshop} logo`}
-                      className="shop-image"
-                    />
-                  )}
-                  <button className='button' onClick={() => actionEnterShop(shop)}>Enter Shop</button>
-                </article>
+  <section>
+    <h3>{shop.nameofshop}</h3>
+    <p>{shop.description}</p>
+    <p>Category: {shop.category}</p>
+    <button className="button" onClick={() => actionEnterShop(shop)}>Enter Shop</button>
+  </section>
+  {shopImages[shop.id] && (
+    <img
+      src={shopImages[shop.id]}
+      alt={`${shop.nameofshop} logo`}
+      className="shop-image"
+    />
+  )}
+</article>
+
               ))
             ) : (
               <p>No shops are listed yet.</p>
