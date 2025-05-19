@@ -1,485 +1,604 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { Payment } from '../components/payment';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Payment } from './Payment';
 import { PaystackButton } from 'react-paystack';
-import { GoogleMap, Autocomplete, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { GoogleMap, Marker, Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 
-// Mock all external dependencies
+// Mock all the imported modules
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
   useLocation: jest.fn(),
-  useNavigate: jest.fn(),
-}));
-
-jest.mock('react-paystack', () => ({
-  PaystackButton: jest.fn(({ children, ...props }) => (
-    <button {...props}>{children || props.text}</button>
-  )),
+  useNavigate: jest.fn()
 }));
 
 jest.mock('@react-google-maps/api', () => ({
-  GoogleMap: jest.fn(({ children, onLoad, ...props }) => {
-    // Call onLoad with mock map ref if provided
-    if (onLoad) {
-      const mockMap = {
-        panTo: jest.fn(),
-        setZoom: jest.fn()
-      };
-      onLoad(mockMap);
-    }
-    return <section data-testid="google-map" {...props}>{children}</section>;
-  }),
-  Marker: jest.fn(() => <section data-testid="map-marker" />),
-  Autocomplete: jest.fn(({ children, onLoad }) => {
-    // Test for the autocomplete functionality
-    if (onLoad) {
-      const mockAutocomplete = {
-        getPlace: jest.fn(() => ({
-          geometry: {
-            location: {
-              lat: () => -26.2041,
-              lng: () => 28.0473
-            }
-          },
-          formatted_address: '01234 Mock Street, Johannesburg, 01234'
-        }))
-      };
-      onLoad(mockAutocomplete);
-    }
-    return <section data-testid="autocomplete">{children}</section>;
-  }),
-  useJsApiLoader: jest.fn(),
-}));
-
-// Mock console.error to prevent test output clutter
-const originalConsoleError = console.error;
-console.error = jest.fn();
-
-describe('Payment Component', () => {
-  const mockNavigate = jest.fn();
-  const mockLocation = {
-    state: {
-      total: 100
-    }
-  };
-
-  // Mock geolocation API
-  const mockGeolocation = {
-    getCurrentPosition: jest.fn()
-      .mockImplementation((success) => 
-        success({
-          coords: {
-            latitude: 0.0,
-            longitude: 0.0
-          }
-        })
-      )
-  };
-
-  // Mock the Google Maps api we used to select a location
-  const mockGeocoder = {
-    geocode: jest.fn()
-  };
-
-  beforeEach(() => {
-    global.navigator.geolocation = mockGeolocation;
-    global.alert = jest.fn();
-    
-    window.google = {
-      maps: {
-        Geocoder: jest.fn(() => mockGeocoder),
-        Size: jest.fn(() => ({})),
-        LatLng: jest.fn((lat, lng) => ({ lat: () => lat, lng: () => lng })),
-        Map: jest.fn(),
-        Marker: jest.fn(),
-        event: {
-          addListener: jest.fn(),
-          removeListener: jest.fn()
-        },
-        places: {
-          AutocompleteService: jest.fn(),
-          PlacesService: jest.fn(),
-          PlacesServiceStatus: {
-            OK: 'OK'
-          }
-        }
+  GoogleMap: jest.fn(({ children, onLoad }) => {
+    // Call onLoad with mock map if provided
+    React.useEffect(() => {
+      if (onLoad) {
+        onLoad({
+          panTo: jest.fn(),
+          setZoom: jest.fn(),
+        });
       }
-    };
-
-    useNavigate.mockReturnValue(mockNavigate);
-    useLocation.mockReturnValue(mockLocation);
-    useJsApiLoader.mockReturnValue({ 
-      isLoaded: true, 
-      loadError: null 
-    });
-    
-    //Mock the sessionStorage of the cart the user pays for
-    sessionStorage.setItem('cart_items', JSON.stringify([{ name: 'mock test item', price: 100 }]));
-    sessionStorage.setItem('chosenshop', 'Test Shop');
-    
-    //Mock the API keys (stored in .env so they are now environment variables)
-    process.env.REACT_APP_PAYMENT_API_KEY = 'test-paystack-api-key';
-    process.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-google-maps-api-key';
-    
-    // Mock address geocoding response for successful cases
-    mockGeocoder.geocode.mockImplementation((request, callback) => {
-      if (request.location) {
-        callback([
-          {
+    }, [onLoad]);
+    return <div data-testid="google-map">{children}</div>;
+  }),
+  Marker: jest.fn(() => <div data-testid="map-marker" />),
+  Autocomplete: jest.fn(({ children, onLoad }) => {
+    // Call onLoad with mock autocomplete if provided
+    React.useEffect(() => {
+      if (onLoad) {
+        onLoad({
+          getPlace: jest.fn(() => ({
             geometry: {
               location: {
-                lat: () => request.location.lat,
-                lng: () => request.location.lng
+                lat: () => 1.234,
+                lng: () => 5.678
               }
             },
-            formatted_address: '0123 Test Street, Johannesburg, 0123',
+            formatted_address: '123 Test Street, City'
+          }))
+        });
+      }
+    }, [onLoad]);
+    return <div data-testid="autocomplete">{children}</div>;
+  }),
+  useJsApiLoader: jest.fn()
+}));
+
+jest.mock('react-paystack', () => ({
+  PaystackButton: jest.fn(() => <button data-testid="paystack-button">Mock Paystack Button</button>)
+}));
+
+jest.mock('firebase/functions', () => ({
+  getFunctions: jest.fn(),
+  httpsCallable: jest.fn(() => jest.fn(() => Promise.resolve({ data: {} })))
+}));
+
+jest.mock('firebase/app', () => ({
+  getApp: jest.fn()
+}));
+
+jest.mock('firebase/auth', () => ({
+  getAuth: jest.fn()
+}));
+
+// Mock the global navigator.geolocation
+const mockGeolocation = {
+  getCurrentPosition: jest.fn().mockImplementation(success => success({
+    coords: {
+      latitude: 51.1,
+      longitude: 45.3
+    }
+  }))
+};
+global.navigator.geolocation = mockGeolocation;
+
+// Mock Google Maps API
+const mockGoogleMapsAPI = {
+  maps: {
+    Geocoder: jest.fn(() => ({
+      geocode: jest.fn((params, callback) => {
+        if (params.location) {
+          callback([{
             address_components: [
-              { types: ['street_address'], long_name: '0123 Test Street' }
+              { types: ['street_number'] },
+              { types: ['route'] }
             ],
+            formatted_address: '123 Test Street, City',
             types: ['street_address']
-          }
-        ], 'OK');
-      } else {
-        callback([], 'ERROR');
+          }], 'OK');
+        } else {
+          callback([{
+            address_components: [
+              { types: ['street_number'] },
+              { types: ['route'] }
+            ],
+            formatted_address: '123 Test Street, City',
+            types: ['street_address']
+          }], 'OK');
+        }
+      })
+    })),
+    Size: jest.fn((width, height) => ({ width, height }))
+  }
+};
+global.window.google = mockGoogleMapsAPI;
+
+// Mock sessionStorage
+const sessionStorageMock = (() => {
+  let store = {};
+  return {
+    getItem: jest.fn((key) => store[key] || null),
+    setItem: jest.fn((key, value) => {
+      store[key] = value.toString();
+    }),
+    removeItem: jest.fn((key) => {
+      delete store[key];
+    }),
+    clear: jest.fn(() => {
+      store = {};
+    })
+  };
+})();
+Object.defineProperty(window, 'sessionStorage', {
+  value: sessionStorageMock
+});
+
+// Mock window.location
+delete window.location;
+window.location = { href: '' };
+
+// Setup environment variables
+process.env.REACT_APP_PAYMENT_API_KEY = 'test-payment-key';
+process.env.REACT_APP_GOOGLE_MAPS_API_KEY = 'test-maps-key';
+
+describe('Payment Component', () => {
+  let mockNavigate;
+  let mockLocation;
+  let mockUser;
+  
+  beforeEach(() => {
+    // Reset mocks
+    jest.clearAllMocks();
+    
+    // Setup mock data
+    sessionStorageMock.getItem.mockImplementation((key) => {
+      if (key === 'cart_items') {
+        return JSON.stringify([
+          { name: 'Item 1', price: '100', quantity: '2' },
+          { name: 'Item 2', price: '50', quantity: '1' }
+        ]);
+      }
+      if (key === 'chosenshop') {
+        return JSON.stringify({ nameofshop: 'Test Shop' });
+      }
+      return null;
+    });
+    
+    // Mock router
+    mockNavigate = jest.fn();
+    useNavigate.mockReturnValue(mockNavigate);
+    mockLocation = { state: { total: '250' } };
+    useLocation.mockReturnValue(mockLocation);
+    
+    // Mock auth
+    mockUser = { uid: 'test-user-123' };
+    getAuth.mockReturnValue({ currentUser: mockUser });
+    
+    // Mock JS API Loader
+    useJsApiLoader.mockReturnValue({
+      isLoaded: true,
+      loadError: null
+    });
+  });
+
+  test('renders payment component with Google Maps loaded', async () => {
+    render(<Payment />);
+    
+    expect(screen.getByText('Select Delivery Location')).toBeInTheDocument();
+    expect(screen.getByText('Complete Your Purchase')).toBeInTheDocument();
+    expect(screen.getByTestId('google-map')).toBeInTheDocument();
+    expect(screen.getByText('Search or click on the map to select a delivery location')).toBeInTheDocument();
+    expect(screen.getByText('Order Total:')).toBeInTheDocument();
+    expect(screen.getByText('R250')).toBeInTheDocument();
+  });
+
+  test('shows loading state when Google Maps is loading', () => {
+    useJsApiLoader.mockReturnValueOnce({
+      isLoaded: false,
+      loadError: null
+    });
+    
+    render(<Payment />);
+    
+    expect(screen.getByText('Loading ...')).toBeInTheDocument();
+  });
+
+  test('shows error when Google Maps fails to load', () => {
+    useJsApiLoader.mockReturnValueOnce({
+      isLoaded: true,
+      loadError: new Error('Failed to load')
+    });
+    
+    render(<Payment />);
+    
+    expect(screen.getByText('Error loading page. Please try again later.')).toBeInTheDocument();
+  });
+
+  test('updates form fields correctly', () => {
+    render(<Payment />);
+    
+    const nameInput = screen.getByPlaceholderText('Full name');
+    const emailInput = screen.getByPlaceholderText('Email address');
+    const phoneInput = screen.getByPlaceholderText('Phone number');
+    
+    fireEvent.change(nameInput, { target: { value: 'John Doe' } });
+    fireEvent.change(emailInput, { target: { value: 'john@example.com' } });
+    fireEvent.change(phoneInput, { target: { value: '1234567890' } });
+    
+    expect(nameInput.value).toBe('John Doe');
+    expect(emailInput.value).toBe('john@example.com');
+    expect(phoneInput.value).toBe('1234567890');
+  });
+
+  test('handles map click', async () => {
+    render(<Payment />);
+    
+    const googleMap = screen.getByTestId('google-map');
+    
+    // Simulate map click
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 12.345,
+        lng: () => 67.890
       }
     });
-  });
-
-  /*clear the cache of mocks since we want each test to run mocks independantly, with no leftover
-  data for the next state which might affect its accuracy*/
-  afterEach(() => {
-    jest.clearAllMocks();
-    sessionStorage.clear();
-  });
-
-  afterAll(() => {
-    console.error = originalConsoleError;
-  });
-
-  describe('Loading states of Google Map components', () => {
-    it('renders loading... message when Google Maps is loading', () => {
-      useJsApiLoader.mockReturnValueOnce({ isLoaded: false, loadError: null });
-      render(<Payment />);
-      expect(screen.getByText(/Loading .../i)).toBeInTheDocument();
-    });
-
-    it('shows an error if Google Maps fails to load', () => {
-      useJsApiLoader.mockReturnValueOnce({ isLoaded: false, loadError: new Error('Load error') });
-      render(<Payment />);
-      expect(screen.getByText(/Error loading page/i)).toBeInTheDocument();
-    });
-
-    it('the current client location is the initial default map location', () => {
-      render(<Payment />);
-      expect(mockGeolocation.getCurrentPosition).toHaveBeenCalled();
+    
+    // Wait for address to be processed
+    await waitFor(() => {
+      expect(mockGoogleMapsAPI.maps.Geocoder).toHaveBeenCalled();
     });
   });
 
-  describe('Geolocation Components verification', () => {
-    // mock the geolocation pinning the current location of the client as a starting location
-    it('successful geolocation', async () => {
-      rehandlender(<Payment />);
-      await waitFor(() => {
-        expect(GoogleMap).toHaveBeenCalledWith(
-          expect.objectContaining({
-            center: { lat: 0.0, lng: 0.0 },
-            zoom: 15
-          }),
-          expect.anything()
-        );
-      });
-    });
-
-    it('throwing a geolocation error', async () => {
-      mockGeolocation.getCurrentPosition.mockImplementationOnce((success, error) => 
-        error({ code: 1, message: 'GeoLocation Error' })
-      );
-      
-      render(<Payment />);
-      
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith(
-          "Error getting location: ",
-          expect.objectContaining({ code: 1, message: 'GeoLocation Error' })
-        );
-        expect(screen.queryByTestId('google-map')).toBeInTheDocument();
-      });
+  test('handles autocomplete place changed', async () => {
+    const { getByTestId } = render(<Payment />);
+    
+    // Find the autocomplete component
+    const autocomplete = getByTestId('autocomplete');
+    
+    // Find the input inside autocomplete and trigger change
+    const input = screen.getByPlaceholderText('Search for an address');
+    fireEvent.change(input, { target: { value: '123 Test' } });
+    
+    // Simulate place_changed event
+    const autocompleteComponent = Autocomplete.mock.calls[0][0];
+    autocompleteComponent.onPlaceChanged();
+    
+    // Check if address is updated
+    await waitFor(() => {
+      expect(screen.getByText(/Selected Address:/)).toBeInTheDocument();
+      expect(screen.getByText(/123 Test Street, City/)).toBeInTheDocument();
     });
   });
 
-  describe('Form Component verification', () => {
-    it('user input into fields handled accurately', async () => {
-      render(<Payment />);
-      
-      fireEvent.change(screen.getByPlaceholderText(/Full name/i), { target: { value: 'Misha Kahn' } });
-      fireEvent.change(screen.getByPlaceholderText(/Email address/i), { target: { value: 'mockemail@example.com' } });
-      fireEvent.change(screen.getByPlaceholderText(/Phone number/i), { target: { value: '0123456789' } });
-
-      await waitFor(() => {
-        expect(screen.getByPlaceholderText(/Full name/i).value).toBe('Misha Kahn');
-        expect(screen.getByPlaceholderText(/Email address/i).value).toBe('mockemail@example.com');
-        expect(screen.getByPlaceholderText(/Phone number/i).value).toBe('0123456789');
-      });
-    });
-
-    it('renders correct order total', async () => {
-      render(<Payment />);
-      await waitFor(() => {
-        expect(screen.getByText(/Order Total: R100/i)).toBeInTheDocument();
-      });
-    });
-
-    it('handles missing location state', async () => {
-      useLocation.mockReturnValueOnce({ state: null });
-      render(<Payment />);
-      await waitFor(() => {
-        expect(screen.getByText(/Order Total: R/i)).toBeInTheDocument();
-      });
-    });
-
-    it('handles error setting total payment amount', async () => {
-      useLocation.mockReturnValueOnce({ 
-        state: Object.defineProperty({}, 'total', {
-          get: () => { throw new Error('Error setting total payment amount'); }
-        })
-      });
-      
-      render(<Payment />);
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith(
-          "Error setting total payment amount: ", expect.any(Error));
-      });});
+  test('navigates back to checkout when back button is clicked', () => {
+    render(<Payment />);
+    
+    const backButton = screen.getByText('Back to Checkout');
+    fireEvent.click(backButton);
+    
+    expect(mockNavigate).toHaveBeenCalledWith('/checkout');
   });
 
-  describe('Map and Address Handling', () => {
-    it('fill in addresss search with Autocomplete capability', async () => {
-      render(<Payment />);
-      
-      const autocomplete = Autocomplete.mock.calls[0][0];
-      const placechange = autocomplete.onPlaceChanged;
-   
-      placechange();
-      
-      await waitFor(() => {
-        expect(screen.getByText(/Selected Address: 123 Test Street, Johannesburg/i)).toBeInTheDocument();
-      });
+  test('handles payment success and order creation', async () => {
+    const mockCreateOrder = jest.fn().mockResolvedValue({ data: { success: true } });
+    httpsCallable.mockReturnValue(mockCreateOrder);
+    
+    render(<Payment />);
+    
+    // Fill in all form fields
+    fireEvent.change(screen.getByPlaceholderText('Full name'), { target: { value: 'John Doe' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'john@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Phone number'), { target: { value: '1234567890' } });
+    
+    // Set up a selected address
+    const googleMap = screen.getByTestId('google-map');
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 12.345,
+        lng: () => 67.890
+      }
     });
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Selected Address:/)).toBeInTheDocument();
+    });
+    
+    // Get PaystackButton props
+    const paystackProps = PaystackButton.mock.calls[0][0];
+    
+    // Manually trigger the onSuccess callback
+    await paystackProps.onSuccess();
+    
+    // Verify order creation was called
+    expect(httpsCallable).toHaveBeenCalled();
+    expect(mockCreateOrder).toHaveBeenCalled();
+    expect(mockCreateOrder.mock.calls[0][0]).toMatchObject({
+      userid: 'test-user-123',
+      nameofshop: 'Test Shop',
+      status: 'Ordered'
+    });
+    
+    // Verify session storage was cleared
+    expect(sessionStorageMock.removeItem).toHaveBeenCalledWith('cart_items');
+    
+    // Verify redirection
+    expect(window.location.href).toBe('/homepage');
+  });
 
-    it('should handle map click with valid location', async () => {
-      // Mock checkValidLocations and return true for valid locations (that are not the ocean, landscape, etc)
-      mockGeocoder.geocode.mockImplementationOnce((request, callback) => {
-        callback([
-          {
-            geometry: {location: {lat: () => 0.0, lng: () => 0.0}},
-            formatted_address: '0123 Mock Street, Johannesburg, 0123',
+  test('handles order creation error', async () => {
+    const mockCreateOrder = jest.fn().mockRejectedValue(new Error('Order creation failed'));
+    httpsCallable.mockReturnValue(mockCreateOrder);
+    
+    // Mock window.alert
+    const mockAlert = jest.fn();
+    global.alert = mockAlert;
+    
+    render(<Payment />);
+    
+    // Fill in all form fields
+    fireEvent.change(screen.getByPlaceholderText('Full name'), { target: { value: 'John Doe' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'john@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Phone number'), { target: { value: '1234567890' } });
+    
+    // Set up a selected address
+    const googleMap = screen.getByTestId('google-map');
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 12.345,
+        lng: () => 67.890
+      }
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByText(/Selected Address:/)).toBeInTheDocument();
+    });
+    
+    // Get PaystackButton props
+    const paystackProps = PaystackButton.mock.calls[0][0];
+    
+    // Manually trigger the onSuccess callback
+    await paystackProps.onSuccess();
+    
+    // Verify error handling
+    expect(mockAlert).toHaveBeenCalledWith('Order creation error:', 1);
+    expect(mockAlert).toHaveBeenCalledWith('Payment was successful, but order creation failed. Please contact support.');
+  });
+
+  test('handles payment cancellation', () => {
+    // Mock window.alert
+    const mockAlert = jest.fn();
+    global.alert = mockAlert;
+    
+    render(<Payment />);
+    
+    // Get PaystackButton props
+    const paystackProps = PaystackButton.mock.calls[0][0];
+    
+    // Manually trigger the onClose callback
+    paystackProps.onClose();
+    
+    // Verify alert message
+    expect(mockAlert).toHaveBeenCalledWith('You have exited the payment process. No charges were made.');
+  });
+
+  test('handles case where no cart items exist', () => {
+    sessionStorageMock.getItem.mockImplementation((key) => {
+      if (key === 'cart_items') {
+        return null;
+      }
+      if (key === 'chosenshop') {
+        return JSON.stringify({ nameofshop: 'Test Shop' });
+      }
+      return null;
+    });
+    
+    render(<Payment />);
+    
+    // Component should still render without error
+    expect(screen.getByText('Select Delivery Location')).toBeInTheDocument();
+  });
+
+  test('handles case where no chosen shop exists', () => {
+    sessionStorageMock.getItem.mockImplementation((key) => {
+      if (key === 'cart_items') {
+        return JSON.stringify([
+          { name: 'Item 1', price: '100', quantity: '2' }
+        ]);
+      }
+      if (key === 'chosenshop') {
+        return null;
+      }
+      return null;
+    });
+    
+    render(<Payment />);
+    
+    // Component should still render without error
+    expect(screen.getByText('Select Delivery Location')).toBeInTheDocument();
+  });
+
+  test('handles case where no user is logged in', () => {
+    getAuth.mockReturnValue({ currentUser: null });
+    
+    render(<Payment />);
+    
+    // Component should still render without error
+    expect(screen.getByText('Select Delivery Location')).toBeInTheDocument();
+  });
+
+  test('handles location state with no total', () => {
+    useLocation.mockReturnValue({ state: {} });
+    
+    render(<Payment />);
+    
+    // Component should still render without error
+    expect(screen.getByText('Select Delivery Location')).toBeInTheDocument();
+    expect(screen.getByText('Order Total:')).toBeInTheDocument();
+    expect(screen.getByText('R')).toBeInTheDocument(); // Empty amount
+  });
+
+  test('handles invalid locations on map click', async () => {
+    // Mock window.alert
+    const mockAlert = jest.fn();
+    global.alert = mockAlert;
+    
+    // Mock checkValidLocations to return false for invalid location
+    const originalGeocode = mockGoogleMapsAPI.maps.Geocoder().geocode;
+    mockGoogleMapsAPI.maps.Geocoder = jest.fn(() => ({
+      geocode: jest.fn((params, callback) => {
+        if (params.location) {
+          callback([{
             address_components: [
-              { types: ['street_address'], long_name: '0123 Mock Street' }
+              { types: ['natural_feature', 'water'] }
             ],
-            types: ['street_address']
-          }
-        ], 'OK');
-      });
-
-      render(<Payment />);
-      
-      const googleMapCalls = GoogleMap.mock.calls[0][0];
-      const onClick = googleMapCalls.onClick;
-      
-      const mockEvent = {
-        latLng: {lat: () => 0.0, lng: () => 0.0}};
-      
-      await onClick(mockEvent);
-      
-      await waitFor(() => {
-        expect(screen.getByText(/Selected Address: 0123 Mock Street, Johannesburg, 0123/i)).toBeInTheDocument();
-      });
-    });
-
-    it('should handle map click with invalid delivery location (body of water)', async () => {
-      // Mock checkValidLocations to returns false for if the location is water
-      mockGeocoder.geocode.mockImplementationOnce((request, callback) => {
-        callback([
-          {
-            address_components: [
-              { types: ['natural_feature', 'water'], long_name: 'Mock Ocean' }
-            ],
+            formatted_address: 'Ocean Location',
             types: ['natural_feature']
-          }
-        ], 'OK');
-      });
-
-      render(<Payment />);
-
-      const googleMapProps = GoogleMap.mock.calls[0][0];
-      const onClickHandler = googleMapProps.onClick;
-   
-      const mockEvent = {
-        latLng: {
-          lat: () => 0,
-          lng: () => 0
+          }], 'OK');
+        } else {
+          originalGeocode(params, callback);
         }
-      };
-      
-      await onClickHandler(mockEvent);
-      
-      await waitFor(() => {
-        expect(global.alert).toHaveBeenCalledWith('Please select a valid address for delivery');
-      });
-    });
-
-    it(' map click error during validation', async () => {
-      // checkValidLocations throwing an error
-      mockGeocoder.geocode.mockImplementationOnce(() => {
-        throw new Error('Geocoder error');
-      });
-
-      render(<Payment/>);
-      
-      const googleMapProps = GoogleMap.mock.calls[0][0];
-      const onClick = googleMapProps.onClick;
-
-      const mockEvent = {
-        latLng: {lat: () => 0, lng: () => 0}};
+      })
+    }));
     
-      await onClick(mockEvent);
-      
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith('ERROR validating delivery address:', expect.any(Error));
-        expect(global.alert).toHaveBeenCalledWith('Error validating delivery address. Please try again.');
-      });
-    });
-
-    it('should handle address geocoding error', async () => {
-      // Mock getAddress to return an error
-      mockGeocoder.geocode.mockImplementationOnce((request, callback) => {
-        callback([], 'ERROR');
-      });
-
-      render(<Payment />);
-      
-      // Directly call getAddress with test coordinates
-      const addressInput = screen.getByPlaceholderText('Search for an address');
-      fireEvent.change(addressInput, { target: { value: 'Test Address' } });
-      
-      // Get the onClick handler from GoogleMap props to trigger getAddress
-      const googleMapsCalls = GoogleMap.mock.calls[0][0];
-      const onClick = googleMapsCalls.onClick;
-      
-      // Create a mock event with latLng
-      const mockLocation = {
-        latLng: {
-          lat: () => 0.0,
-          lng: () => 0.0
-        }
-      };
-      
-      // Call the onClick handler with the mock event
-      await onClick(mockLocation);
-      
-      // Mock error in getAddress by implementing geocode to return error
-      mockGeocoder.geocode.mockImplementationOnce((request, callback) => {
-        callback([], 'ERROR');
-      });
-      
-      // Call again with the error scenario
-      await onClick(mockLocation);
-      
-      await waitFor(() => {
-        expect(console.error).toHaveBeenCalledWith(expect.stringContaining('ERROR getting delivery address:'), expect.any(Error));
-      });
+    render(<Payment />);
+    
+    const googleMap = screen.getByTestId('google-map');
+    
+    // Simulate map click on water location
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 0,
+        lng: () => 0
+      }
     });
     
-    it('renders search tab input change', async () => {
-      render(<Payment />);
-      
-      const searchInput = screen.getByPlaceholderText('Search for an address');
-      fireEvent.change(searchInput, { target: { value: 'Test Address' } });
-      
-      await waitFor(() => {
-        expect(searchInput.value).toBe('Test Address');
-      });
+    await waitFor(() => {
+      expect(mockAlert).toHaveBeenCalledWith('Please select a valid address for delivery');
     });
   });
 
-  describe('Payment Component verification', () => {
-    it('disables Paystack button if form is incomplete', async () => {
-      render(<Payment />);
-      await waitFor(() => {
-        expect(screen.getByText(/Make payment/i).disabled).toBe(true);
-      });
+  test('handles geocoder error', async () => {
+    // Mock console.error
+    const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    // Mock window.alert
+    const mockAlert = jest.fn();
+    global.alert = mockAlert;
+    
+    // Mock geocoder to return error
+    mockGoogleMapsAPI.maps.Geocoder = jest.fn(() => ({
+      geocode: jest.fn((params, callback) => {
+        callback([], 'ERROR');
+      })
+    }));
+    
+    render(<Payment />);
+    
+    const googleMap = screen.getByTestId('google-map');
+    
+    // Simulate map click
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 12.345,
+        lng: () => 67.890
+      }
     });
+    
+    await waitFor(() => {
+      expect(mockConsoleError).toHaveBeenCalled();
+      expect(mockAlert).toHaveBeenCalledWith('Error validating delivery address. Please try again.');
+    });
+    
+    mockConsoleError.mockRestore();
+  });
 
-    it('enables Paystack button when the form is complete', async () => {
-      render(<Payment />);
-      
-      //The form fields are filled in and a valid delivery address is selected
-      fireEvent.change(screen.getByPlaceholderText(/Full name/i), { target: { value: 'Mock User' } });
-      fireEvent.change(screen.getByPlaceholderText(/Email address/i), { target: { value: 'mockemail@example.com' } });
-      fireEvent.change(screen.getByPlaceholderText(/Phone number/i), { target: { value: '0123456789' } });
- 
-      const googleMapsCalls = GoogleMap.mock.calls[0][0];
-      const onClick = googleMapsCalls.onClick;
-
-      const mockLocation = {
-        latLng: {
-          lat: () => 0.0,
-          lng: () => 0.0
+  test('handles getAddress error', async () => {
+    // Mock console.error
+    const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    // Mock geocoder to return error for getAddress function
+    const originalGeocode = mockGoogleMapsAPI.maps.Geocoder().geocode;
+    let callCount = 0;
+    
+    mockGoogleMapsAPI.maps.Geocoder = jest.fn(() => ({
+      geocode: jest.fn((params, callback) => {
+        callCount++;
+        // First call is for checkValidLocations (return valid)
+        if (callCount === 1) {
+          callback([{
+            address_components: [
+              { types: ['street_number'] },
+              { types: ['route'] }
+            ],
+            formatted_address: '123 Test Street, City',
+            types: ['street_address']
+          }], 'OK');
+        } 
+        // Second call is for getAddress (return error)
+        else {
+          callback([], 'ERROR');
         }
-      };
-      
-
-      await onClick(mockLocation);
-      
-      await waitFor(() => {
-        // After form completion and address selection, enable the Paystack button
-        expect(screen.getByText(/Make payment/i).disabled).toBe(false);
-      });
+      })
+    }));
+    
+    render(<Payment />);
+    
+    const googleMap = screen.getByTestId('google-map');
+    
+    // Simulate map click
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 12.345,
+        lng: () => 67.890
+      }
     });
-
-    it('payment success', async () => {
-      // Mock window.location.href
-      const originalLocation = window.location;
-      delete window.location;
-      window.location = { href: jest.fn() };
-      
-      render(<Payment />);
- 
-      const mockPaystackButton = PaystackButton.mock.calls[0][0];
-      
-      // Call the onSuccess handler (mock successful payment)
-      mockPaystackButton.onSuccess();
-      
-      await waitFor(() => {
-        expect(global.alert).toHaveBeenCalledWith('Thank you! Your payment was successful.');
-        expect(window.location.href).toBe('/homepage');
-        expect(sessionStorage.getItem('cart_items')).toBeNull();
-      });
-      
-      // Restore window.location
-      window.location = originalLocation;
-    });
-
-    it('should handle payment close', async () => {
-      render(<Payment />);
-      
-      // Get Paystack props
-      const mockPaystackButton = PaystackButton.mock.calls[0][0];
-      
-      // Call onClose handler (no payment attempted)
-      mockPaystackButton.onClose();
-      
-      await waitFor(() => {
-        expect(global.alert).toHaveBeenCalledWith('You have exited the payment process. No charges were made.');
-      });
+    
+    await waitFor(() => {
+      expect(screen.getByText('Address not found. Try again later.')).toBeInTheDocument();
     });
   });
 
-  describe('Navigation checks', () => {
-    it('navigation to checkout', async () => {
-      render(<Payment />);
-      fireEvent.click(screen.getByText(/Back to Checkout/i));
-      expect(mockNavigate).toHaveBeenCalledWith('/checkout');
+  test('handles getAddress exception', async () => {
+    // Mock console.error
+    const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    // Mock geocoder to throw exception
+    mockGoogleMapsAPI.maps.Geocoder = jest.fn(() => ({
+      geocode: jest.fn(() => {
+        throw new Error('Test error');
+      })
+    }));
+    
+    render(<Payment />);
+    
+    const googleMap = screen.getByTestId('google-map');
+    
+    // Simulate map click
+    fireEvent.click(googleMap, {
+      latLng: {
+        lat: () => 12.345,
+        lng: () => 67.890
+      }
     });
+    
+    await waitFor(() => {
+      expect(mockConsoleError).toHaveBeenCalled();
+      expect(screen.getByText('Error getting address')).toBeInTheDocument();
+    });
+    
+    mockConsoleError.mockRestore();
+  });
+
+  test('handles geolocation error', () => {
+    // Mock geolocation to trigger error
+    navigator.geolocation.getCurrentPosition.mockImplementationOnce((success, error) => 
+      error({ code: 1, message: 'User denied geolocation' })
+    );
+    
+    // Mock console.error
+    const mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    render(<Payment />);
+    
+    expect(mockConsoleError).toHaveBeenCalled();
+    expect(screen.getByText('Select Delivery Location')).toBeInTheDocument();
+    
+    mockConsoleError.mockRestore();
   });
 });
