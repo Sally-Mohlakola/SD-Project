@@ -142,7 +142,8 @@ export const MyOrders = () => {
 
     <section className='Cover'>
       <h2>My Orders</h2>
-      <button  className="back_button" onClick={navigateDashboard}>← Dashboard</button>
+      <button  className="back-button" onClick={navigateDashboard}>← Dashboard</button>
+      
       {ordersLoading && (
      <section className="loading-alert"> Loading orders...</section>)}
      
@@ -183,15 +184,17 @@ export const MyOrders = () => {
             </section>
           ) : (
             <>
+            <section className='status-container'>
               <p>
               <strong>Status:</strong> {ord.status}
+              </p>
                 <button onClick={() => {
                   setEditingOrderid(ord.orderid);
                   setorderstatus(ord.status);
                 }}>
                   Update status
                 </button>
-              </p>
+              </section>
             </>
           )}
         </section>
