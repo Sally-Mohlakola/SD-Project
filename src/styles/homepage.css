@@ -309,17 +309,17 @@ z-index: 100;
 
 /*back button in shop*/
 .back-button-container {
-  width: 100%;
+  width: 50%;
   display: flex;
   justify-content: center;
   margin-top: 40px;
 }
 
 .back-button {
-  padding: 10px 26px;
+  padding: 10px 20px;
   background-color: #d9b382;
   color: #fff;
-  font-weight: 600;
+  font-weight: 400;
   font-family: 'Georgia', serif;
   border: none;
   border-radius: 24px;
@@ -379,9 +379,10 @@ transition: all 0.3s ease;
 .product-listing-to-buy-view {
   display: flex;
   flex-wrap: wrap;
+  width:140%;
   justify-content: center;
   gap: 32px;
-  padding: 40px 20px;
+  padding: 40px 30px;
   
 }
 

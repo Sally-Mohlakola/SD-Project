@@ -425,7 +425,7 @@ useEffect(() => {
             }
           }}
         >
-          Back
+          ← Back
         </button>
         </section>
 

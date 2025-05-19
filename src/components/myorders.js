@@ -142,7 +142,7 @@ export const MyOrders = () => {
 
     <section className='Cover'>
       <h2>My Orders</h2>
-      <button  className="back-button" onClick={navigateDashboard}>← Dashboard</button>
+      <button className="back-button" onClick={navigateDashboard}>← Dashboard</button>
       
       {ordersLoading && (
      <section className="loading-message"> Loading orders...</section>)}

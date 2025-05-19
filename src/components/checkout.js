@@ -76,7 +76,7 @@ export const Checkout = () => {
         </section>
       )}
 
-      <button className='back-button' onClick={backtoshops}>Back</button>
+      <button className='back-button' onClick={backtoshops}> ← Back</button>
       {mycart.length > 0 && (
         <button  className='proceed-button' onClick={handleCheckout} >Proceed to Checkout</button>
       )}
