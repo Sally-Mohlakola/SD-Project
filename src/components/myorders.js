@@ -24,9 +24,9 @@ export const MyOrders = () => {
   const [orderlist, setorderlist] = useState([]);
   const currentUserId = localStorage.getItem("userid");
   const currentuserstore = localStorage.getItem("shopname");
-  const ordercollectionRef = collection(db, "Orders");
-  const shopcollectionRef = collection(db, "Shops");
   const [productsMap, setProductsMap] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [ordersLoading, setOrdersLoading] = useState(true);
 
   let navigate = useNavigate();
 
@@ -44,6 +44,8 @@ export const MyOrders = () => {
         setorderlist(result.data.orders);
       } catch (error) {
         console.error('Error fetching orders:', error);
+      }finally{
+              setOrdersLoading(false);
       }
     };
     
@@ -112,6 +114,7 @@ export const MyOrders = () => {
   const [editingOrderid, setEditingOrderid] = useState(null);
 
   const updatestatus = async (ordid) => {
+     setLoading(true);
     try {
       console.log(orderstatus, ordid);
       const orderRef = doc(db, "Orders", ordid);
@@ -130,14 +133,22 @@ export const MyOrders = () => {
       setorderstatus("");
     } catch (err) {
       console.error(err);
+    }finally{
+       setLoading(false);
     }
   };
-
   return (
-    
+
+
     <section className='Cover'>
       <h2>My Orders</h2>
       <button  className="back_button" onClick={navigateDashboard}>← Dashboard</button>
+      {ordersLoading && (
+     <section className="loading-alert"> Loading orders...</section>)}
+     
+   {!ordersLoading && myorders.length === 0 && (
+  <section className="empty-alert">📭 You have no orders</section>)}
+      {loading && <section className="loading-alert">updating status...</section>}
       {myorders.map((ord, index) => (
         <section className="Order" key={index}>
           <h3>Order #{index + 1}</h3>

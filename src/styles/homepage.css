@@ -135,7 +135,107 @@ transition: all 0.3s ease;
   margin: 30px 0;
 }
 
-/*Hover motion for comps*/
+.product-article {
+  display: flex;             /* Make article a flex container */
+  justify-content: space-between;  /* Push image far right */
+  align-items: flex-start;   /* Align items to top */
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-info {
+  flex: 1;                  /* Take up all available space except the image */
+  margin-right: 20px;       /* Add some space between text and image */
+}
+
+.product-image {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  /* No margin-right here, because image is at the right */
+}
+
+
+
+article:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.shop-image {
+  width: 80px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 800px;               /* longer width */
+  height: 300px;              /* shorter height */
+  padding: 16px;
+  margin: 0 16px 30px 0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform .3s, box-shadow .3s;
+}
+
+.shop-card .shop-image {
+  width: 100px;    /* small width */
+  height: 80px;   /* small height */
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  align-self: center;
+
+}
+
+
+.shop-card h3 {
+  margin: 4px 0;
+  font-size: 30px;
+  line-height: 1.3;
+  font-weight: 700; /* makes it bold */
+  font-family: 'Georgia', serif; /* classy & fancy serif font */
+  color: #222; /* nice dark color */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* subtle shadow for depth */
+}
+
+.shop-card p {
+  margin: 4px 0;
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 400;                     /* normal weight */
+  font-family: 'Open Sans', sans-serif; /* new font */
+  color: #444;                          /* slightly softer than black */
+}
+
+
+.shop-card .button {
+  align-self: center;
+  margin-top: auto;
+  padding: 6px 18px;
+  font-size: 14px;
+}
+
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+/* hover lift */
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
 article {
   background-color: #fff;
   padding: 20px;
@@ -145,10 +245,10 @@ article {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-article:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+.shop-text {
+  flex: 1;
 }
+
 
 .button {
   background-color: #5a422a !important;
@@ -162,6 +262,7 @@ article:hover {
   font-family: 'Georgia', serif !important;
   
 }
+
 
 button:hover {
   background-color: #3b2d20;

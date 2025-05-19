@@ -21,6 +21,16 @@ body {
   min-width: 50vw;
   
 }
+.shop-alert {
+  padding: 12px;
+  background-color: #5a422a; 
+  color: white;
+  border: 1px solid #ffeeba;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-top: 1rem;
+  text-align: center;
+}
 
 .create-shop h1 {
   text-align: center;

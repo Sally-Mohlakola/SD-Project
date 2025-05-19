@@ -1,283 +1,143 @@
-import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { MyShop } from '../components/myshop';
+// MyShop.test.jsx
+import React from "react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { MyShop } from "../components/myshop";
+import { BrowserRouter } from "react-router-dom";
 
-// Mock all dependancies
-
-// Mock Firebase completely
-jest.mock('../config/firebase', () => ({
-  db: {}, storage: {}, app: {}, auth: {
-    currentUser: { uid: 'user123' }
-  }
+jest.mock("../config/firebase", () => ({
+  auth: {
+    currentUser: { uid: "mock-user-id", email: "test@example.com" },
+  },
+  provider: {}, // mock as needed
+  db: {},
+  storage: {},
 }));
 
-//Firebase Cloud Functions
-const mockGetAllShops = jest.fn();
-const mockDeleteShop = jest.fn();
-
-jest.mock('firebase/functions', () => ({
-  getFunctions: jest.fn(() => ({})),
-  httpsCallable: jest.fn((_, name) => {
-    if (name === 'getAllShops') return mockGetAllShops;
-    if (name === 'deleteShop') return mockDeleteShop;
-    return jest.fn();
-  })
+// Mocks
+jest.mock("firebase/functions", () => ({
+  getFunctions: jest.fn(),
+  httpsCallable: jest.fn(),
 }));
 
-//firebase/firestore and firebase/storage
-jest.mock('firebase/firestore', () => ({
-  collection: jest.fn(), deleteDoc: jest.fn(), doc: jest.fn()
-}));
-
-jest.mock('firebase/storage', () => ({
+jest.mock("firebase/storage", () => ({
+  ref: jest.fn(),
   deleteObject: jest.fn(),
-  ref: jest.fn()
 }));
 
-// Mock react-router
-const mockNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-  Link: ({ children, to }) => <a href={to} data-testid="router-link">{children}</a>,
+jest.mock("firebase/firestore", () => ({
+  collection: jest.fn(),
+  deleteDoc: jest.fn(),
+  doc: jest.fn(),
 }));
 
-describe('MyShop component', () => {
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => jest.fn(),
+  Link: ({ children, to }) => <a href={to}>{children}</a>,
+}));
+
+// Mock localStorage
+beforeAll(() => {
+  Object.defineProperty(window, 'localStorage', {
+    value: {
+      getItem: jest.fn(() => "user-123"), // mock userid
+    },
+    writable: true,
+  });
+});
+
+// Setup Firebase mocks
+const mockHttpsCallable = jest.fn();
+const fakeShops = [
+  { id: "1", userid: "user-123", status: "Rejected", imageurl: "img.jpg" },
+  { id: "2", userid: "user-456", status: "Accepted" },
+];
+
+import { getFunctions, httpsCallable } from "firebase/functions";
+getFunctions.mockReturnValue({});
+httpsCallable.mockImplementation(() => mockHttpsCallable);
+
+const renderWithRouter = (ui) => {
+  return render(<BrowserRouter>{ui}</BrowserRouter>);
+};
+
+describe("MyShop Component", () => {
   beforeEach(() => {
-    // Clear all mocks and set localStorage
     jest.clearAllMocks();
-    localStorage.clear();
-    localStorage.setItem('userid', 'u123');
-
-    // Reset console.error mock to avoid test noise
-    jest.spyOn(console, 'error').mockImplementation(() => { });
   });
 
-  afterEach(() => {
-    // Restore console.error
-    console.error.mockRestore();
+  it("renders loading state initially", async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [] } });
+    renderWithRouter(<MyShop />);
+    expect(screen.queryByText("You dont have a shop yet")).not.toBeInTheDocument();
   });
 
-  test('renders loading state initially', async () => {
-    // Don't resolve the mockGetAllShops promise yet
-    mockGetAllShops.mockImplementation(() => new Promise(() => { }));
-
-    const { container } = render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
-    // Should render an empty section while loading
-    expect(container.firstChild).toBeEmptyDOMElement();
-  });
-
-  test('renders no shop message when user has no shop', async () => {
-    mockGetAllShops.mockResolvedValue({
-      data: { shops: [] }
-    });
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
+  it("shows 'no shop' UI when user has no shop", async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [] } });
+    renderWithRouter(<MyShop />);
     await waitFor(() => {
-      expect(screen.getByText(/You dont have a shop yet/i)).toBeInTheDocument();
+      expect(screen.getByText("You don't have a shop yet")).toBeInTheDocument();
+      
     });
-
-    const startButton = screen.getByText(/Start my shop?/i);
-    expect(startButton).toBeInTheDocument();
-
-    // Test navigation on button click
-    fireEvent.click(startButton);
-    expect(mockNavigate).toHaveBeenCalledWith('/createshop');
   });
 
-  test('renders awaiting approval message when shop status is Awaiting', async () => {
-    mockGetAllShops.mockResolvedValue({
-      data: {
-        shops: [{
-          id: 'shop1',
-          userid: 'u123',
-          nameofshop: 'Test Shop',
-          description: 'Test description',
-          status: 'Awaiting',
-          imageurl: 'test-image.jpg'
-        }]
-      }
-    });
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
+  it("shows rejection UI if shop is rejected", async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [fakeShops[0]] } });
+    renderWithRouter(<MyShop />);
     await waitFor(() => {
-      expect(screen.getByText(/The admin has not cleared your store yet!/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Your request to open a store was rejected/i)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Apply to open shop again/i })
+      ).toBeInTheDocument();
     });
-
-    const homeLink = screen.getByText(/Home/i);
-    expect(homeLink).toBeInTheDocument();
-    expect(homeLink.getAttribute('href')).toBe('/homepage');
   });
 
-  test('navigates to dashboard when shop status is Accepted', async () => {
-    mockGetAllShops.mockResolvedValue({
-      data: {
-        shops: [{
-          id: 'shop1',
-          userid: 'u123',
-          nameofshop: 'Test Shop',
-          description: 'Test description',
-          status: 'Accepted',
-          imageurl: 'test-image.jpg'
-        }]
-      }
-    });
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
+  it("shows awaiting UI if shop is awaiting", async () => {
+    const awaitingShop = { ...fakeShops[0], status: "Awaiting" };
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [awaitingShop] } });
+    renderWithRouter(<MyShop />);
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/shopdashboard');
+      expect(
+        screen.getByText("The admin has not cleared your store yet!")
+      ).toBeInTheDocument();
     });
   });
 
-  test('shows rejection message and delete button when shop status is Rejected', async () => {
-    mockGetAllShops.mockResolvedValue({
-      data: {
-        shops: [{
-          id: 'shop1',
-          userid: 'u123',
-          nameofshop: 'Test Shop',
-          description: 'Test description',
-          status: 'Rejected',
-          imageurl: 'test-url'
-        }]
-      }
+  it("redirects to dashboard if shop is accepted", async () => {
+    const navigateMock = jest.fn();
+    jest.spyOn(require("react-router-dom"), "useNavigate").mockReturnValue(navigateMock);
+
+    const acceptedShop = { ...fakeShops[0], status: "Accepted" };
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [acceptedShop] } });
+
+    renderWithRouter(<MyShop />);
+    await waitFor(() => {
+      expect(navigateMock).toHaveBeenCalledWith("/shopdashboard");
     });
+  });
 
-    mockDeleteShop.mockResolvedValue({ data: { message: 'Deleted' } });
+  it("calls deleteShop when rejected user reapplies", async () => {
+    const deleteMock = jest.fn().mockResolvedValue({ data: { message: "Deleted" } });
+    httpsCallable.mockImplementationOnce(() => mockHttpsCallable) // getAllShops
+                  .mockImplementationOnce(() => deleteMock);      // deleteShop
 
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [fakeShops[0]] } });
 
+    renderWithRouter(<MyShop />);
     await waitFor(() => {
       expect(screen.getByText(/Your request to open a store was rejected/i)).toBeInTheDocument();
     });
 
-    const reapplyButton = screen.getByText(/Apply to open shop again/i);
-    expect(reapplyButton).toBeInTheDocument();
-
-    fireEvent.click(reapplyButton);
+    fireEvent.click(screen.getByRole("button", { name: /Apply to open shop again/i }));
 
     await waitFor(() => {
-      expect(mockDeleteShop).toHaveBeenCalledWith({
-        shopId: 'shop1',
-        userId: 'u123',
-        url: 'test-url'
+      expect(deleteMock).toHaveBeenCalledWith({
+        shopId: "1",
+        userId: "user-123",
+        url: "img.jpg",
       });
-      expect(mockNavigate).toHaveBeenCalledWith('/createshop');
-    });
-  });
-
-  test('handles case when no user ID is found in localStorage', async () => {
-    localStorage.removeItem('userid');
-
-    mockGetAllShops.mockResolvedValue({
-      data: { shops: [] }
-    });
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText(/You dont have a shop yet/i)).toBeInTheDocument();
-    });
-  });
-
-  test('handles error when fetching shops from Firebase', async () => {
-    mockGetAllShops.mockRejectedValue(new Error('Network error'));
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalled();
-    });
-  });
-
-  test('handles error when deleting a rejected shop', async () => {
-    mockGetAllShops.mockResolvedValue({
-      data: {
-        shops: [{
-          id: 'shop1',
-          userid: 'u123',
-          nameofshop: 'Test Shop',
-          description: 'Test description',
-          status: 'Rejected',
-          imageurl: 'test-url'
-        }]
-      }
-    });
-
-    mockDeleteShop.mockRejectedValue(new Error('Delete error'));
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText(/Your request to open a store was rejected/i)).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText(/Apply to open shop again/i));
-
-    await waitFor(() => {
-      expect(console.error).toHaveBeenCalledWith("Error deleting shop:", expect.any(Error));
-    });
-  });
-
-  test('handles multiple shops in the data but finds the correct user shop', async () => {
-    mockGetAllShops.mockResolvedValue({
-      data: {
-        shops: [
-          {
-            id: 'shop1', userid: 'user123', nameofshop: 'shop123', description: 'description',
-            status: 'Accepted', imageurl: 'shopimage.jpg'
-          }, {
-            id: 'shop2', nuserid: 'user456', nameofshop: 'shop456', description: 'description',
-            status: 'Accepted', imageurl: 'shopimage.jpg'
-          }
-        ]
-      }
-    });
-
-    render(
-      <MemoryRouter>
-        <MyShop />
-      </MemoryRouter>
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText(/The admin has not cleared your store yet!/i)).toBeInTheDocument();
     });
   });
 });

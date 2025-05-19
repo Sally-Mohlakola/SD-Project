@@ -11,6 +11,8 @@ export const ShopHomepage =()=>{
     const currentUserId = localStorage.getItem("userid");
     const [shoplist,setShoplist]=useState([]);
     const [storename, setstorename] = useState("");
+  
+
    // const [imageupload,setimageupload]=useState(null);
     const [loading, setLoading] = useState(true); 
     const [ imageExists, setImageExits]= useState(false);

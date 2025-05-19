@@ -86,8 +86,6 @@ export const Homepage = () => {
   const [orderlist, setorderlist] = useState([]);
   const currentUserId = localStorage.getItem("userid");
   const currentuserstore = localStorage.getItem("shopname");
-  const ordercollectionRef = collection(db, "Orders");
-  const shopcollectionRef = collection(db, "Shops");
   const [allProducts, setAllProducts] = useState([]);
   const [quantity, setQuantity] = useState(null);
   const [itemimadding, setitemimadding] = useState(null);
@@ -99,6 +97,7 @@ export const Homepage = () => {
   const [priceFilter, setPriceFilter] = useState("");//used for price filtering
   const [goingback, setgoingback] = useState(false);
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const [shopImages, setShopImages] = useState({});
 
 
   // Allow user to go to see cart items
@@ -137,9 +136,21 @@ export const Homepage = () => {
         try{
         const functions = getFunctions();
         const getAllShops = httpsCallable(functions, 'getAllShops');
+        const getProductsInShop = httpsCallable(functions, "getProductsInShop");
         const result = await getAllShops({});
-        const shopsData=(result.data.shops).filter(shop => shop.userid !== currentUserID);
-        setAllShops(shopsData); 
+        const allshops=(result.data.shops).filter(shop => shop.userid !== currentUserID);
+        const shopsWithProducts = [];
+
+      for (const shop of allshops) {
+        
+          const productResult = await getProductsInShop({ shopid: shop.id });
+          if (productResult.data.length > 0) {
+            shopsWithProducts.push(shop);
+          
+        }
+      }
+        setAllShops(shopsWithProducts); 
+      
         }catch(err){
             console.error('Error fetching shops:', err);
         }finally {
@@ -233,6 +244,30 @@ useEffect(() => {
     setQuantity(null);
   };
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+useEffect(() => {
+  const fetchAllShopImages = async () => {
+    const functions = getFunctions();
+    const findShopImage = httpsCallable(functions, 'findShopImage');
+    const newImages = {};
+
+    for (const shop of filterShop) {
+      try {
+        const result = await findShopImage({ url: shop.imageurl });
+        newImages[shop.id] = result.data.imageUrl;
+      } catch (error) {
+        console.error(`Error loading image for ${shop.nameofshop}:`, error);
+      }
+    }
+
+    setShopImages(newImages);
+  };
+
+  if (filterShop.length > 0) {
+    fetchAllShopImages();
+  }
+}, [filterShop]);
 
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,10 +293,17 @@ useEffect(() => {
             <p>Loading shops...</p>) : (
             filterShop.length > 0 ? (
               filterShop.map(shop => (
-                <article key={shop.id}>
+                <article className="shop-card" key={shop.id}>
                   <h3>{shop.nameofshop}</h3>
                   <p>{shop.description}</p>
                   <p>Category: {shop.category}</p>
+                  {shopImages[shop.id] && (
+                    <img
+                      src={shopImages[shop.id]}
+                      alt={`${shop.nameofshop} logo`}
+                      className="shop-image"
+                    />
+                  )}
                   <button className='button' onClick={() => actionEnterShop(shop)}>Enter Shop</button>
                 </article>
               ))
@@ -305,51 +347,60 @@ useEffect(() => {
               return true;
             })
             .map((product) => (
-              <article key={product.id}>
-                <h3>{product.name}</h3>
-                <p>{product.itemdescription}</p>
-                <p>Price: R{product.price}</p>
+              <article key={product.id} className="product-article">
+  <div className="product-info">
+    <h3>{product.name}</h3>
+    <p>{product.itemdescription}</p>
+    <p>Price: R{product.price}</p>
 
-                {product.id === itemimadding ? (
-                  <section>
-                    <p>
-                      <input
-                        type="number"
-                        min="1"
-                        max="999"
-                        onChange={(e) => setQuantity(e.target.value)}
-                      />
-                    </p>
-                    <button
-                      type="submit"
-                      onClick={() => {
-                        if (!quantity || quantity <= 0 || quantity >= 1000) {
-                          alert("Please add a valid quantity");
-                        } else {
-                          AddtoCart(
-                            product.id,
-                            product.name,
-                            product.itemdescription,
-                            product.price,
-                            quantity
-                          );
-                          setitemimadding(null);
-                        }
-                      }}
-                    >
-                      Add To Cart
-                    </button>
-                  </section>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setitemimadding(product.id);
-                    }}
-                  >
-                    Buy
-                  </button>
-                )}
-              </article>
+    {product.id === itemimadding ? (
+      <section>
+        <p>
+          <input
+            type="number"
+            min="1"
+            max="999"
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+        </p>
+        <button
+          type="submit"
+          onClick={() => {
+            if (!quantity || quantity <= 0 || quantity >= 1000) {
+              alert("Please add a valid quantity");
+            } else {
+              AddtoCart(
+                product.id,
+                product.name,
+                product.itemdescription,
+                product.price,
+                quantity
+              );
+              setitemimadding(null);
+            }
+          }}
+              >
+                Add To Cart
+              </button>
+            </section>
+          ) : (
+            <button
+              onClick={() => {
+                setitemimadding(product.id);
+              }}
+            >
+              Buy
+            </button>
+          )}
+        </div>
+
+        <img
+          src={product.imageURL}
+          alt={product.name}
+          className="product-image"
+        />
+      </article>
+
             ))
         ) : (
           <p>No artisanal products.</p>
@@ -382,8 +433,8 @@ useEffect(() => {
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}
         <Link to="/myshop" className="btn-link-myshop"> My Shop </Link> {/*has JS file, the rest of links do not*/}
         <Link to="/trackorders" className="btn-link-contact">Track My Orders</Link>
-       /* <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>*/
-      /*  <Link to="/contact" className="btn-link-contact">Contact</Link>*/
+       {/* <Link to="/aboutus" className="btn-link-aboutus">About Us</Link>*/
+      /*  <Link to="/contact" className="btn-link-contact">Contact</Link>*/}
          
         <button onClick={logout}>Logout</button>
       </nav>

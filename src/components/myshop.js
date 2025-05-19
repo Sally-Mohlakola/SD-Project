@@ -12,6 +12,7 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 
 
 
+
 export const MyShop=()=>{
   const [isReady, setIsReady] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -64,7 +65,9 @@ useEffect(() => {
 const startshop=()=>{
   navigate('/createshop');
 };
-
+const backhome=()=>{
+  navigate('/homepage');
+}
 const functions = getFunctions(app);
 
 const deleterejectedshop = async (id,Iurl) => {
@@ -95,11 +98,14 @@ console.log(store.id);
 if (store=="" ) {
   return (
     <section>
-  <h1>You dont have a shop yet</h1>
+  <h1>You don't have a shop yet</h1>
   
-    <button onClick={startshop}>Start my shop?</button>
-    
+  <button className='start-shop' onClick={startshop}>Start my shop?</button>
+  <p>  <button onClick={backhome}>Home</button>
+</p>
+
     </section>
+
   )
   }
 //if the store has been cleared by admin they must go to thier store
@@ -110,7 +116,7 @@ if (ispublic==="Awaiting"){
   return (
     <section>
     <h1>The admin has not cleared your store yet!</h1>
-    <Link to="/homepage">Home</Link>
+      <button onClick={backhome}>Home</button>
     </section>
     
   );

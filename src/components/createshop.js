@@ -10,7 +10,6 @@ export const Createshop=()=>{
 
 const navigate = useNavigate();
 const currentUserId = localStorage.getItem("userid");
-const shopcollectionRef=collection(db,"Shops");
 const [shoplist,setShoplist]=useState([]);
 
 const [newshopname,setnewshopname]=useState("");
@@ -19,7 +18,8 @@ const [submitted, setSubmitted] = useState(false);
 const [category, setcategory] = useState("");
 const [nameexists, setnameexists]=useState(false);
 const [imageupload,setimageupload]=useState(null);
- 
+const [loading, setLoading] = useState(false);
+
 //Get a list of all shops
 useEffect(()=>{
     const getshoplist= async()=>{
@@ -51,6 +51,7 @@ const userShop = shoplist.find((shop) => shop.userid === currentUserId);
             alert('Please complete all fields before submitting ');
             return;
           }
+          setLoading(true);
           const base64Image = await toBase64(imageupload);
           const extension = imageupload.name.split('.').pop();
           const functions = getFunctions();
@@ -65,7 +66,9 @@ const userShop = shoplist.find((shop) => shop.userid === currentUserId);
         }
         }catch(err){
           console.error(err);
-          };
+          } finally {
+  setLoading(false); 
+            }
           
         
         };
@@ -79,47 +82,97 @@ const checkshopname=(shops)=>{
     setnameexists(false);
   }
 };
+const backhome=()=>{
+  navigate('/homepage');
+}
+return (
+  <section className="create-shop">
+    <h1>Creating my Shop</h1>
 
-    return (
+    {/* Show loading state */}
+    {loading ? (
+      <p className="shop-alert" >Submitting your shop...</p>
+    ) : submitted ? (
+      <section>
+      <p className="shop-alert" >Your shop has been sent to admin</p>
+       <button onClick={backhome}>Home</button>
+      </section>
+    ) : (
+      <form>
+        <p>
+          <p><label htmlFor="shop-name">Name of shop</label></p>
+          <p>
+            <input
+              id="shop-name"
+              type="text"
+              onChange={(e) => {
+                setnewshopname(e.target.value);
+                checkshopname(e.target.value);
+              }}
+            />
+          </p>
 
-        <section className="create-shop">
-        <h1>Creating my Shop</h1>
-        {/*this "submitted" checks if the person pressed the button to submit their store to the admin" */}
-        {submitted? (
-            <section>
-        <p>Your shop has been sent to admin</p>
-            <Link to="/homepage">Home</Link>
-            </section>
-        ):(
-            <form>
-              <p>
-                
-                <p><label htmlFor="shop-name">Name of shop</label></p>
-                <p><input id="shop-name" type="text" onChange={(e)=> {setnewshopname(e.target.value);checkshopname(e.target.value);}} /></p>
-              
-                <p><label htmlFor="shop-category">Category:</label>
-                    <p><select id="shop-category" onChange={(e)=>{setcategory(e.target.value)}}>
-                    <option value="" disabled selected>Select a Category</option>
-                      <option >Pottery</option>
-                      <option >Paint</option>
-                    </select></p>
-                    </p>   
-                <p>
-                <p><label htmlFor="shop-desc">Shop description</label></p>
-                <textarea id="shop-desc" defaultValue=" " onChange={(e)=> setnewshopdescription(e.target.value) }/></p>
-                <p><label htmlFor="shop-img">Add logo/image:</label></p>
-                <p><input  id="shop-img"type="file" onChange={(e)=> setimageupload(e.target.files[0]) }/></p>
-                <button type="button" onClick={()=>{
-                  if(nameexists){
-                      alert("A store with that name exists");
-                    }
-                  else{
-                  sendtoadmin();
-                }
-                }}>Submit to admin</button>
-            </p> 
-        </form>)}
-   
-        </section>
-        );
+          <p>
+            <label htmlFor="shop-category">Category:</label>
+            <p>
+              <select
+                id="shop-category"
+                defaultValue=""
+                onChange={(e) => {
+                  setcategory(e.target.value);
+                }}
+              >
+                <option value="" disabled>
+                  Select a Category
+                </option>
+                <option>Pottery</option>
+                <option>Paint</option>
+                <option>Leatherwork</option>
+                <option>Woodworking</option>
+                <option>Weaving</option>
+                <option>Metalwork</option>
+                <option>Jewelry</option>
+                <option>Knitting</option>
+              </select>
+            </p>
+          </p>
+
+          <p>
+            <p><label htmlFor="shop-desc">Shop description</label></p>
+            <textarea
+              id="shop-desc"
+              defaultValue=" "
+              onChange={(e) => setnewshopdescription(e.target.value)}
+            />
+          </p>
+
+          <p><label htmlFor="shop-img">Add logo/image:</label></p>
+          <p>
+            <input
+              id="shop-img"
+              type="file"
+              onChange={(e) => setimageupload(e.target.files[0])}
+            />
+          </p>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (nameexists) {
+                alert("A store with that name exists");
+              } else {
+                sendtoadmin();
+              }
+            }}
+          >
+            Submit to admin
+          </button>
+        <button onClick={backhome}>Cancel</button>
+
+        </p>
+      </form>
+    )}
+  </section>
+);
+
 }
