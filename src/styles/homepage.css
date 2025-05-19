@@ -379,7 +379,7 @@ transition: all 0.3s ease;
 .product-listing-to-buy-view {
   display: flex;
   flex-wrap: wrap;
-  width:50%;
+  width:60%;
   justify-content: center;
   gap: 32px;
   padding: 40px 30px;
