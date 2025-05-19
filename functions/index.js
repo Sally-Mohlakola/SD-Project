@@ -76,13 +76,14 @@ exports.getShopsForAdmin = functions.https.onCall(async (data, context) => {
 });
 
 
-exports.createOrder = onCall(async (data, context) => {
-  // const data = request.data;
+exports.createOrder = onCall(async (request) => {
+  const data = request.data;
   // const context = request;  // context.auth is available on request.auth
 
   // if (!context.auth) {
   //   throw new HttpsError("unauthenticated", "Authentication required");
   // }
+console.log("data received:",data.address,data.nameofshop,data.userid ,data.cart_items);
 
   if (!data.address || !data.nameofshop || !data.userid || !data.cart_items) {
      console.log("Missing fields", {
@@ -105,9 +106,9 @@ exports.createOrder = onCall(async (data, context) => {
       status: data.status || "Ordered",
       userid: data.userid,
     };
-
+console.log("adding the order in orders");
     const orderRef = await db.collection("Orders").add(orderData);
-
+console.log("adding prodcuts form cart");
     const batch = db.batch();
     data.cart_items.forEach((item) => {
       const productRef = orderRef.collection("Products").doc();
