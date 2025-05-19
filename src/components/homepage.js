@@ -311,7 +311,7 @@ useEffect(() => {
 
               ))
             ) : (
-              <p>No shops are listed yet.</p>
+             <section className='np-shops-mesage'><p>No shops are listed yet.</p></section>
             )
           )}
         </>
@@ -324,16 +324,16 @@ useEffect(() => {
   <>
     <SearchTab query={search} setSearch={setSearch} />
     <FilterPrice query={priceFilter} setPrice={setPriceFilter} />
-    <h2>Artisanal works of {chosenShop.nameofshop}</h2>
+    <h2 className='chosen-shop-header'>Artisanal works of {chosenShop.nameofshop}</h2>
 
 
     {!loadingProducts && (
-      <p>Total number of products in shop: {filterProduct.length}</p>
+      <section className='product-count'><p>Total number of products in shop: {filterProduct.length}</p></section>
     )}
 
     {/* Load products when fetching to prevent flickering of changes */}
     {loadingProducts ? (
-      <p>Loading products...</p>
+      <section className='loading-message'><p>Loading products...</p></section>
     ) : (
 
       <section className="product-listing-to-buy-view">
@@ -350,7 +350,7 @@ useEffect(() => {
               return true;
             })
             .map((product) => (
-              <article key={product.id} className="product-article">
+            <article key={product.id} className="product-article">
   <section className="product-card">
     <h3>{product.name}</h3>
     <p>{product.itemdescription}</p>
@@ -363,6 +363,7 @@ useEffect(() => {
             type="number"
             min="1"
             max="999"
+            value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
         </p>
@@ -390,6 +391,7 @@ useEffect(() => {
             <button className='button'
               onClick={() => {
                 setitemimadding(product.id);
+                setQuantity(1)
               }}
             >
               Buy
@@ -408,8 +410,8 @@ useEffect(() => {
         ) : (
           <p>No artisanal products.</p>
         )}
-
-        <button className='button'
+    <section className='back-button-container'>
+        <button className='back-button'
           onClick={() => {
             if (cartitems.length !== 0) {
               const result = window.confirm(
@@ -425,6 +427,8 @@ useEffect(() => {
         >
           Back
         </button>
+        </section>
+
       </section>
     )}
   </>
