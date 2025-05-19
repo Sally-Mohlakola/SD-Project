@@ -348,7 +348,7 @@ useEffect(() => {
             })
             .map((product) => (
               <article key={product.id} className="product-article">
-  <div className="product-info">
+  <section className="product-card">
     <h3>{product.name}</h3>
     <p>{product.itemdescription}</p>
     <p>Price: R{product.price}</p>
@@ -363,7 +363,7 @@ useEffect(() => {
             onChange={(e) => setQuantity(e.target.value)}
           />
         </p>
-        <button
+        <button className='button'
           type="submit"
           onClick={() => {
             if (!quantity || quantity <= 0 || quantity >= 1000) {
@@ -384,7 +384,7 @@ useEffect(() => {
               </button>
             </section>
           ) : (
-            <button
+            <button className='button'
               onClick={() => {
                 setitemimadding(product.id);
               }}
@@ -392,7 +392,7 @@ useEffect(() => {
               Buy
             </button>
           )}
-        </div>
+        </section>
 
         <img
           src={product.imageURL}
@@ -406,7 +406,7 @@ useEffect(() => {
           <p>No artisanal products.</p>
         )}
 
-        <button
+        <button className='button'
           onClick={() => {
             if (cartitems.length !== 0) {
               const result = window.confirm(
