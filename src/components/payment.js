@@ -1,22 +1,25 @@
-import React, {useState, useEffect, useRef} from "react";
-import {PaystackButton} from "react-paystack";
-import '../styles/payment.css'
-import {useLocation, useNavigate} from "react-router-dom";
-import {GoogleMap, Marker, Autocomplete, useJsApiLoader} from '@react-google-maps/api';
+import React, { useState, useEffect, useRef } from "react";
+import { PaystackButton } from "react-paystack";
+import { useLocation, useNavigate } from "react-router-dom";
+import { GoogleMap, Marker, Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { getApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
 export const Payment = () => {
   const cart = sessionStorage.getItem("cart_items");
   const parsedCart = JSON.parse(cart || "[]");
-
+  const location = useLocation();
   const navigate = useNavigate();
- 
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY; 
+  const publicKey = process.env.REACT_APP_PAYMENT_API_KEY;
 
-  const location = useLocation();
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [address, setAddress] = useState('');
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -27,7 +30,7 @@ export const Payment = () => {
 
   const containerStyle = {
     width: '100%',
-    height: '65vh'
+    height: '300px'
   };
 
   const { isLoaded: isGoogleMapsLoaded, loadError } = useJsApiLoader({
@@ -157,8 +160,9 @@ export const Payment = () => {
     }
   }, [location.state]);
 
-  const chosenShop = sessionStorage.getItem("chosenshop");
-  console.log(chosenShop);
+  const chosenShopRaw = sessionStorage.getItem("chosenshop");
+  const chosenShop = JSON.parse(chosenShopRaw || "{}");
+
 
   const componentProps = {
     email,
@@ -167,11 +171,31 @@ export const Payment = () => {
     publicKey,
     text: "Make payment",
     currency: "ZAR",
-    onSuccess: () => {
-      alert("Thank you! Your payment was successful.");
-      window.location.href = '/homepage';
-      sessionStorage.removeItem("cart_items");
-      //getOrders();
+    onSuccess: async () => {
+      try {
+        const functions = getFunctions(getApp());
+        const createOrder = httpsCallable(functions, "createOrder");
+
+        await createOrder({
+          userid: user.uid,
+          address: address,
+          nameofshop: chosenShop.nameofshop,
+          cart_items: parsedCart.map((item) => ({
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity
+        })),
+        });
+
+        alert("Thank you! Your payment was successful and your order has been placed.");
+        sessionStorage.removeItem("cart_items");
+         console.log("hi", parsedCart);
+        window.location.href = '/homepage';
+      } catch (error) {
+        alert("Order creation error:", 1);
+        alert("Payment was successful, but order creation failed. Please contact support.");
+        console.log("hi", parsedCart);
+      }
     },
     onClose: () => alert("You have exited the payment process. No charges were made."),
   };
@@ -180,7 +204,7 @@ export const Payment = () => {
   if (!isGoogleMapsLoaded || loadingLocation) return <section className="loading">Loading ...</section>;
 
   return (
-    <section className="Outer">
+    <>
       <section className="section_map">
         <h2>Select Delivery Location</h2>
         <Autocomplete
@@ -197,7 +221,6 @@ export const Payment = () => {
         </Autocomplete>
 
         <GoogleMap
-        mapContainerClassName="google-map"
           mapContainerStyle={containerStyle}
           center={currentLocation}
           zoom={15}
@@ -215,8 +238,7 @@ export const Payment = () => {
             />
           )}
         </GoogleMap>
-        
-        
+
         {selectedLocation ? (
           <p><strong>Selected Address:</strong> {address}</p>
         ) : (
@@ -264,6 +286,6 @@ export const Payment = () => {
           </button>
         </section>
       </section>
-    </section>
+    </>
   );
 };
