@@ -23,3 +23,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: Sally-Mohlakola/SD-Project
+          files: ./coverage/coverage.xml
