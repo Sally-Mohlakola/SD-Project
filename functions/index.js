@@ -113,7 +113,7 @@ console.log("adding prodcuts form cart");
     data.cart_items.forEach((item) => {
       const productRef = orderRef.collection("Products").doc();
       batch.set(productRef, {
-        name: item.name,
+        nameofitem: item.name,
         price: Number(item.price),
         quantity: Number(item.quantity),
       });
