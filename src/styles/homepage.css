@@ -1,6 +1,3 @@
-
-
-
 body {
   margin: 0;
   font-family: 'Georgia', serif;
@@ -9,13 +6,86 @@ body {
   line-height: 1.6;
 }
 
-section {
+.section-home {
   padding-left: 240px;
   padding-right: 20px;
   padding-top: 20px;
 }
 
 
+/*Natural craft and the handmade wellness*/
+#message {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+}
+
+#message + p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  color: #5e5e5e;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 1.4s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+#img-welcome {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  display: block;
+  margin: 24px auto;
+  object-fit: cover;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#img-welcome:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+
+/*featured artisan picks*/
+.feature h2 {
+  font-family: 'Georgia', serif;  /* classy serif font */
+  font-weight: 700;
+  font-size: 32px;
+  color: #4a4a4a;                  /* dark gray */
+  margin-top: 40px;
+  margin-bottom: 16px;
+  border-bottom: 3px solid #c49a6c; /* warm gold underline */
+  padding-bottom: 8px;
+  letter-spacing: 0.05em;
+  text-shadow: 1px 1px 1px rgba(196, 154, 108, 0.3); /* subtle golden glow */
+}
+
+
+/*sidebar*/
 .sidebar-menu {
 width: 220px;
 background-color: #e8dfd2;
@@ -62,35 +132,108 @@ z-index: 100;
   color: #3b2d20;
 }
 
-
-h1 {
-  font-size: 28px;
-  margin: 20px 0 10px;
-  color: #5a422a;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+/*Featured Shops*/
+.featShops h2 {
+  font-family: 'Georgia', serif;
+  font-weight: 600;
+  font-size: 26px;          /* smaller size */
+  color: #5a5a5a;           /* slightly lighter gray */
+  margin-top: 30px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #b08c4f; /* lighter gold underline */
+  padding-bottom: 6px;
+  letter-spacing: 0.04em;
+  text-shadow: 1px 1px 1px rgba(176, 140, 79, 0.25);
 }
 
-h2 {
-  font-size: 24px;
-  color: #5e4c36;
-  margin-top: 40px;
-  border-bottom: 1px solid #d1c4b2;
-  padding-bottom: 10px;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+
+/*shops on main home*/
+.shop-card {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 900px;
+  min-height: 240px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 24px 32px;
+  margin: 20px 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: 'Georgia', serif;
+  color: #3a3a3a;
 }
 
-h4 {
-  font-size: 20px;
-  color: #5e4c36;
-  margin: 15px 0 10px;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+.shop-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
 }
+
+.shop-card > section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 24px;
+}
+
+.shop-card h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #5a432a;
+  letter-spacing: 0.03em;
+}
+
+.shop-card p {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  margin-bottom: 8px;
+  color: #6b5e4a;
+}
+
+.shop-card .button {
+  align-self: flex-start;
+  padding: 12px 32px;
+  background-color: #a37354;
+  border: none;
+  border-radius: 28px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(163, 115, 84, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shop-card .button:hover {
+  background-color: #c48c5c;
+  box-shadow: 0 8px 18px rgba(196, 140, 92, 0.7);
+}
+
+.shop-card .shop-image {
+  width: 260px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.shop-card:hover .shop-image {
+  transform: scale(1.05);
+}
+
 
 
 
 .products-dropdown-menu {
   margin: 40px 0;
 }
+
+
 
 .search-tab {
 font-family: 'Georgia', serif;
@@ -172,63 +315,6 @@ article:hover {
   object-fit: cover;
   border-radius: 4px;
 }
-.shop-card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 800px;               /* longer width */
-  height: 300px;              /* shorter height */
-  padding: 16px;
-  margin: 0 16px 30px 0;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transition: transform .3s, box-shadow .3s;
-}
-
-.shop-card .shop-image {
-  width: 100px;    /* small width */
-  height: 80px;   /* small height */
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  align-self: center;
-
-}
-
-
-.shop-card h3 {
-  margin: 4px 0;
-  font-size: 30px;
-  line-height: 1.3;
-  font-weight: 700; /* makes it bold */
-  font-family: 'Georgia', serif; /* classy & fancy serif font */
-  color: #222; /* nice dark color */
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* subtle shadow for depth */
-}
-
-.shop-card p {
-  margin: 4px 0;
-  font-size: 18px;
-  line-height: 1.3;
-  font-weight: 400;                     /* normal weight */
-  font-family: 'Open Sans', sans-serif; /* new font */
-  color: #444;                          /* slightly softer than black */
-}
-
-
-.shop-card .button {
-  align-self: center;
-  margin-top: auto;
-  padding: 6px 18px;
-  font-size: 14px;
-}
-
-.shop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
 
 article {
   background-color: #fff;
@@ -379,4 +465,3 @@ button:hover {
   transform: translateY(-4px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
-
