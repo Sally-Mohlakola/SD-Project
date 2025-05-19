@@ -35,7 +35,7 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
   function navigatehomepage() {
     navigate('/homepage');
   }
-    return (
+    return ( <section className='track-orders-page'>
   <>
   <section>
         <h2>Track My Orders</h2>
@@ -59,7 +59,7 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
               <h3>Order #{index + 1}</h3>
               {ord.products?.map((prod, index2) => (
                 <div key={index2}>
-                  <p><strong>Name:</strong> {prod?.nameofitem}</p>
+                  <p><strong>Name:</strong> {prod?.name}</p>
                   <p><strong>Quantity:</strong> {prod?.quantity}</p>
                   <p><strong>Price:</strong> R{prod?.price}</p>
                 </div>
@@ -74,5 +74,6 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
       </section>
     )}
   </>
+  </section>
 );
 };
