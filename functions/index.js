@@ -85,6 +85,12 @@ exports.createOrder = onCall(async (data, context) => {
   // }
 
   if (!data.address || !data.nameofshop || !data.userid || !data.cart_items) {
+     console.log("Missing fields", {
+      address: data.address,
+      nameofshop: data.nameofshop,
+      userid: data.userid,
+      cart_items: data.cart_items
+    });
     throw new HttpsError("invalid-argument", "Missing required order data");
   }
 

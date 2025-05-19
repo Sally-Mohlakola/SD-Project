@@ -176,15 +176,18 @@ export const Payment = () => {
         const functions = getFunctions(getApp());
         const createOrder = httpsCallable(functions, "createOrder");
 
+        const sanitizedCart = parsedCart.map((item) => ({
+        name: item.name,
+      price: Number(item.price),
+      quantity: Number(item.quantity),
+}));
+
         await createOrder({
-          userid: user.uid,
+          userid: user?.uid,
           address: address,
-          nameofshop: chosenShop.nameofshop,
-          cart_items: parsedCart.map((item) => ({
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity
-        })),
+          status: "Ordered",
+          nameofshop: chosenShop?.nameofshop,
+          cart_items: sanitizedCart
         });
 
         alert("Thank you! Your payment was successful and your order has been placed.");
@@ -192,6 +195,17 @@ export const Payment = () => {
          console.log("hi", parsedCart);
         window.location.href = '/homepage';
       } catch (error) {
+
+         console.log("LOG", {
+      address: address,
+      nameofshop: chosenShop.nameofshop,
+      userid:  user?.uid,
+      cart_items: parsedCart.map((item) => ({
+          name: item.name,
+          price: Number(item.price),
+          quantity: Number(item.quantity)
+        })),
+    });
         alert("Order creation error:", 1);
         alert("Payment was successful, but order creation failed. Please contact support.");
         console.log("hi", parsedCart);
