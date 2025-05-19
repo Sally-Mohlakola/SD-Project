@@ -47,7 +47,7 @@ export const AdminShopHomepage = () => {
     }
   };
 
-  if (loading) return <section>Loading...</section>;
+  if (loading) return <section className="loading-message"><p>Loading...</p></section>;
 
   return (
     <section className='admin-wrapper'>

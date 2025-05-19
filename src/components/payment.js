@@ -215,7 +215,7 @@ export const Payment = () => {
   };
 
   if (loadError) return <section className="error">Error loading page. Please try again later.</section>;
-  if (!isGoogleMapsLoaded || loadingLocation) return <section className="loading">Loading ...</section>;
+  if (!isGoogleMapsLoaded || loadingLocation) return <section className="loading-message">Loading ...</section>;
 
   return (
     <>

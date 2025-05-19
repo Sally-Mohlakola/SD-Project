@@ -84,7 +84,7 @@ console.log("shopimage",shopimage);
 
         if (loading){
           return (
-            <section>loading...</section>
+            <section className='loading-message'>Loading shop...</section>
           );
         };
 
@@ -93,7 +93,7 @@ console.log("shopimage",shopimage);
       <h1 className='storeDash-heading'>Welcome  {storename}</h1>
       <section className='shop-logo'>
         {!imageExists? (
-        <p>Loading...</p>
+        <p className='loading-message'>Loading...</p>
       ):(
         <img src={shopimage} alt=" " className='shop-logo'/>
       ) }

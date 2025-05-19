@@ -290,7 +290,7 @@ useEffect(() => {
           <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
           <section className='featShops'><h2>Featured Shops</h2></section>
           {loading ? (
-            <p>Loading shops...</p>) : (
+            <p className='loading-message'>Loading shops...</p>) : (
             filterShop.length > 0 ? (
               filterShop.map(shop => (
                 <article className="shop-card" key={shop.id}>
