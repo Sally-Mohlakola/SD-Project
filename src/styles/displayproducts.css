@@ -1,11 +1,10 @@
 .disp-wrapper {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem 2rem;
+  min-height: 100vh;
   box-sizing: border-box;
-  background: #f9f6f2; /* soft warm background */
+  background: radial-gradient(circle, #B08968, #ffffff00);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -13,12 +12,7 @@
   max-width: 900px;
   width: 100%;
   margin: 2rem auto;
-  padding: 2rem 3rem;
   border-radius: 16px;
-  background-color: #fffefccc;
-  color: #3c3a36;
-  box-shadow: 0 12px 28px rgba(94, 76, 54, 0.15);
-  border: 1px solid #d9d2c3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,92 +20,132 @@
   transition: box-shadow 0.3s ease;
 }
 
-.disp-section:hover {
-  box-shadow: 0 16px 40px rgba(94, 76, 54, 0.25);
-}
-
+/*My products*/
 .disp-section h1 {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-weight: 800;
-  font-size: 2.4rem;
-  color: #5e4c36;
-  letter-spacing: 1.2px;
-  text-shadow: 1px 1px 3px rgba(94, 76, 54, 0.3);
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
 }
 
-.remove-button {
-  background-color: #5e4c36;
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/*dashboard btn*/
+.dashboard-button-sd {
+  display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
   color: #fff;
-  padding: 0.65rem 1.5rem;
+  font-size: 16px;
+  font-weight: 700;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgba(94, 76, 54, 0.2);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-  user-select: none;
+  transition: background-color 0.3s ease;
 }
 
-.remove-button:hover {
-  background-color: #3a2f1d;
-  box-shadow: 0 0 12px 3px rgba(254, 180, 123, 0.7);
+.dashboard-button-sd:hover {
+   background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
   transform: scale(1.05);
 }
 
-.add-button {
-  background-color: #5e4c36;
+
+.remove-button-sd {
+  display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
   color: #fff;
-  padding: 0.65rem 1.5rem;
+  font-size: 16px;
+  font-weight: 700;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgba(94, 76, 54, 0.2);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-  user-select: none;
+  transition: background-color 0.3s ease;
 }
 
-.add-button:hover {
-  background-color: #3a2f1d;
-  box-shadow: 0 0 12px 3px rgba(254, 180, 123, 0.7);
+.remove-button-sd:hover {
+   background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.44); /* warm glowing effect */
   transform: scale(1.05);
 }
 
-.update-button {
-  background-color: #5e4c36;
+.add-button-sd {
+  display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
   color: #fff;
-  padding: 0.65rem 1.5rem;
+  font-size: 16px;
+  font-weight: 700;
   border: none;
-  border-radius: 8px;
+  border-radius: 30px;
   cursor: pointer;
-  font-weight: 600;
-  box-shadow: 0 3px 8px rgba(94, 76, 54, 0.2);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-  user-select: none;
+  transition: background-color 0.3s ease;
 }
 
-.update-button:hover {
-  background-color: #3a2f1d;
-  box-shadow: 0 0 12px 3px rgba(254, 180, 123, 0.7);
+.add-button-sd:hover {
+   background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
+  transform: scale(1.05);
+}
+
+.update-button-sd {
+  display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-button-sd:hover {
+ background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.44); /* warm glowing effect */
   transform: scale(1.05);
 }
 
 
 .product {
-  background-color: #fff;
-  border-radius: 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
-  padding: 20px 25px;
+  background: linear-gradient(to bottom right, #fefaf5, #f9f4ec);
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(60, 50, 40, 0.08);
+  padding: 24px 28px;
   display: flex;
   align-items: center;
-  gap: 24px;
-  margin-bottom: 16px;
-  transition: box-shadow 0.3s ease;
+  gap: 28px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease, transform 0.2s ease border 0.3s ease;
+  transform: translateY(0);
 }
 
+
+
 .product:hover {
-  box-shadow: 0 8px 30px rgba(94, 76, 54, 0.18);
+ box-shadow: 0 10px 28px rgba(94, 76, 54, 0.18);
+  transform: translateY(-4px);
 }
 
 .product img {
@@ -121,43 +155,43 @@
   width: 130px;
   box-shadow: 0 4px 12px rgba(94, 76, 54, 0.15);
   transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .product:hover img {
   transform: scale(1.05);
 }
 
+
+.product:hover img::after {
+  content: "View Details";
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: #fff;
+  background-color: rgba(0,0,0,0.5);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  z-index: 2;
+}
+
 .product p {
-  margin: 0 12px 0 0;
+ margin: 0 14px 0 0;
   font-weight: 700;
-  color: #4a463f;
+  color: #3c2f2f;
+  font-family: 'Georgia', serif;
+  font-size: 1.2rem;
   flex: 1;
 }
 
 .product p + p {
   font-weight: 400;
-  color: #7b7468;
+  color: #6e6458;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
   margin-right: 28px;
 }
 
-/* Reuse .button class for update, remove, add buttons */
-.update-button,
-.remove-button,
-.add-button {
-  composes: button; 
-  margin-bottom: 1.5rem;
-}
 
-
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px 0 rgba(254, 180, 123, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px 5px rgba(254, 180, 123, 0.7);
-  }
-}
-
-.button.pulse {
-  animation: pulseGlow 3s ease-in-out infinite;
-}
