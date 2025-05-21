@@ -3,40 +3,40 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 2rem;
+  padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border-radius: 16px;
-  background: linear-gradient(270deg, #fdfcfb, #e2d1c3, #fdfcfb);
-  background-size: 600% 600%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  animation: gradientShift 20s ease infinite, fadeInUp 0.8s ease-out forwards;
-}
+  background: radial-gradient(circle, #B08968, #ffffff00);
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+  }
+
 
 .storeDash-heading {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
   text-align: center;
-  padding: 2rem;
-  max-width: 650px;
-  width: 100%;
-  background: linear-gradient(to right, #a68f6b, #7a5c3a);
-  color: white;
-  border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  margin-bottom: 2.5rem;
-  font-size: 1.8rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 0.3s;
-}
+  opacity: 0;
+  }
 
 .storeDash-heading:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .shop-logo {
@@ -47,16 +47,15 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   animation: floatPulse 3s ease-in-out infinite, fadeInUp 1s ease-out forwards;
-  animation-delay: 0.3s;
-}
+  animation-delay: 0.3s; }
+
+
 
 .storeDash-links {
   max-width: 650px;
   width: 100%;
   padding: 2rem;
   border-radius: 14px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,11 +79,11 @@
 
 .storeDash-links a {
   position: relative;
-  text-decoration: none;
+  text-decoration:none;
   color: #fff;
   padding: 0.6rem 1.8rem;
   border-radius: 8px;
-  background-color: #5e4c36;
+  background-color: #7F5539;
   transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.3s ease;
   font-weight: 500;
   opacity: 0;
@@ -98,7 +97,7 @@
 .storeDash-links a:hover {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px) scale(1.05);
-  background-color: #3a2f1d;
+  background-color: #9c6644;
    box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
   transform: scale(1.05);
 }
