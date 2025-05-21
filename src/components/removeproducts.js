@@ -59,14 +59,14 @@ navigate('/displayproducts');
 
 
 
-    return(
+   return(
         <section className="Wrap">
             <section className="delete_wrapper">
 
 
 
-            <section className="back_button">
-            <button  onClick={Back}><i className="bx bx-x"> close</i></button>
+            <section className="back-button-delete">
+            <button  onClick={Back}><i className="bx bx-x"></i>Close</button>
             </section>
 
            
@@ -74,14 +74,14 @@ navigate('/displayproducts');
            
 
             <section className="H2">
-            <h1>Do you want to remove</h1><br/>
+            <h1>Do you want to remove this product?</h1><br/>
             </section>
 
             <section className="H1">
             <h1>{Item}</h1>
             </section>
 
-            <section className="delete_button">
+            <section className="delete_button-dp">
             <button onClick={delete_item}>Confirm</button>
             </section>
             
