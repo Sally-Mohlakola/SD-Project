@@ -141,7 +141,8 @@ export const MyOrders = () => {
 
 
     <section className='Cover'>
-      <h2>My Orders</h2>
+      <section className='order-section'>
+      <h1>My Orders</h1>
       <button className="back-button" onClick={navigateDashboard}>← Dashboard</button>
       
       {ordersLoading && (
@@ -210,6 +211,7 @@ export const MyOrders = () => {
         </ul>
         <button onClick={downloadCSVFIle}>Download Trend Report</button>*/}
       </section>
+    </section>
     </section>
   );
 };
