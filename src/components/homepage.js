@@ -411,7 +411,7 @@ useEffect(() => {
           <p>No artisanal products.</p>
         )}
     <section className='back-button-container'>
-        <button className='back-button'
+        <button className='back-button-home'
           onClick={() => {
             if (cartitems.length !== 0) {
               const result = window.confirm(
