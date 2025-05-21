@@ -25,6 +25,18 @@
    transform: translateY(-4px);
 }
 
+  .addprod-heading h1 {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+}
+
 @keyframes fadeInUp {
   0% {
     transform: translateY(20px);
