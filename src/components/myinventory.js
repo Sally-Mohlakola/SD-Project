@@ -93,7 +93,7 @@ useEffect(() => {
     <section className="inve-section">
         <section className="inve-section"><h1>Inventory</h1></section>
 
-        <button className="dashboard-button" onClick={navigateDashboard}>← Dashboard</button>
+        <button className="dashboard-button-inv" onClick={navigateDashboard}>← Dashboard</button>
         {!restock || restock.length === 0 ? null : (
 
         <section className="warning-section" style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
