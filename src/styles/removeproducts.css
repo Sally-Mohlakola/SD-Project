@@ -1,112 +1,133 @@
-.Wrap{
-    display:flex;
-    position:fixed;
-    top:0;
-   
-    left:0;
-    right:0;
-    height:100vh;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1vw;
-   justify-content: center;
-   align-items: center;
-  background-color: #e4d9dc;
-  
- 
-  
-  
-
+.Wrap {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #b08968 10%, #ffffff00 90%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1vw;
+  z-index: 9999;
 }
 
+/* Modal Container */
+.delete_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem;
+  width: 50vw;
+  height: 60vh;
+  background-color: #f9f6f1;
+  border: 2px solid #453d35;
+  border-radius: 1vw;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.5s ease forwards;
+}
 
-.delete_wrapper{
-    display:flex;
-   flex-direction: column;
-    width:fit-content;
-    outline: 0.2vw solid rgb(69, 61, 53);
-    padding: 0px;
-    height:60vh;
-    gap:4vh;
-   background-color:#f9f6f1;
-    border-radius: 1vw;
-    
+/* Optional inner section (if needed) */
+.delete_wrapper > section {
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
 
-    
+/* Icon style */
+.myicon {
+  font-size: 4vw;
+  color: #7f5539;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
 
+/* Title + subtitle styles */
+.H2, .H1 {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 0.5rem 0;
+}
 
+.H2 h1 {
+  font-size: 2vw;
+  font-weight: 600;
+  color: #3c2f2f;
+}
 
+.H1 h1 {
+  font-size: 2.5vw;
+  font-weight: 700;
+  color: rgb(105, 72, 72);
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
 }
-.delete_wrapper>section{
-  
-    padding: 0px;
-    position: relative;
-    top:0;
-    margin:0;
-    left:0;
-    right:0;
-    width:50vw;
-    height: 70vh;
-    padding-left:0px;
-    
-}
-.back_button{
-    display: flex;
-    justify-content: end;
-    height: 30vh !important;
-    
-        
-}
-.back_button button{
-    border-radius:0.5vw;
-    height: 6vh;
-    width:7vw;
-    background-color: #432a14;
-    color: white;
-}
-.myicon{
-    display:flex;
-    justify-content: center;
-    font-size: 4vw;
 
+/* Button area */
+.delete_button-dp {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  gap: 2rem;
 }
-.H2{
-    display:flex;
-    justify-content: center;
-    font-size:2vw;
-}
-.H1{
-    display:flex;
-    justify-content: center;
-    font-size:large;
-    font-weight: 900;
-    color:lightcoral;
 
+/* Confirm delete button */
+.delete_button-dp button {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.5vw;
+  background-color: #7f5539;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 4px 4px 10px rgba(80, 60, 40, 0.3);
 }
-.H2 h1{
-    font-size: 2vw;
 
+.delete_button-dp button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px 3px rgba(255, 182, 123, 0.5);
+  background-color: #9c6644;
 }
-.H1 h1{
-    font-weight: 600;
-    font-size: 3vw;
 
-    
+/* Back button */
+.back-button-delete {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
 }
-.delete_button{
-    display:flex;
-    justify-content: center;
-    
-    
-    
-}
-.delete_button button{
-    width:10vw;
-    height:5vh;
-    border-radius: 0.5vw;
-    box-shadow: 10px 10px gray;
-   /* background-color: rgb(51, 31, 24);*/
-      background-color: #432a14;
-}
-.delete_wrapper button:hover{
 
+.back-button-delete {
+ padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 30px;
+  background-color: #7F5539;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-button-delete:hover {
+  background-color: #9c6644;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7);
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
