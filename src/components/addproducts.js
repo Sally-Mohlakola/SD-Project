@@ -98,9 +98,12 @@ export const Addproduct=()=>{
                     
                   {/*Make sure that no product lacks an image*/}
                 </section>
+                <section className='addbutton-wrapper'>
                 <button className="submit-button" type="submit" onClick={handleSubmit}>Add Product</button>
+                </section>
             </form>
-            <button className="back-button" onClick={Back}>← Back</button>
+            <button className="back-button-add" onClick={Back}>← Back</button>
+            
         </section>
     );
 
