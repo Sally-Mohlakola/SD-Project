@@ -1,97 +1,116 @@
-.track-orders-page section {
-  max-width: 720px;
-  margin: 2rem auto;
-  padding: 1.8rem 2.4rem;
-  background: #fefcf8;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(94, 76, 54, 0.12);
+.trackorders-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: radial-gradient(circle, #B08968, #ffffff00);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #4a463f;
+ }
+
+.track-orders-page  {
+  max-width: 900px;
+  width: 100%;
+  margin: 2rem auto;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   transition: box-shadow 0.3s ease;
 }
 
-.track-orders-page section:hover {
-  box-shadow: 0 10px 28px rgba(94, 76, 54, 0.22);
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-/* Header section with button */
-.track-orders-page > section > h2 {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #5e4c36;
-  margin-bottom: 1rem;
-  letter-spacing: 1.1px;
-  text-shadow: 1px 1px 3px rgba(94, 76, 54, 0.18);
-  display: inline-block;
-}
-
-.track-orders-page > section > button {
-  background: linear-gradient(145deg, #6e5b3e, #4a3c22);
-  color: #f9f6f2;
-  padding: 0.6rem 1.4rem;
-  border: none;
-  border-radius: 12px;
+.track-orders-page h1 {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
   font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  float: right;
-  box-shadow: 0 5px 18px rgba(94, 76, 54, 0.35);
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  user-select: none;
-  letter-spacing: 1.5px;
+  text-align: center;
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
 }
 
-.track-orders-page > section > button:hover {
-  background: linear-gradient(145deg, #4a3c22, #6e5b3e);
-  box-shadow: 0 0 20px 5px rgba(254, 180, 123, 0.9);
+.track-orders-page-btn{
+  display: flex;
+  margin-left: 110px;
+  padding: 12px 28px;
+  background-color: #7F5539;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.track-orders-page-btn:hover {
+   background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
   transform: scale(1.05);
-  color: #fffdfa;
-  text-shadow: 0 0 6px rgba(254, 180, 123, 0.7);
 }
 
 /* Order blocks */
 .track-orders-page section > section {
-  margin-top: 2rem;
-  padding: 1.6rem 2rem;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 4px 12px rgba(94, 76, 54, 0.08);
-  transition: box-shadow 0.3s ease;
+  margin-top: 2.4rem;
+  padding: 1.8rem 2.4rem;
+  background: #fef9f1;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(117, 92, 53, 0.1);
+  transition: box-shadow 0.4s ease, transform 0.3s ease;
+  
 }
 
 .track-orders-page section > section:hover {
-  box-shadow: 0 8px 22px rgba(94, 76, 54, 0.18);
+  box-shadow: 0 12px 36px rgba(117, 92, 53, 0.25);
+  transform: translateY(-4px);
 }
 
 .track-orders-page section > section > h3 {
-  font-weight: 700;
+  font-weight: 800;
   color: #5e4c36;
-  margin-bottom: 1rem;
-  letter-spacing: 1px;
-  text-shadow: 1px 1px 2px rgba(94, 76, 54, 0.15);
+  margin-bottom: 1.2rem;
+  letter-spacing: 1.2px;
+  text-shadow: 1.5px 1.5px 3px rgba(94, 76, 54, 0.18);
+  font-size: 1.5rem;
+  font-family: 'Georgia', serif;
 }
 
 /* Product details */
-.track-orders-page section > section > div {
-  margin-bottom: 1rem;
-  padding-left: 1rem;
-  border-left: 3px solid #a68545;
-  color: #4a463f;
+.track-orders-page section > section  {
+   color: #4a463f;
+  padding-left: 2rem;
+  
+  margin-bottom: 1.2rem;
 }
 
-.track-orders-page section > section > div p {
-  margin: 0.25rem 0;
-  font-size: 1rem;
-  line-height: 1.3;
-}
-
-/* Address and status */
-.track-orders-page section > section > p {
+.track-orders-page section > section >  p {
   margin: 0.6rem 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
   font-weight: 600;
   color: #7b7468;
-  font-size: 1.05rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease;
 }
+
 
 /* Loading text */
 .track-orders-page section p {
