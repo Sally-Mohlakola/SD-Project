@@ -3,48 +3,38 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 3rem;
+  padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border-radius: 20px;
-  background: linear-gradient(145deg, #fefefe, #f0ebe6);
-  box-shadow:
-    0 4px 15px rgba(94, 76, 54, 0.1),
-    inset 0 0 15px rgba(255, 255, 255, 0.7);
-  min-width: 50vw;
-  max-width: 700px;
-  margin: 2rem auto;
-  transition: box-shadow 0.4s ease, transform 0.3s ease;
-  user-select: none;
+  border-radius: 16px;
+  background: radial-gradient(circle, #B08968, #ffffff00);
 }
 
-.addprod-section:hover {
-  box-shadow:
-    0 10px 40px rgba(94, 76, 54, 0.25),
-    inset 0 0 25px rgba(255, 255, 255, 0.85);
-  transform: translateY(-6px);
-}
 
 .addprod-heading {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
   text-align: center;
-  padding: 2.5rem 2rem;
-  width: 100%;
-  max-width: 600px;
-  background: rgba(94, 76, 54, 0.12);
-  border-radius: 20px;
-  box-shadow:
-    0 6px 18px rgba(94, 76, 54, 0.15);
-  margin-bottom: 3rem;
-  font-weight: 800;
-  font-size: 2.8rem;
-  color: #5e4c36;
-  letter-spacing: 1.3px;
-  text-shadow: 1px 1px 3px rgba(94, 76, 54, 0.18);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;}
 
 .addprod-heading:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 10px 25px rgba(94, 76, 54, 0.35);
+   transform: translateY(-4px);
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .inputs {
@@ -58,7 +48,7 @@
 
 .inputs label {
   font-weight: 700;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   color: #4a463f;
   margin-bottom: 8px;
   letter-spacing: 0.04em;
@@ -96,36 +86,26 @@
 }
 
 .submit-button,
-.back-button {
-  background: linear-gradient(145deg, #6e5b3e, #4a3c22);
-  color: #f9f6f2;
-  padding: 0.85rem 2.4rem;
+.back-button-add {
+  display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
   border: none;
-  border-radius: 16px;
+  border-radius: 30px;
   cursor: pointer;
-  font-size: 1.2rem;
-  font-weight: 800;
-  display: block;
-  margin: 2rem auto 0;
-  min-width: 160px;
-  box-shadow:
-    0 5px 20px rgba(94, 76, 54, 0.4);
-  transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.25s ease;
-  user-select: none;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 .submit-button:hover,
-.back-button:hover {
-  background: linear-gradient(145deg, #4a3c22, #6e5b3e);
-  box-shadow:
-    0 0 20px 5px rgba(254, 180, 123, 0.9);
-  transform: scale(1.1);
-  color: #fffdfa;
-  text-shadow: 0 0 6px rgba(254, 180, 123, 0.7);
-}
+.back-button-add:hover {
+  background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
+  transform: scale(1.05); }
 
 /* Subtle fade-in animation for the whole form on page load */
 @keyframes fadeInUp {
@@ -143,3 +123,10 @@
   animation: fadeInUp 0.8s ease forwards;
 }
 
+
+.addbutton-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-left: 10px;
+}
