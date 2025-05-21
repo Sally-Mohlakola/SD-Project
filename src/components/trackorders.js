@@ -35,11 +35,13 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
   function navigatehomepage() {
     navigate('/homepage');
   }
-    return ( <section className='track-orders-page'>
+    return ( 
+    <section className='trackorders-wrapper'>
+    <section className='track-orders-page'>
   <>
   <section>
-        <h2>Track My Orders</h2>
-        <button onClick={navigatehomepage}>← Homepage</button>
+        <h1>Track My Orders</h1>
+        <button className='track-orders-page-btn' onClick={navigatehomepage}>← Homepage</button>
 </section>
     {/* Loading state */}
     {loading && (
@@ -58,11 +60,11 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
             <section key={index}>
               <h3>Order #{index + 1}</h3>
               {ord.products?.map((prod, index2) => (
-                <div key={index2}>
+                <section key={index2}>
                   <p><strong>Name:</strong> {prod?.nameofitem}</p>
                   <p><strong>Quantity:</strong> {prod?.quantity}</p>
                   <p><strong>Price:</strong> R{prod?.price}</p>
-                </div>
+                </section>
               ))}
               <p><strong>Address:</strong> {ord?.address}</p>
               <p><strong>Status:</strong> {ord?.status}</p>
@@ -74,6 +76,7 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
       </section>
     )}
   </>
+  </section>
   </section>
 );
 };
