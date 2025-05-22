@@ -117,18 +117,22 @@ export const MyOrders = () => {
      setLoading(true);
     try {
       console.log(orderstatus, ordid);
-      const orderRef = doc(db, "Orders", ordid);
-      await updateDoc(orderRef, {
-        status: orderstatus
-      });
-      
+      const functions = getFunctions();
+        const updateOrderStatus = httpsCallable(functions, 'updateOrderStatus');
+        await updateOrderStatus({orderStatus:orderstatus, orderId:ordid});
       // Update the local state to reflect the change
+      if (orderstatus=="Collected"){
+        alert("The order had been removed from Database");
+     window.location.reload(); // This refreshes the page to reload the orders if one has bee deleted
+        
+      }
+      else{
       setorderlist(prevOrders => 
         prevOrders.map(order => 
           order.orderid === ordid ? { ...order, status: orderstatus } : order
         )
       );
-      
+    }
       setEditingOrderid(null);
       setorderstatus("");
     } catch (err) {
@@ -173,8 +177,9 @@ export const MyOrders = () => {
               >
                 <option value="" disabled>New Status</option>
                 <option value="Ordered">Ordered</option>
+                 <option value="Delivery ready">Delivery ready</option>
                 <option value="Dispatched">Dispatched</option>
-                <option value="Delivery ready">Delivery ready</option>
+                <option value="Collected">Collected</option>
               </select>
               <button onClick={() => updatestatus(ord.orderid)}>
                 Save

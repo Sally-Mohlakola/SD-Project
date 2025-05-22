@@ -8,6 +8,7 @@ import { getAuth } from "firebase/auth";
 
 export const Payment = () => {
   const cart = sessionStorage.getItem("cart_items");
+  const shopid = sessionStorage.getItem("chosenshopid");
   const parsedCart = JSON.parse(cart || "[]");
   const location = useLocation();
   const navigate = useNavigate();
@@ -177,6 +178,7 @@ export const Payment = () => {
         const createOrder = httpsCallable(functions, "createOrder");
 
         const sanitizedCart = parsedCart.map((item) => ({
+        id:item.id,
         name: item.name,
       price: Number(item.price),
       quantity: Number(item.quantity),
@@ -187,7 +189,8 @@ export const Payment = () => {
           address: address,
           status: "Ordered",
           nameofshop: chosenShop?.nameofshop,
-          cart_items: sanitizedCart
+          cart_items: sanitizedCart,
+          shopid:shopid
         });
 
         alert("Thank you! Your payment was successful and your order has been placed.");

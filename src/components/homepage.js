@@ -185,10 +185,13 @@ useEffect(() => {
 
 
 
-  const actionEnterShop = (shop) => {
+  const actionEnterShop = (shop,shopid) => {
     setChosenShop(shop); //Set the chosenShop by clicking "Enter Shop" button
     //store the chosen shop in the storage for later use and cheakout 
     sessionStorage.setItem("chosenshop", JSON.stringify(shop));
+    console.log("SHOPID",shopid);
+    sessionStorage.setItem("chosenshopid", shopid);
+
   };
 
 
@@ -232,9 +235,9 @@ useEffect(() => {
   };
 
   // cart fields for each product
-  const AddtoCart = (id, name, description, price, quan) => {
+  const AddtoCart = (itemid, name, description, price, quan) => {
     const prod = {
-      id: id,
+      id: itemid,
       name: name,
       itemdescription: description,
       price: price,
@@ -298,7 +301,7 @@ useEffect(() => {
     <h3>{shop.nameofshop}</h3>
     <p>{shop.description}</p>
     <p>Category: {shop.category}</p>
-    <button className="button" onClick={() => actionEnterShop(shop)}>Enter Shop</button>
+    <button className="button" onClick={() => actionEnterShop(shop,shop.id)}>Enter Shop</button>
   </section>
   {shopImages[shop.id] && (
     <img

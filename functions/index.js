@@ -23,10 +23,9 @@ const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 admin.initializeApp();
-
 const db = admin.firestore();
 
-const logger = console;
+// const logger = console;
 
 exports.getOrders = functions.https.onCall(async (data, context) => {
   try {
@@ -75,29 +74,21 @@ exports.getShopsForAdmin = functions.https.onCall(async (data, context) => {
   }
 });
 
-
 exports.createOrder = onCall(async (request) => {
   const data = request.data;
-  // const context = request;  // context.auth is available on request.auth
 
-  // if (!context.auth) {
-  //   throw new HttpsError("unauthenticated", "Authentication required");
-  // }
-console.log("data received:",data.address,data.nameofshop,data.userid ,data.cart_items);
+  console.log("data received:", data.address, data.nameofshop, data.userid, data.cart_items, data.shopid);
 
-  if (!data.address || !data.nameofshop || !data.userid || !data.cart_items) {
-     console.log("Missing fields", {
+  if (!data.address || !data.nameofshop || !data.userid || !data.cart_items|| !data.shopid) {
+    console.log("Missing fields", {
       address: data.address,
       nameofshop: data.nameofshop,
       userid: data.userid,
-      cart_items: data.cart_items
+      cart_items: data.cart_items,
+      shopId: data.shopid
     });
     throw new HttpsError("invalid-argument", "Missing required order data");
   }
-
-  // if (data.userid !== context.auth.uid) {
-  //   throw new HttpsError("permission-denied", "User ID mismatch");
-  // }
 
   try {
     const orderData = {
@@ -106,28 +97,63 @@ console.log("data received:",data.address,data.nameofshop,data.userid ,data.cart
       status: data.status || "Ordered",
       userid: data.userid,
     };
-console.log("adding the order in orders");
+
+    console.log("adding the order in orders");
     const orderRef = await db.collection("Orders").add(orderData);
-console.log("adding prodcuts form cart");
+
+    console.log("adding products from cart & updating sold count");
+
     const batch = db.batch();
-    data.cart_items.forEach((item) => {
-      const productRef = orderRef.collection("Products").doc();
-      batch.set(productRef, {
-        nameofitem: item.name,
-        price: Number(item.price),
-        quantity: Number(item.quantity),
-      });
+
+    for (const item of data.cart_items) {
+  const productOrderRef = orderRef.collection("Products").doc();
+  batch.set(productOrderRef, {
+    nameofitem: item.name,
+    price: Number(item.price),
+    quantity: Number(item.quantity),
+  });
+
+  console.log("Looking for product ID:", item.productId); 
+
+  const productRef = db
+    .collection("Shops")
+    .doc(data.shopid)
+    .collection("Products")
+    .doc(item.id);
+
+  const productDoc = await productRef.get();
+
+  if (productDoc.exists) {
+    const productData = productDoc.data();
+
+    const currentSold = productData.sold || 0;
+    const currentQuantity = productData.quantity || 0;
+
+    const itemQty = Number(item.quantity);
+
+    const newSold = currentSold + itemQty;
+    const newQuantity = currentQuantity - itemQty;
+
+    batch.update(productRef, {
+      sold: newSold,
+      quantity: newQuantity,
     });
+  } else {
+    console.warn(`Product with ID '${item.productId}' not found in shop '${data.nameofshop}'`);
+  }
+}
+
 
     await batch.commit();
 
     return {
       success: true,
       orderId: orderRef.id,
-      message: "Order created successfully",
+      message: "Order created and products updated successfully",
     };
+
   } catch (error) {
-    logger.error("Order creation failed:", error);
+    console.error("Order creation failed:", error);
     throw new HttpsError("internal", "Order creation failed", error.message);
   }
 });
@@ -363,3 +389,47 @@ app.post("/addProduct", upload.single("image"), async (req, res) => {
 
 // Export Express API as Firebase Function
 exports.api = onRequest(app);
+
+
+exports.updateOrderStatus = functions.https.onCall(async (request) => {
+  const data = request.data;
+  const { orderStatus, orderId } = data;
+
+  console.log("Status:", orderStatus, "Order ID:", orderId);
+
+  if (!orderStatus || !orderId) {
+    throw new functions.https.HttpsError("invalid-argument", "Missing orderStatus or orderId");
+  }
+
+  const orderRef = db.collection("Orders").doc(orderId);
+  const productsRef = orderRef.collection("Products");
+
+  try {
+    // Update the status
+    await orderRef.update({ status: orderStatus });
+    console.log(`Updated status to ${orderStatus}`);
+
+    if (orderStatus.toLowerCase() === "collected") {
+      // Delete all products in the subcollection
+      const productsSnapshot = await productsRef.get();
+      const deletePromises = [];
+      
+      productsSnapshot.forEach((doc) => {
+        deletePromises.push(doc.ref.delete());
+      });
+
+      await Promise.all(deletePromises);
+      console.log(`Deleted ${deletePromises.length} products.`);
+
+      // Now delete the order document
+      await orderRef.delete();
+      console.log(`Order ${orderId} deleted from database.`);
+    }
+
+    return { success: true, message: "Order updated successfully." };
+
+  } catch (error) {
+    console.error("Error updating or deleting order:", error);
+    throw new functions.https.HttpsError("internal", "Something went wrong.");
+  }
+});
