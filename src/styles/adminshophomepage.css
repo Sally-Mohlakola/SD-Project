@@ -74,15 +74,17 @@
 }
 
 .home-button {
-  display: inline-block;
-  background-color: #5e4c36;
+background-color: #7F5539;
   color: white;
-  padding: 0.5rem 1.2rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 30px;
   cursor: pointer;
-  margin-bottom: 1.5rem;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 50px;
 }
 
 .home-button:hover {
