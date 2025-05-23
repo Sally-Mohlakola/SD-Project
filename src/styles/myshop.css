@@ -1,0 +1,129 @@
+
+.shop-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: radial-gradient(circle, #B08968, #ffffff00);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.shop-section h1, .shop-section h2 {
+  font-family: 'Georgia', serif;
+  color: #3c2f2f;
+  margin-bottom: 2rem;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.shop-section h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.shop-section h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.clearAdmin {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+}
+
+.start-shop {
+  background-color: #7F5539;
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 1rem;
+  font-weight: 600;
+}
+
+.start-shop:hover {
+  background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7);
+}
+
+.shop-section button {
+  background-color: #7F5539;
+  color: white;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+  font-weight: 600;
+}
+
+.shop-section button:hover {
+  background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.44);
+}
+
+.message-container {
+  background: linear-gradient(to bottom right, #fefaf5, #f9f4ec);
+  border-radius: 18px;
+  box-shadow: 0 6px 18px rgba(60, 50, 40, 0.08);
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 2rem auto;
+  transition: all 0.3s ease;
+}
+
+.message-container:hover {
+  box-shadow: 0 10px 28px rgba(94, 76, 54, 0.18);
+  transform: translateY(-4px);
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .shop-section h1 {
+    font-size: 1rem;
+  }
+  
+  .shop-section h2 {
+    font-size: 1rem;
+  }
+  
+  .message-container {
+    padding: 1rem;
+  }
+  
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+  }
+}
