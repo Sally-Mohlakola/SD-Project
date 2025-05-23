@@ -1,0 +1,3478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="94" failures="42" errors="0" time="20.256">
+  <testsuite name="Displayproducts Component" errors="0" failures="4" skipped="0" timestamp="2025-05-23T16:59:40" time="8.238" tests="9">
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component renders loading state when shopid is not available" time="0.141">
+      <failure>Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found &lt;h1&gt;My products&lt;/h1&gt; instead
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:73:51)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component renders products when shopid is available" time="0.088">
+      <failure>TestingLibraryElementError: Found multiple elements with the text: 10
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+&lt;p&gt;
+  &lt;strong&gt;
+    Price:
+  &lt;/strong&gt;
+   
+  10
+&lt;/p&gt;
+
+Ignored nodes: comments, script, style
+&lt;p&gt;
+  &lt;strong&gt;
+    Quantity:
+  &lt;/strong&gt;
+   
+  10
+&lt;/p&gt;
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;disp-wrapper&quot;
+    &gt;
+      &lt;section
+        class=&quot;disp-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;disp-section&quot;
+        &gt;
+          &lt;h1&gt;
+            My products
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;button
+          class=&quot;dashboard-button-sd&quot;
+        &gt;
+          ← Dashboard
+        &lt;/button&gt;
+         
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;img
+            alt=&quot;Product 1&quot;
+            height=&quot;auto&quot;
+            src=&quot;https://example.com/image1.jpg&quot;
+            width=&quot;200&quot;
+          /&gt;
+          &lt;br /&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Name:
+            &lt;/strong&gt;
+             
+            Product 1
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Description:
+            &lt;/strong&gt;
+             
+            Description 1
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Price:
+            &lt;/strong&gt;
+             
+            10
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Quantity:
+            &lt;/strong&gt;
+             
+            5
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;update-button-sd&quot;
+            id=&quot;Product 1&quot;
+          &gt;
+            Update Product
+          &lt;/button&gt;
+          &lt;button
+            class=&quot;remove-button-sd&quot;
+            id=&quot;Product 1&quot;
+          &gt;
+            Remove Product
+          &lt;/button&gt;
+          &lt;br /&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;img
+            alt=&quot;Product 2&quot;
+            height=&quot;auto&quot;
+            src=&quot;https://example.com/image2.jpg&quot;
+            width=&quot;200&quot;
+          /&gt;
+          &lt;br /&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Name:
+            &lt;/strong&gt;
+             
+            Product 2
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Description:
+            &lt;/strong&gt;
+             
+            Description 2
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Price:
+            &lt;/strong&gt;
+             
+            20
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Quantity:
+            &lt;/strong&gt;
+             
+            10
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;update-button-sd&quot;
+            id=&quot;Product 2&quot;
+          &gt;
+            Update Product
+          &lt;/button&gt;
+          &lt;button
+            class=&quot;remove-button-sd&quot;
+            id=&quot;Product 2&quot;
+          &gt;
+            Remove Product
+          &lt;/button&gt;
+          &lt;br /&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+      &lt;button
+        class=&quot;add-button-sd&quot;
+      &gt;
+        Add product
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:20:35)
+    at getMultipleElementsFoundError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:23:10)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:55:13
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:84:19)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)</failure>
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component navigates to dashboard when dashboard button is clicked" time="0.111">
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component navigates to add products page when add button is clicked" time="0.052">
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component sets item in localStorage and navigates when update button is clicked" time="0.09">
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component sets item in localStorage and navigates when remove button is clicked" time="0.054">
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component handles Firestore error gracefully" time="1.013">
+      <failure>Error: Firestore error
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:137:35)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+      <failure>Error: expect(jest.fn()).toHaveBeenCalled()
+
+Expected number of calls: &gt;= 1
+Received number of calls:    0
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;disp-wrapper&quot;
+      &gt;
+        &lt;section
+          class=&quot;disp-section&quot;
+        &gt;
+          &lt;section
+            class=&quot;disp-section&quot;
+          &gt;
+            &lt;h1&gt;
+              My products
+            &lt;/h1&gt;
+          &lt;/section&gt;
+          &lt;button
+            class=&quot;dashboard-button-sd&quot;
+          &gt;
+            ← Dashboard
+          &lt;/button&gt;
+           
+        &lt;/section&gt;
+        &lt;button
+          class=&quot;add-button-sd&quot;
+        &gt;
+          Add product
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:143:26
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component does not call getDocs when shopid is not available" time="0.008">
+    </testcase>
+    <testcase classname="src\tests\displayProducts.test.js" name="Displayproducts Component correctly formats and displays product data" time="1.017">
+      <failure>Error: Unable to find an element with the text: Name: Product 1. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;disp-wrapper&quot;
+    &gt;
+      &lt;section
+        class=&quot;disp-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;disp-section&quot;
+        &gt;
+          &lt;h1&gt;
+            My products
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;button
+          class=&quot;dashboard-button-sd&quot;
+        &gt;
+          ← Dashboard
+        &lt;/button&gt;
+         
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;img
+            alt=&quot;Product 1&quot;
+            height=&quot;auto&quot;
+            src=&quot;https://example.com/image1.jpg&quot;
+            width=&quot;200&quot;
+          /&gt;
+          &lt;br /&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Name:
+            &lt;/strong&gt;
+             
+            Product 1
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Description:
+            &lt;/strong&gt;
+             
+            Description 1
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Price:
+            &lt;/strong&gt;
+             
+            10
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Quantity:
+            &lt;/strong&gt;
+             
+            5
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;update-button-sd&quot;
+            id=&quot;Product 1&quot;
+          &gt;
+            Update Product
+          &lt;/button&gt;
+          &lt;button
+            class=&quot;remove-button-sd&quot;
+            id=&quot;Product 1&quot;
+          &gt;
+            Remove Product
+          &lt;/button&gt;
+          &lt;br /&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;img
+            alt=&quot;Product 2&quot;
+            height=&quot;auto&quot;
+            src=&quot;https://example.com/image2.jpg&quot;
+            width=&quot;200&quot;
+          /&gt;
+          &lt;br /&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Name:
+            &lt;/strong&gt;
+             
+            Product 2
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Description:
+            &lt;/strong&gt;
+             
+            Description 2
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Price:
+            &lt;/strong&gt;
+             
+            20
+          &lt;/p&gt;
+          &lt;p&gt;
+            &lt;strong&gt;
+              Quantity:
+            &lt;/strong&gt;
+             
+            10
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;update-button-sd&quot;
+            id=&quot;Product 2&quot;
+          &gt;
+            Update Product
+          &lt;/button&gt;
+          &lt;button
+            class=&quot;remove-button-sd&quot;
+            id=&quot;Product 2&quot;
+          &gt;
+            Remove Product
+          &lt;/button&gt;
+          &lt;br /&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+      &lt;button
+        class=&quot;add-button-sd&quot;
+      &gt;
+        Add product
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:158:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\displayProducts.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="AddProduct Component" errors="0" failures="3" skipped="0" timestamp="2025-05-23T16:59:40" time="8.299" tests="4">
+    <testcase classname="src\tests\AddProducts.test.js" name="AddProduct Component renders the add-product form and submit button" time="0.31">
+    </testcase>
+    <testcase classname="src\tests\AddProducts.test.js" name="AddProduct Component updates input values correctly" time="0.096">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;Scandinavian Mug&quot;
+Received: &quot;Scandinavian pottery&quot;
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\AddProducts.test.js:64:51)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\AddProducts.test.js" name="AddProduct Component submits the add-product form and calls addDoc with correct data" time="1.208">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: Anything, &quot;Shops&quot;, &quot;shop123&quot;, &quot;Products&quot;
+
+Number of calls: 0
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;addprod-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;addprod-heading&quot;
+        &gt;
+          &lt;h1&gt;
+            Add products
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;form&gt;
+          &lt;section
+            class=&quot;inputs&quot;
+          &gt;
+            &lt;label
+              for=&quot;itemName&quot;
+            &gt;
+              Item:
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;itemName&quot;
+              placeholder=&quot;Enter name of product&quot;
+              required=&quot;&quot;
+              type=&quot;text&quot;
+              value=&quot;Ceremonial Vase&quot;
+            /&gt;
+            &lt;br /&gt;
+            &lt;label
+              for=&quot;itemdescription&quot;
+            &gt;
+              Description:
+            &lt;/label&gt;
+            &lt;textarea
+              cols=&quot;40&quot;
+              id=&quot;itemdescription&quot;
+              placeholder=&quot;Describe the product&quot;
+              rows=&quot;6&quot;
+            &gt;
+              Inspired by Mapungubwe
+            &lt;/textarea&gt;
+            &lt;label
+              for=&quot;price&quot;
+            &gt;
+              Price:
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;price&quot;
+              min=&quot;0&quot;
+              placeholder=&quot;(in rands)&quot;
+              required=&quot;&quot;
+              type=&quot;number&quot;
+              value=&quot;100&quot;
+            /&gt;
+            &lt;br /&gt;
+            &lt;label
+              for=&quot;quantity&quot;
+            &gt;
+              Quantity
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;quantity&quot;
+              min=&quot;0&quot;
+              placeholder=&quot;e.g. 8&quot;
+              required=&quot;&quot;
+              type=&quot;number&quot;
+              value=&quot;2&quot;
+            /&gt;
+            &lt;br /&gt;
+            &lt;label
+              for=&quot;image&quot;
+            &gt;
+              Upload image of item below:
+            &lt;/label&gt;
+            &lt;br /&gt;
+            &lt;input
+              accept=&quot;image/*&quot;
+              id=&quot;image&quot;
+              type=&quot;file&quot;
+            /&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;addbutton-wrapper&quot;
+          &gt;
+            &lt;button
+              class=&quot;submit-button&quot;
+              type=&quot;submit&quot;
+            &gt;
+              Add Product
+            &lt;/button&gt;
+          &lt;/section&gt;
+        &lt;/form&gt;
+        &lt;button
+          class=&quot;back-button-add&quot;
+        &gt;
+          ← Back
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\AddProducts.test.js:87:26
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\AddProducts.test.js" name="AddProduct Component handles addDoc failure gracefully" time="1.081">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalled()
+
+Expected number of calls: &gt;= 1
+Received number of calls:    0
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;addprod-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;addprod-heading&quot;
+        &gt;
+          &lt;h1&gt;
+            Add products
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;form&gt;
+          &lt;section
+            class=&quot;inputs&quot;
+          &gt;
+            &lt;label
+              for=&quot;itemName&quot;
+            &gt;
+              Item:
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;itemName&quot;
+              placeholder=&quot;Enter name of product&quot;
+              required=&quot;&quot;
+              type=&quot;text&quot;
+              value=&quot;Clay Plate&quot;
+            /&gt;
+            &lt;br /&gt;
+            &lt;label
+              for=&quot;itemdescription&quot;
+            &gt;
+              Description:
+            &lt;/label&gt;
+            &lt;textarea
+              cols=&quot;40&quot;
+              id=&quot;itemdescription&quot;
+              placeholder=&quot;Describe the product&quot;
+              rows=&quot;6&quot;
+            &gt;
+              Elegant Plate
+            &lt;/textarea&gt;
+            &lt;label
+              for=&quot;price&quot;
+            &gt;
+              Price:
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;price&quot;
+              min=&quot;0&quot;
+              placeholder=&quot;(in rands)&quot;
+              required=&quot;&quot;
+              type=&quot;number&quot;
+              value=&quot;120&quot;
+            /&gt;
+            &lt;br /&gt;
+            &lt;label
+              for=&quot;quantity&quot;
+            &gt;
+              Quantity
+            &lt;/label&gt;
+            &lt;input
+              id=&quot;quantity&quot;
+              min=&quot;0&quot;
+              placeholder=&quot;e.g. 8&quot;
+              required=&quot;&quot;
+              type=&quot;number&quot;
+              value=&quot;4&quot;
+            /&gt;
+            &lt;br /&gt;
+            &lt;label
+              for=&quot;image&quot;
+            &gt;
+              Upload image of item below:
+            &lt;/label&gt;
+            &lt;br /&gt;
+            &lt;input
+              accept=&quot;image/*&quot;
+              id=&quot;image&quot;
+              type=&quot;file&quot;
+            /&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;addbutton-wrapper&quot;
+          &gt;
+            &lt;button
+              class=&quot;submit-button&quot;
+              type=&quot;submit&quot;
+            &gt;
+              Add Product
+            &lt;/button&gt;
+          &lt;/section&gt;
+        &lt;/form&gt;
+        &lt;button
+          class=&quot;back-button-add&quot;
+        &gt;
+          ← Back
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\AddProducts.test.js:120:20
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="MyOrders Component" errors="0" failures="3" skipped="0" timestamp="2025-05-23T16:59:49" time="2.028" tests="6">
+    <testcase classname="src\tests\MyOrders.test.js" name="MyOrders Component renders orders correctly and updates status" time="1.092">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalled()
+
+Expected number of calls: &gt;= 1
+Received number of calls:    0
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;Cover&quot;
+      &gt;
+        &lt;section
+          class=&quot;order-section&quot;
+        &gt;
+          &lt;h1&gt;
+            My Orders
+          &lt;/h1&gt;
+          &lt;button
+            class=&quot;back-button&quot;
+          &gt;
+            ← Dashboard
+          &lt;/button&gt;
+          &lt;section
+            class=&quot;Order&quot;
+          &gt;
+            &lt;h3&gt;
+              Order #
+              1
+            &lt;/h3&gt;
+            &lt;section&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Name:
+                &lt;/strong&gt;
+                 
+                Item1
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Quantity:
+                &lt;/strong&gt;
+                 
+                2
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Price:
+                &lt;/strong&gt;
+                R
+                100
+              &lt;/p&gt;
+            &lt;/section&gt;
+            &lt;p&gt;
+              &lt;strong&gt;
+                Address: 
+              &lt;/strong&gt;
+              123 Street
+            &lt;/p&gt;
+            &lt;section
+              class=&quot;status-container&quot;
+            &gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Status:
+                &lt;/strong&gt;
+                 
+                Dispatched
+              &lt;/p&gt;
+              &lt;button&gt;
+                Update status
+              &lt;/button&gt;
+            &lt;/section&gt;
+          &lt;/section&gt;
+          &lt;section /&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:100:35
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\MyOrders.test.js" name="MyOrders Component navigates back to dashboard" time="0.017">
+    </testcase>
+    <testcase classname="src\tests\MyOrders.test.js" name="getProductsInShop fetches and returns products correctly" time="0.001">
+    </testcase>
+    <testcase classname="src\tests\MyOrders.test.js" name="getProductsInShop returns empty array on error" time="0.007">
+    </testcase>
+    <testcase classname="src\tests\MyOrders.test.js" name=" calls getProductsInShop outside useEffect" time="0.006">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;user1&quot;
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:142:15)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\MyOrders.test.js" name=" downloadCSVFIle creates and triggers download when button is clicked" time="0.001">
+      <failure>ReferenceError: myordersModule is not defined
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:147:14)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyOrders.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Auth Component" errors="0" failures="3" skipped="0" timestamp="2025-05-23T16:59:49" time="2.156" tests="9">
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component renders Web app name text" time="0.054">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: /Crafts &amp; Grain/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;whole_&quot;
+    &gt;
+      &lt;section
+        class=&quot;landing&quot;
+        style=&quot;opacity: 1; transform: translateY(0px); pointer-events: auto;&quot;
+      &gt;
+        &lt;h1
+          class=&quot;tracking-in-contract-bck-top&quot;
+        &gt;
+          Crafts&amp;Grain
+        &lt;/h1&gt;
+        &lt;p
+          class=&quot;fade-in-up&quot;
+        &gt;
+          local excellency.
+        &lt;/p&gt;
+        &lt;button
+          class=&quot;first-button fade-in-up&quot;
+          style=&quot;animation-delay: 1.2s;&quot;
+        &gt;
+          Next
+        &lt;/button&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;sign-in&quot;
+        style=&quot;opacity: 0; transform: translateY(50px); pointer-events: none;&quot;
+      &gt;
+        &lt;h2&gt;
+          Crafts&amp;Grain
+        &lt;/h2&gt;
+        &lt;p
+          class=&quot;desc-section&quot;
+          style=&quot;animation-delay: 0.7s; animation-fill-mode: forwards;&quot;
+        &gt;
+          Explore a curated collection of unique, handcrafted goods and fresh local flavors.
+        &lt;/p&gt;
+        &lt;p
+          class=&quot;desc-section&quot;
+          style=&quot;animation-delay: 0.6s; animation-fill-mode: forwards;&quot;
+        &gt;
+          Connect with passionate creators to bring the heart of craftsmanship and community right to your doorstep. 
+        &lt;/p&gt;
+        &lt;button
+          class=&quot;google-button&quot;
+        &gt;
+          &lt;i
+            class=&quot;fa-brands fa-google&quot;
+          /&gt;
+           Sign in with Google
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Auth.test.js:44:19)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component renders sign in button" time="0.093">
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Admin email handling fetches admin emails on mount" time="0.009">
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Admin email handling handles admin email fetch error" time="0.077">
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Sign-in functionality Admin email logs in, navigates to admin page" time="1.03">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;/admin&quot;
+Received: &quot;/homepage&quot;
+
+Number of calls: 1
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;whole_&quot;
+      &gt;
+        &lt;section
+          class=&quot;landing&quot;
+          style=&quot;opacity: 1; transform: translateY(0px); pointer-events: auto;&quot;
+        &gt;
+          &lt;h1
+            class=&quot;tracking-in-contract-bck-top&quot;
+          &gt;
+            Crafts&amp;Grain
+          &lt;/h1&gt;
+          &lt;p
+            class=&quot;fade-in-up&quot;
+          &gt;
+            local excellency.
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;first-button fade-in-up&quot;
+            style=&quot;animation-delay: 1.2s;&quot;
+          &gt;
+            Next
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;sign-in&quot;
+          style=&quot;opacity: 0; transform: translateY(50px); pointer-events: none;&quot;
+        &gt;
+          &lt;h2&gt;
+            Crafts&amp;Grain
+          &lt;/h2&gt;
+          &lt;p
+            class=&quot;desc-section&quot;
+            style=&quot;animation-delay: 0.7s; animation-fill-mode: forwards;&quot;
+          &gt;
+            Explore a curated collection of unique, handcrafted goods and fresh local flavors.
+          &lt;/p&gt;
+          &lt;p
+            class=&quot;desc-section&quot;
+            style=&quot;animation-delay: 0.6s; animation-fill-mode: forwards;&quot;
+          &gt;
+            Connect with passionate creators to bring the heart of craftsmanship and community right to your doorstep. 
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;google-button&quot;
+          &gt;
+            &lt;i
+              class=&quot;fa-brands fa-google&quot;
+            /&gt;
+             Sign in with Google
+          &lt;/button&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Auth.test.js:96:30
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Sign-in functionality Regular user logs in, navigates to homepage" time="0.083">
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Sign-in functionality Logs error for failed sign-in" time="0.098">
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Scroll effects responds to scroll events" time="0.008">
+    </testcase>
+    <testcase classname="src\tests\Auth.test.js" name="Auth Component Scroll effects cleans up scroll event listener on unmount" time="0.013">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;scroll&quot;, Any&lt;Function&gt;
+
+Number of calls: 0
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Auth.test.js:153:38)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="AdminShopHomepage Component" errors="0" failures="1" skipped="0" timestamp="2025-05-23T16:59:51" time="2.056" tests="9">
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component renders loading message" time="0.028">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component renders admin dashboard after loading" time="0.027">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component displays shop data correctly" time="0.026">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component handles status change to Accepted" time="0.048">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component handles status change to Rejected" time="0.041">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component navigates to homepage when home button is clicked" time="0.054">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component throws error if fetching shops does not happen correctly" time="1.007">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;ERROR fetching shops:&quot;, Any&lt;Error&gt;
+Received: &quot;Error fetching shops:&quot;, [Error: Fetch error]
+
+Number of calls: 1
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;admin-wrapper&quot;
+      &gt;
+        &lt;section
+          class=&quot;admin-dashboard&quot;
+        &gt;
+          &lt;button&gt;
+            ← Home
+          &lt;/button&gt;
+          &lt;h1&gt;
+            Admin Dashboard
+          &lt;/h1&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Admin.test.js:127:26
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component throws error when updating status does not happen correctly" time="0.111">
+    </testcase>
+    <testcase classname="src\tests\Admin.test.js" name="AdminShopHomepage Component displays correctly when no shops are available" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="MyShop Component" errors="0" failures="1" skipped="0" timestamp="2025-05-23T16:59:51" time="1.943" tests="6">
+    <testcase classname="src\tests\MyShop.test.js" name="MyShop Component renders loading state initially" time="0.033">
+    </testcase>
+    <testcase classname="src\tests\MyShop.test.js" name="MyShop Component shows &apos;no shop&apos; UI when user has no shop" time="1.034">
+      <failure>Error: Unable to find an element with the text: You don&apos;t have a shop yet. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section /&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:78:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\MyShop.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\MyShop.test.js" name="MyShop Component shows rejection UI if shop is rejected" time="0.025">
+    </testcase>
+    <testcase classname="src\tests\MyShop.test.js" name="MyShop Component shows awaiting UI if shop is awaiting" time="0.032">
+    </testcase>
+    <testcase classname="src\tests\MyShop.test.js" name="MyShop Component redirects to dashboard if shop is accepted" time="0.031">
+    </testcase>
+    <testcase classname="src\tests\MyShop.test.js" name="MyShop Component calls deleteShop when rejected user reapplies" time="0.043">
+    </testcase>
+  </testsuite>
+  <testsuite name="TrackOrders Component" errors="0" failures="1" skipped="0" timestamp="2025-05-23T16:59:53" time="1.694" tests="4">
+    <testcase classname="src\tests\TrackOrder.test.js" name="TrackOrders Component shows loading initially and then displays orders for current user" time="0.237">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: /Product A/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;trackorders-wrapper&quot;
+    &gt;
+      &lt;section
+        class=&quot;track-orders-page&quot;
+      &gt;
+        &lt;section&gt;
+          &lt;h1&gt;
+            Track My Orders
+          &lt;/h1&gt;
+          &lt;button
+            class=&quot;track-orders-page-btn&quot;
+          &gt;
+            ← Homepage
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section&gt;
+          &lt;section&gt;
+            &lt;h3&gt;
+              Order #
+              1
+            &lt;/h3&gt;
+            &lt;section&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Name:
+                &lt;/strong&gt;
+                 
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Quantity:
+                &lt;/strong&gt;
+                 
+                2
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Price:
+                &lt;/strong&gt;
+                 R
+                100
+              &lt;/p&gt;
+            &lt;/section&gt;
+            &lt;section&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Name:
+                &lt;/strong&gt;
+                 
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Quantity:
+                &lt;/strong&gt;
+                 
+                1
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;
+                  Price:
+                &lt;/strong&gt;
+                 R
+                50
+              &lt;/p&gt;
+            &lt;/section&gt;
+            &lt;p&gt;
+              &lt;strong&gt;
+                Address:
+              &lt;/strong&gt;
+               
+              123 Street
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;strong&gt;
+                Status:
+              &lt;/strong&gt;
+               
+              Shipped
+            &lt;/p&gt;
+          &lt;/section&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\TrackOrder.test.js:83:19)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\TrackOrder.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\TrackOrder.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\TrackOrder.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\TrackOrder.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\TrackOrder.test.js:2:1)</failure>
+    </testcase>
+    <testcase classname="src\tests\TrackOrder.test.js" name="TrackOrders Component shows message if no orders for current user" time="0.048">
+    </testcase>
+    <testcase classname="src\tests\TrackOrder.test.js" name="TrackOrders Component handles error fetching orders and stops loading" time="0.033">
+    </testcase>
+    <testcase classname="src\tests\TrackOrder.test.js" name="TrackOrders Component navigates to homepage when button clicked" time="0.016">
+    </testcase>
+  </testsuite>
+  <testsuite name="DeleteProduct Component" errors="0" failures="10" skipped="0" timestamp="2025-05-23T16:59:53" time="2.064" tests="12">
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component renders confirmation UI with the correct item name" time="0.08">
+      <failure>Error: expect(element).toHaveTextContent()
+
+Expected element to have text content:
+  Do you want to remove &quot;Test Item&quot;
+Received:
+  Do you want to remove this product?
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:61:56)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component navigates back when Back button is clicked" time="0.708">
+      <failure>TestingLibraryElementError: Unable to find an accessible element with the role &quot;button&quot; and name `/Back/i`
+
+Here are the accessible roles:
+
+  button:
+
+  Name &quot;Close&quot;:
+  &lt;button /&gt;
+
+  Name &quot;Confirm&quot;:
+  &lt;button /&gt;
+
+  --------------------------------------------------
+  heading:
+
+  Name &quot;Do you want to remove this product?&quot;:
+  &lt;h1 /&gt;
+
+  Name &quot;Test Item&quot;:
+  &lt;h1 /&gt;
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;Wrap&quot;
+    &gt;
+      &lt;section
+        class=&quot;delete_wrapper&quot;
+      &gt;
+        &lt;section
+          class=&quot;back-button-delete&quot;
+        &gt;
+          &lt;button&gt;
+            &lt;i
+              class=&quot;bx bx-x&quot;
+            /&gt;
+            Close
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;myicon&quot;
+        &gt;
+          &lt;i
+            class=&quot;bx bx-trash&quot;
+          /&gt;
+           
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;H2&quot;
+        &gt;
+          &lt;h1&gt;
+            Do you want to remove this product?
+          &lt;/h1&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;H1&quot;
+        &gt;
+          &lt;h1&gt;
+            Test Item
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;delete_button-dp&quot;
+        &gt;
+          &lt;button&gt;
+            Confirm
+          &lt;/button&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByRole (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:73:28)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component deletes product and navigates on Confirm click" time="0.036">
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component handles empty query snapshot" time="0.029">
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component handles delete error" time="0.052">
+      <failure>Error: Delete failed
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:114:37)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;/displayproducts&quot;
+
+Number of calls: 0
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;Wrap&quot;
+      &gt;
+        &lt;section
+          class=&quot;delete_wrapper&quot;
+        &gt;
+          &lt;section
+            class=&quot;back-button-delete&quot;
+          &gt;
+            &lt;button&gt;
+              &lt;i
+                class=&quot;bx bx-x&quot;
+              /&gt;
+              Close
+            &lt;/button&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;myicon&quot;
+          &gt;
+            &lt;i
+              class=&quot;bx bx-trash&quot;
+            /&gt;
+             
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;H2&quot;
+          &gt;
+            &lt;h1&gt;
+              Do you want to remove this product?
+            &lt;/h1&gt;
+            &lt;br /&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;H1&quot;
+          &gt;
+            &lt;h1&gt;
+              Test Item
+            &lt;/h1&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;delete_button-dp&quot;
+          &gt;
+            &lt;button&gt;
+              Confirm
+            &lt;/button&gt;
+          &lt;/section&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:124:28
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:82:9</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component shows empty item name when Item is not in localStorage" time="0.009">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: /Do you want to remove &quot;&quot;/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;Wrap&quot;
+    &gt;
+      &lt;section
+        class=&quot;delete_wrapper&quot;
+      &gt;
+        &lt;section
+          class=&quot;back-button-delete&quot;
+        &gt;
+          &lt;button&gt;
+            &lt;i
+              class=&quot;bx bx-x&quot;
+            /&gt;
+            Close
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;myicon&quot;
+        &gt;
+          &lt;i
+            class=&quot;bx bx-trash&quot;
+          /&gt;
+           
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;H2&quot;
+        &gt;
+          &lt;h1&gt;
+            Do you want to remove this product?
+          &lt;/h1&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;H1&quot;
+        &gt;
+          &lt;h1 /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;delete_button-dp&quot;
+        &gt;
+          &lt;button&gt;
+            Confirm
+          &lt;/button&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:131:19)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component polls for Item in localStorage and updates when found" time="0.009">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: /Do you want to remove &quot;&quot;/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;Wrap&quot;
+    &gt;
+      &lt;section
+        class=&quot;delete_wrapper&quot;
+      &gt;
+        &lt;section
+          class=&quot;back-button-delete&quot;
+        &gt;
+          &lt;button&gt;
+            &lt;i
+              class=&quot;bx bx-x&quot;
+            /&gt;
+            Close
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;myicon&quot;
+        &gt;
+          &lt;i
+            class=&quot;bx bx-trash&quot;
+          /&gt;
+           
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;H2&quot;
+        &gt;
+          &lt;h1&gt;
+            Do you want to remove this product?
+          &lt;/h1&gt;
+          &lt;br /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;H1&quot;
+        &gt;
+          &lt;h1 /&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;delete_button-dp&quot;
+        &gt;
+          &lt;button&gt;
+            Confirm
+          &lt;/button&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:139:19)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component cleans up interval on unmount" time="0.008">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalled()
+
+Expected number of calls: &gt;= 1
+Received number of calls:    0
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:157:30)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component logs messages while waiting for Item" time="0.017">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;still waiting for item&quot;
+Received
+       1: &quot;Have the item stored as null&quot;
+       2: &quot;Item stored in localStorage:&quot;, null
+       3: &quot;still waiting foritem&quot;
+
+Number of calls: 3
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:167:24)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component stops polling when Item is found" time="0.008">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;still waiting for item&quot;
+Received
+       1: &quot;Have the item stored as null&quot;
+       2: &quot;Item stored in localStorage:&quot;, null
+       3: &quot;still waiting foritem&quot;
+
+Number of calls: 3
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:179:24)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component DeleteProduct Component logs messages while waiting for Item" time="0.013">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;still waiting for item&quot;
+Received
+       1: &quot;Have the item stored as null&quot;
+       2: &quot;Item stored in localStorage:&quot;, null
+       3: &quot;still waiting foritem&quot;
+
+Number of calls: 3
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:205:28)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\DeleteProduct.test.js" name="DeleteProduct Component DeleteProduct Component stops polling when Item is found" time="0.019">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+Expected: &quot;still waiting for item&quot;
+Received
+       1: &quot;Have the item stored as null&quot;
+       2: &quot;Item stored in localStorage:&quot;, null
+       3: &quot;still waiting foritem&quot;
+
+Number of calls: 3
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\DeleteProduct.test.js:217:28)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="ShopHomepage" errors="0" failures="2" skipped="0" timestamp="2025-05-23T16:59:55" time="0.884" tests="4">
+    <testcase classname="src\tests\ShopHomepage.test.js" name="ShopHomepage renders loading initially and fetches shops successfully with no user shop" time="0.035">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: /welcome/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;loading-message&quot;
+    &gt;
+      Loading shop...
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:64:19)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at listOnTimeout (node:internal/timers:555:9)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\ShopHomepage.test.js" name="ShopHomepage renders user shop name and image after successful fetch and image retrieval" time="0.041">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: Welcome Test Shop (normalized from &apos;Welcome  Test Shop&apos;). This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;storeDash-section&quot;
+    &gt;
+      &lt;h1
+        class=&quot;storeDash-heading&quot;
+      &gt;
+        Welcome  
+        Test Shop
+      &lt;/h1&gt;
+      &lt;section
+        class=&quot;shop-logo&quot;
+      &gt;
+        &lt;p
+          class=&quot;loading-message&quot;
+        &gt;
+          Loading...
+        &lt;/p&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;storeDash-links&quot;
+      &gt;
+        &lt;nav&gt;
+          &lt;ul&gt;
+            &lt;li&gt;
+               
+              &lt;a
+                href=&quot;/displayproducts&quot;
+              &gt;
+                My Products
+              &lt;/a&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+               
+              &lt;a
+                href=&quot;/myorders&quot;
+              &gt;
+                 My Orders 
+              &lt;/a&gt;
+               
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;a
+                href=&quot;/myinventory&quot;
+              &gt;
+                Inventory
+              &lt;/a&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/nav&gt;
+        &lt;a
+          href=&quot;/homepage&quot;
+        &gt;
+          Home
+        &lt;/a&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:90:19)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\ShopHomepage.test.js:2:1)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at listOnTimeout (node:internal/timers:555:9)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\ShopHomepage.test.js" name="ShopHomepage handles error during getAllShops call gracefully" time="0.008">
+    </testcase>
+    <testcase classname="src\tests\ShopHomepage.test.js" name="ShopHomepage handles error during findShopImage call gracefully" time="0.023">
+    </testcase>
+  </testsuite>
+  <testsuite name="Checkout Component" errors="0" failures="3" skipped="0" timestamp="2025-05-23T16:59:55" time="0.75" tests="8">
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component renders empty cart message when no items" time="0.016">
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component loads cart items from sessionStorage and displays them" time="0.024">
+      <failure>TestingLibraryElementError: Found multiple elements with the text: /apple/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+&lt;p&gt;
+  Name: 
+  Apple
+&lt;/p&gt;
+
+Ignored nodes: comments, script, style
+&lt;p&gt;
+  Description: 
+  Fresh apple
+&lt;/p&gt;
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;checkout-wrapper&quot;
+    &gt;
+      &lt;section
+        class=&quot;checkout-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;checkout-section&quot;
+        &gt;
+          &lt;h1&gt;
+            Checkout
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;p&gt;
+            Name: 
+            Apple
+          &lt;/p&gt;
+          &lt;p&gt;
+            Description: 
+            Fresh apple
+          &lt;/p&gt;
+          &lt;p&gt;
+            Price: 
+            20
+          &lt;/p&gt;
+          &lt;p&gt;
+            Quantity: 
+            2
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;remove-button&quot;
+          &gt;
+            Remove from cart
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;p&gt;
+            Name: 
+            Banana
+          &lt;/p&gt;
+          &lt;p&gt;
+            Description: 
+            Yellow banana
+          &lt;/p&gt;
+          &lt;p&gt;
+            Price: 
+            15
+          &lt;/p&gt;
+          &lt;p&gt;
+            Quantity: 
+            3
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;remove-button&quot;
+          &gt;
+            Remove from cart
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;cartSum-section&quot;
+        &gt;
+          &lt;section
+            class=&quot;summary&quot;
+          &gt;
+            &lt;h2&gt;
+              Total Cost: R
+              35
+            &lt;/h2&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;summary&quot;
+          &gt;
+            &lt;h2&gt;
+              Total number of items: 
+              5
+            &lt;/h2&gt;
+          &lt;/section&gt;
+        &lt;/section&gt;
+        &lt;button
+          class=&quot;back-button&quot;
+        &gt;
+           ← Back
+        &lt;/button&gt;
+        &lt;button
+          class=&quot;proceed-button&quot;
+        &gt;
+          Proceed to Checkout
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:20:35)
+    at getMultipleElementsFoundError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:23:10)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:55:13
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Checkout.test.js:37:19)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component handles invalid JSON in sessionStorage gracefully" time="0.005">
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component removes item from cart and updates sessionStorage and UI" time="0.016">
+      <failure>TestingLibraryElementError: Found multiple elements with the text: /banana/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+&lt;p&gt;
+  Name: 
+  Banana
+&lt;/p&gt;
+
+Ignored nodes: comments, script, style
+&lt;p&gt;
+  Description: 
+  Yellow banana
+&lt;/p&gt;
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;checkout-wrapper&quot;
+    &gt;
+      &lt;section
+        class=&quot;checkout-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;checkout-section&quot;
+        &gt;
+          &lt;h1&gt;
+            Checkout
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;product&quot;
+        &gt;
+          &lt;p&gt;
+            Name: 
+            Banana
+          &lt;/p&gt;
+          &lt;p&gt;
+            Description: 
+            Yellow banana
+          &lt;/p&gt;
+          &lt;p&gt;
+            Price: 
+            15
+          &lt;/p&gt;
+          &lt;p&gt;
+            Quantity: 
+            3
+          &lt;/p&gt;
+          &lt;button
+            class=&quot;remove-button&quot;
+          &gt;
+            Remove from cart
+          &lt;/button&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;cartSum-section&quot;
+        &gt;
+          &lt;section
+            class=&quot;summary&quot;
+          &gt;
+            &lt;h2&gt;
+              Total Cost: R
+              15
+            &lt;/h2&gt;
+          &lt;/section&gt;
+          &lt;section
+            class=&quot;summary&quot;
+          &gt;
+            &lt;h2&gt;
+              Total number of items: 
+              3
+            &lt;/h2&gt;
+          &lt;/section&gt;
+        &lt;/section&gt;
+        &lt;button
+          class=&quot;back-button&quot;
+        &gt;
+           ← Back
+        &lt;/button&gt;
+        &lt;button
+          class=&quot;proceed-button&quot;
+        &gt;
+          Proceed to Checkout
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:20:35)
+    at getMultipleElementsFoundError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:23:10)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:55:13
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Checkout.test.js:76:19)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component removing last item clears chosenshop from sessionStorage" time="0.009">
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component back button calls navigate to /homepage" time="0.005">
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component proceed button navigates to /payment with total cost when cart has items" time="0.008">
+    </testcase>
+    <testcase classname="src\tests\Checkout.test.js" name="Checkout Component proceed button shows alert when cart is empty" time="0.006">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: /proceed to checkout/i. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;checkout-wrapper&quot;
+    &gt;
+      &lt;section
+        class=&quot;checkout-section&quot;
+      &gt;
+        &lt;section
+          class=&quot;checkout-section&quot;
+        &gt;
+          &lt;h1&gt;
+            Checkout
+          &lt;/h1&gt;
+        &lt;/section&gt;
+        &lt;p&gt;
+          Your cart is empty!
+        &lt;/p&gt;
+        &lt;button
+          class=&quot;back-button&quot;
+        &gt;
+           ← Back
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Checkout.test.js:134:28)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="useUserId" errors="0" failures="0" skipped="0" timestamp="2025-05-23T16:59:56" time="0.592" tests="2">
+    <testcase classname="src\tests\userinfo.test.js" name="useUserId should return userid from localStorage" time="0.006">
+    </testcase>
+    <testcase classname="src\tests\userinfo.test.js" name="useShopId should fetch shopid using userid" time="0.11">
+    </testcase>
+  </testsuite>
+  <testsuite name="Createshop component" errors="0" failures="0" skipped="0" timestamp="2025-05-23T16:59:56" time="0.863" tests="4">
+    <testcase classname="src\tests\CreateShop.test.js" name="Createshop component renders without crashing" time="0.053">
+    </testcase>
+    <testcase classname="src\tests\CreateShop.test.js" name="Createshop component displays alert when fields incomplete" time="0.011">
+    </testcase>
+    <testcase classname="src\tests\CreateShop.test.js" name="Createshop component checks for duplicate shop name and shows alert" time="0.055">
+    </testcase>
+    <testcase classname="src\tests\CreateShop.test.js" name="Createshop component submits successfully when all fields are filled and no duplicate name" time="0.076">
+    </testcase>
+  </testsuite>
+  <testsuite name="undefined" errors="0" failures="0" skipped="0" timestamp="2025-05-23T16:59:56" time="0.43" tests="1">
+    <testcase classname="src\config\App.test.js" name=" Math still works" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="Homepage Component" errors="0" failures="11" skipped="0" timestamp="2025-05-23T16:59:40" time="16.351" tests="16">
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component renders homepage with default view" time="0.216">
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component shows loading state while fetching shops" time="0.032">
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component displays shops after loading" time="1.049">
+      <failure>Error: Unable to find an element with the text: Artisan Pottery. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+       
+      &lt;section
+        class=&quot;featShops&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Shops
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;p
+        class=&quot;loading-message&quot;
+      &gt;
+        Loading shops...
+      &lt;/p&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:157:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component filters shops based on search query" time="1.044">
+      <failure>Error: Unable to find an element with the text: Artisan Pottery. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;Artisan&quot;
+        /&gt;
+      &lt;/section&gt;
+       
+      &lt;section
+        class=&quot;featShops&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Shops
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;p
+        class=&quot;loading-message&quot;
+      &gt;
+        Loading shops...
+      &lt;/p&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:169:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component navigates to shop view when &quot;Enter Shop&quot; is clicked" time="1.027">
+      <failure>Error: Unable to find an element with the text: Enter Shop. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+       
+      &lt;section
+        class=&quot;featShops&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Shops
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;p
+        class=&quot;loading-message&quot;
+      &gt;
+        Loading shops...
+      &lt;/p&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:178:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component displays products when a shop is selected" time="1.041">
+      <failure>Error: Unable to find an element with the text: Ceramic Plate. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-price&quot;
+      &gt;
+        &lt;label
+          for=&quot;priceFilter&quot;
+        &gt;
+          Filter by Price:
+        &lt;/label&gt;
+        &lt;select
+          id=&quot;priceFilter&quot;
+        &gt;
+          &lt;option
+            value=&quot;&quot;
+          &gt;
+            All Prices
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;under50&quot;
+          &gt;
+            Under R50
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;50to100&quot;
+          &gt;
+            R50-R100
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;above100&quot;
+          &gt;
+            Above R100
+          &lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/section&gt;
+      &lt;h2
+        class=&quot;chosen-shop-header&quot;
+      &gt;
+        Artisanal works of 
+        Artisan Pottery
+      &lt;/h2&gt;
+      &lt;section
+        class=&quot;loading-message&quot;
+      &gt;
+        &lt;p&gt;
+          Loading products...
+        &lt;/p&gt;
+      &lt;/section&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:197:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component filters products by price range" time="0.051">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: Ceramic Plate. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-price&quot;
+      &gt;
+        &lt;label
+          for=&quot;priceFilter&quot;
+        &gt;
+          Filter by Price:
+        &lt;/label&gt;
+        &lt;select
+          id=&quot;priceFilter&quot;
+        &gt;
+          &lt;option
+            value=&quot;&quot;
+          &gt;
+            All Prices
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;under50&quot;
+          &gt;
+            Under R50
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;50to100&quot;
+          &gt;
+            R50-R100
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;above100&quot;
+          &gt;
+            Above R100
+          &lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/section&gt;
+      &lt;h2
+        class=&quot;chosen-shop-header&quot;
+      &gt;
+        Artisanal works of 
+        Artisan Pottery
+      &lt;/h2&gt;
+      &lt;section
+        class=&quot;loading-message&quot;
+      &gt;
+        &lt;p&gt;
+          Loading products...
+        &lt;/p&gt;
+      &lt;/section&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:217:19)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component adds product to cart with quantity" time="1.038">
+      <failure>Error: Unable to find an element with the text: Buy. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-price&quot;
+      &gt;
+        &lt;label
+          for=&quot;priceFilter&quot;
+        &gt;
+          Filter by Price:
+        &lt;/label&gt;
+        &lt;select
+          id=&quot;priceFilter&quot;
+        &gt;
+          &lt;option
+            value=&quot;&quot;
+          &gt;
+            All Prices
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;under50&quot;
+          &gt;
+            Under R50
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;50to100&quot;
+          &gt;
+            R50-R100
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;above100&quot;
+          &gt;
+            Above R100
+          &lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/section&gt;
+      &lt;h2
+        class=&quot;chosen-shop-header&quot;
+      &gt;
+        Artisanal works of 
+        Artisan Pottery
+      &lt;/h2&gt;
+      &lt;section
+        class=&quot;loading-message&quot;
+      &gt;
+        &lt;p&gt;
+          Loading products...
+        &lt;/p&gt;
+      &lt;/section&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:229:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component shows confirmation when going back with items in cart" time="1.022">
+      <failure>Error: Unable to find an element with the text: Back. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        1
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-price&quot;
+      &gt;
+        &lt;label
+          for=&quot;priceFilter&quot;
+        &gt;
+          Filter by Price:
+        &lt;/label&gt;
+        &lt;select
+          id=&quot;priceFilter&quot;
+        &gt;
+          &lt;option
+            value=&quot;&quot;
+          &gt;
+            All Prices
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;under50&quot;
+          &gt;
+            Under R50
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;50to100&quot;
+          &gt;
+            R50-R100
+          &lt;/option&gt;
+          &lt;option
+            value=&quot;above100&quot;
+          &gt;
+            Above R100
+          &lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/section&gt;
+      &lt;h2
+        class=&quot;chosen-shop-header&quot;
+      &gt;
+        Artisanal works of 
+        Artisan Pottery
+      &lt;/h2&gt;
+      &lt;section
+        class=&quot;product-count&quot;
+      &gt;
+        &lt;p&gt;
+          Total number of products in shop: 
+          0
+        &lt;/p&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;product-listing-to-buy-view&quot;
+      &gt;
+        &lt;p&gt;
+          No artisanal products.
+        &lt;/p&gt;
+        &lt;section
+          class=&quot;back-button-container&quot;
+        &gt;
+          &lt;button
+            class=&quot;back-button-home&quot;
+          &gt;
+            ← Back
+          &lt;/button&gt;
+        &lt;/section&gt;
+      &lt;/section&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:255:18)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component navigates to checkout when cart icon is clicked" time="0.023">
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component logs out user when logout button is clicked" time="0.035">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalled()
+
+Expected number of calls: &gt;= 1
+Received number of calls:    0
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:280:39)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component handles error when fetching shops" time="1.032">
+      <failure>Error: expect(jest.fn()).toHaveBeenCalled()
+
+Expected number of calls: &gt;= 1
+Received number of calls:    0
+
+Ignored nodes: comments, script, style
+&lt;html&gt;
+  &lt;head /&gt;
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;section
+        class=&quot;section-home&quot;
+      &gt;
+        &lt;h6
+          id=&quot;img-cart-icon&quot;
+        &gt;
+          Cart(
+          0
+          )
+        &lt;/h6&gt;
+        &lt;h1
+          id=&quot;message&quot;
+        &gt;
+          Natural Craft. Rooted in Care
+        &lt;/h1&gt;
+        &lt;p&gt;
+          Explore handmade wellness &amp; artisan goods, crafted with purpose
+        &lt;/p&gt;
+        &lt;img
+          alt=&quot;welcome banner&quot;
+          id=&quot;img-welcome&quot;
+          src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+        /&gt;
+        &lt;section
+          class=&quot;feature&quot;
+        &gt;
+          &lt;h2&gt;
+            Featured Artisan Picks
+          &lt;/h2&gt;
+        &lt;/section&gt;
+        &lt;section
+          class=&quot;format-search&quot;
+        &gt;
+          &lt;input
+            class=&quot;search-input&quot;
+            placeholder=&quot;Shop the collection...&quot;
+            type=&quot;text&quot;
+            value=&quot;&quot;
+          /&gt;
+        &lt;/section&gt;
+         
+        &lt;section
+          class=&quot;featShops&quot;
+        &gt;
+          &lt;h2&gt;
+            Featured Shops
+          &lt;/h2&gt;
+        &lt;/section&gt;
+        &lt;p
+          class=&quot;loading-message&quot;
+        &gt;
+          Loading shops...
+        &lt;/p&gt;
+        &lt;nav
+          class=&quot;sidebar-menu&quot;
+        &gt;
+          &lt;h1&gt;
+            Crafts &amp; Grain
+          &lt;/h1&gt;
+           
+          &lt;a
+            href=&quot;/myshop&quot;
+          &gt;
+             My Shop 
+          &lt;/a&gt;
+           
+          &lt;a
+            href=&quot;/trackorders&quot;
+          &gt;
+            Track My Orders
+          &lt;/a&gt;
+          &lt;button&gt;
+            Logout
+          &lt;/button&gt;
+        &lt;/nav&gt;
+        &lt;button
+          id=&quot;btn-checkout&quot;
+        &gt;
+          Checkout
+        &lt;/button&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:291:26
+    at runWithExpensiveErrorDiagnosticsDisabled (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:47:12)
+    at checkCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:124:77)
+    at checkRealTimersCallback (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:118:16)
+    at Timeout.task [as _onTimeout] (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jsdom\lib\jsdom\browser\Window.js:516:19)
+    at listOnTimeout (node:internal/timers:594:17)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component displays empty state when no shops found" time="1.03">
+      <failure>Error: Unable to find an element with the text: No shops are listed yet.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+       
+      &lt;section
+        class=&quot;featShops&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Shops
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;p
+        class=&quot;loading-message&quot;
+      &gt;
+        Loading shops...
+      &lt;/p&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at waitForWrapper (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\wait-for.js:163:27)
+    at findByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:86:33)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:302:25)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1
+    at new Promise (&lt;anonymous&gt;)
+    at Object.&lt;anonymous&gt; (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Promise.then.completed (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:391:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\utils.js:316:10)
+    at _callCircusTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:218:40)
+    at _runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:155:3)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:66:9)
+    at _runTestsForDescribeBlock (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:60:9)
+    at run (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\run.js:25:3)
+    at runAndTransformResultsToJestFormat (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:170:21)
+    at jestAdapter (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapter.js:82:19)
+    at runTestInternal (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:389:16)
+    at runTest (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\runTest.js:475:34)
+    at Object.worker (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\jest-runner\build\testWorker.js:133:12)</failure>
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component displays empty state when no products found" time="0.818">
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component displays correct cart item count" time="0.025">
+    </testcase>
+    <testcase classname="src\tests\Homepage.test.js" name="Homepage Component renders all navigation links" time="0.033">
+      <failure>TestingLibraryElementError: Unable to find an element with the text: Journal. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;section
+      class=&quot;section-home&quot;
+    &gt;
+      &lt;h6
+        id=&quot;img-cart-icon&quot;
+      &gt;
+        Cart(
+        0
+        )
+      &lt;/h6&gt;
+      &lt;h1
+        id=&quot;message&quot;
+      &gt;
+        Natural Craft. Rooted in Care
+      &lt;/h1&gt;
+      &lt;p&gt;
+        Explore handmade wellness &amp; artisan goods, crafted with purpose
+      &lt;/p&gt;
+      &lt;img
+        alt=&quot;welcome banner&quot;
+        id=&quot;img-welcome&quot;
+        src=&quot;https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg&quot;
+      /&gt;
+      &lt;section
+        class=&quot;feature&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Artisan Picks
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;section
+        class=&quot;format-search&quot;
+      &gt;
+        &lt;input
+          class=&quot;search-input&quot;
+          placeholder=&quot;Shop the collection...&quot;
+          type=&quot;text&quot;
+          value=&quot;&quot;
+        /&gt;
+      &lt;/section&gt;
+       
+      &lt;section
+        class=&quot;featShops&quot;
+      &gt;
+        &lt;h2&gt;
+          Featured Shops
+        &lt;/h2&gt;
+      &lt;/section&gt;
+      &lt;p
+        class=&quot;loading-message&quot;
+      &gt;
+        Loading shops...
+      &lt;/p&gt;
+      &lt;nav
+        class=&quot;sidebar-menu&quot;
+      &gt;
+        &lt;h1&gt;
+          Crafts &amp; Grain
+        &lt;/h1&gt;
+         
+        &lt;a
+          href=&quot;/myshop&quot;
+        &gt;
+           My Shop 
+        &lt;/a&gt;
+         
+        &lt;a
+          href=&quot;/trackorders&quot;
+        &gt;
+          Track My Orders
+        &lt;/a&gt;
+        &lt;button&gt;
+          Logout
+        &lt;/button&gt;
+      &lt;/nav&gt;
+      &lt;button
+        id=&quot;btn-checkout&quot;
+      &gt;
+        Checkout
+      &lt;/button&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+    at Object.getElementError (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\config.js:37:19)
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:76:38
+    at C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:52:17
+    at getByText (C:\Users\sally\OneDrive\Documents\SD-Project\node_modules\@testing-library\dom\dist\query-helpers.js:95:19)
+    at call (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:332:19)
+    at tryCatch (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator._invoke (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at Generator.next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at asyncGeneratorStep (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at _next (C:\Users\sally\OneDrive\Documents\SD-Project\src\tests\Homepage.test.js:2:1)
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at listOnTimeout (node:internal/timers:555:9)
+    at processTimers (node:internal/timers:529:7)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
