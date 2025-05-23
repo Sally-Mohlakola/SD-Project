@@ -166,77 +166,42 @@ const Setnewquantity=async(e)=>{
 
 
 return(
-  <section className="Body">
-    <section className="left">
-
-  <h1>Update product</h1>
-  <button onClick={Back}>← Back</button>
-      </section>
-      <section className="right">
-      <form onSubmit={Name} >
-        <section className="form1">
+  <section className="updateprod-section">
+    <section className="updateprod-heading"><h1>Update product</h1></section>
+      
+      <section className="inputs">
+      <form onSubmit={Name}>
           <label>Name of product:</label>
           <input type="text" required value={productname} onChange={(e)=>setproductname(e.target.value)} />
-          </section>
-          <section className="form2">
           <button type="submit">Update product name</button>
-          </section>
       </form>
       
       <form onSubmit={Description} >
-      <section className="form1">
           <label>Description of the product:</label>
           <textarea type="text" required  rows="6" cols="-40"value={description} onChange={(e)=>setdescription(e.target.value)} ></textarea>
-          </section>
-          <section className="form2">
           <button type="submit">Update description</button>
-          </section>
       </form>
-      <form  onSubmit={Price} >
-      <section className="form1">
+
+      <form onSubmit={Price} >
           <label>Price:</label>
           <input type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
-          </section>
-          <section className="form2">
           <button type="submit">Update price</button>
-          </section>
       </form>
      
       <form onSubmit={Setnewquantity} >
-      <section className="form1">
-          <label>Set new quantity:</label>
+          <label>Quantity:</label>
           <input type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
-          </section>
-          <section className="form2">
-          <button type="submit">set quantity</button>
-          </section>
+          <button type="submit">Update quantity</button>
       </form>
+
       <form onSubmit={Image}  >
-      <section className="form1">
       <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
-      </section>
-      <section className="form2">
-      <button>Change image</button>
-      </section>
+      <button>Update image</button>
       </form>
+
       </section>
-      
+      <button className='back-btn-up' onClick={Back}>← Back</button>
       
   </section>
 );
-
 }
-
-
-
-//------------------------------------------------------------
-
-
-//------------------------------------------------------------
-
-
-
-
-
-
-

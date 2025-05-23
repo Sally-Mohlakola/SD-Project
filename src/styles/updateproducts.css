@@ -1,180 +1,165 @@
+
 /**/
-body{
-    margin:0;
+.updateprod-section{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-radius: 16px;
+  background: radial-gradient(circle, #B08968, #ffffff00);
+
 }
-/*
-html, body {
-    margin: 0;
-    height: 100vh;
-    width: fit-content;
-    overflow: hidden; 
+
+/*Update product heading*/
+.updateprod-heading{
+font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  color: #3c2f2f; 
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+}
+
+.updateprod-heading:hover {
+   transform: translateY(-4px);
+}
+
+  .updateprod-heading h1 {
+  font-family: 'Georgia', serif;
+  font-size: 48px;
+  font-weight: 700;
+  text-align: center;
+  color: #3c2f2f; /* earthy deep tone */
+  margin: 40px auto 10px;
+  text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
   }
-  
-  .root {
-   outline: 3px solid black;
-    height: 50vh;
-    width: fit-content;
-    background: lightblue;
-    margin: auto;
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-*/
-.Body{
-    
-    display:flex;
-    flex-wrap:wrap;
-   
-   height: 120vh;
-   flex-direction:row;
-    justify-content:flex-start;
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    padding-top:0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right:0;
-    z-index: 9999;
-    background-color: #f9f6f1;
-  
-   
-    
-    
-    
-    
-    
-}
-/**/
-.Body >section{
-    position: relative;
-    width:45vw;
-    height:120vh;
-   
-    margin: 0;
-    padding-left: 0.5vw;
-    padding-top:0.5vh;
-    font-family: "Arial", sans-serif;
-  font-size: 1vw;
-  
-
-
- 
-  
-  
-   
-
-}
-/**/
-.left{
-    display:flex;
-    flex-direction: column;
-   gap:30vh;
-    align-items:center;
-    padding-top: 30vh;
-    background-color: #a88d8d7c;
-    border-radius: 5px;
-    
-      
-  
-
-
-}
-.left button{
-    padding-bottom:0px;
-    width:15vw;
-    border-radius:25px;
-    height:7vh;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);    background-color: transparent;
-
-
-
-}
-.left h1{
-    padding-top:0px;
-    font-weight: 900;
-    font-size: 5vw;
-     color: #faf6f0;
-}
-/**/
-.right{
-    display:flex;
-    flex-direction:column;
-    gap:1.5vh;
-    padding-left: 4vw;
-    padding-top:5vh;
-    padding-bottom: 0.5;
-    
-   
-
-}
-/**/
-.right form:hover{
-    padding-left:5vw;
-    height: 75vh;
-    box-shadow: 10px 10px #494747;}
-
-.right>form{
-    display:flex;
-    outline: 1px solid #9c6644;
-    border-radius: 40px;
-    width:50vw;
-    gap:0.4vh;
-    margin: 0;
-    height: 70vh;
-    padding-top:0.5vh;
-    background-color: #faf6f0;
-    position:relative;
-    padding-left:5vw;
-    box-shadow: 5px 5px #585757;
-  
-
-    
-
 }
 
-
-.right>form>section{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-   gap:1vh;
-    justify-content: centre;
-   
-    width:20vw;
-    margin: 0;
-    padding-left: 0.5vw;
-    padding-top:2vh;
-    height:20vh;
-  
-
+/*back button*/
+.back-btn-up{
+    display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
-.form2 button:hover:active{
-    width:30vh;
-    
-    height:5vh;
-   
-    
-   
+.back-btn-up:hover{
+    background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
+  transform: scale(1.05);
 }
- .form1 input{
-    width:15vw;
-    height:6vh;
-    border:None;
-    border-bottom:2px solid black;
-    background-color: #faf6f0;
-    
+
+/*card things*/
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.inputs form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.6); 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px); 
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputs form:hover {
+  transform: translateY(-6px); /* Lifts the form slightly */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+}
+
+.inputs label {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #4a463f;
+  margin-bottom: 0px;
+  letter-spacing: 0.04em;
+}
+
+.inputs input[type="text"],
+.inputs input[type="number"],
+.inputs input[type="file"],
+.inputs textarea {
+  padding: 14px 18px;
+  font-size: 1.1rem;
+  border: 2px solid #c4b79a;
+  border-radius: 14px;
+  box-sizing: border-box;
+  background-color: #fffefc;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 45px;
+  box-shadow:
+    0 2px 6px rgba(94, 76, 54, 0.08);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
  }
- .form1 textarea{
-    width: 15vw;
-    border: 2px solid black;
-    background-color: #faf6f0
- }
- .form1 label{
-    font-family:Arial, Helvetica, sans-serif;
-    font-size: 1.5vw;
 
-    
+.inputs textarea {
+  min-height: 90px;
+}
 
- }
+.inputs input:focus,
+.inputs textarea:focus {
+  border-color: #a68545;
+  outline: none;
+  box-shadow: 0 0 12px 3px rgba(166, 133, 69, 0.5);
+  background-color: #fffefc;
+}
+
+.inputs button {
+  display: flex;
+  padding: 12px 28px;
+  background-color: #7F5539;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.inputs button:hover {
+  background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
+  transform: scale(1.05);
+}
 
