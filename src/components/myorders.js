@@ -150,7 +150,7 @@ export const MyOrders = () => {
       <button className="back-button" onClick={navigateDashboard}>← Dashboard</button>
       
       {ordersLoading && (
-     <section className="loading-message"> Loading orders...</section>)}
+     <section className='loader-wrapper'><section className='loader'> </section></section>)}
      
    {!ordersLoading && myorders.length === 0 && (
   <section className="empty-alert">📭 You have no orders</section>)}
