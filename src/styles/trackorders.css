@@ -67,7 +67,7 @@
 }
 
 /* Order blocks */
-.track-orders-page section > section {
+.track-orders-page-section {
   margin-top: 2.4rem;
   padding: 1.8rem 2.4rem;
   background: #fef9f1;
@@ -77,12 +77,12 @@
   
 }
 
-.track-orders-page section > section:hover {
-  box-shadow: 0 12px 36px rgba(117, 92, 53, 0.25);
+.track-orders-page-section:hover {
   transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(117, 92, 53, 0.25);
 }
 
-.track-orders-page section > section > h3 {
+.track-orders-page-section > section > h3 {
   font-weight: 800;
   color: #5e4c36;
   margin-bottom: 1.2rem;
@@ -93,7 +93,7 @@
 }
 
 /* Product details */
-.track-orders-page section > section  {
+.track-orders-page-section > section  {
    color: #4a463f;
   padding-left: 2rem;
   
@@ -113,10 +113,31 @@
 
 
 /* Loading text */
-.track-orders-page section p {
-  font-style: italic;
-  text-align: center;
-  color: #9b8c7a;
-  font-size: 1.1rem;
-  margin-top: 1rem;
+.loader-wrapper{
+display: flex;
+  justify-content: center;
+  height: 100vh;
+  background: transparent;
+  box-shadow: none;
+}
+
+.loader {
+  width: fit-content;
+  font-size: 40px;
+  line-height: 1.5;
+  font-family: system-ui,sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #000;
+  background:
+    radial-gradient(1.13em at 50% 1.6em,#000 99%,#0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+    radial-gradient(1.13em at 50% -0.8em,#0000 99%,#000 101%) 50% .8em/3.2em 100% repeat-x  text;
+  animation: l9 2s linear infinite;
+}
+.loader:before {
+  content: "Loading";
+}
+@keyframes l9 {
+  to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
 }
