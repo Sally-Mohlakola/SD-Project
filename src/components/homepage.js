@@ -293,7 +293,7 @@ useEffect(() => {
           <SearchTab query={search} setSearch={setSearch} /> {/*Call the functions from above here*/}
           <section className='featShops'><h2>Featured Shops</h2></section>
           {loading ? (
-            <p className='loading-message'>Loading shops...</p>) : (
+            <section className='loader-wrapper'><section className='loader'> </section></section>) : (
             filterShop.length > 0 ? (
               filterShop.map(shop => (
                 <article className="shop-card" key={shop.id}>
@@ -336,7 +336,7 @@ useEffect(() => {
 
     {/* Load products when fetching to prevent flickering of changes */}
     {loadingProducts ? (
-      <section className='loading-message'><p>Loading products...</p></section>
+      <section className='loader-wrapper'><section className='loader'> </section></section>
     ) : (
 
       <section className="product-listing-to-buy-view">
