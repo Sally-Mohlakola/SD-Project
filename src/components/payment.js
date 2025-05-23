@@ -221,21 +221,24 @@ export const Payment = () => {
   if (!isGoogleMapsLoaded || loadingLocation) return <section className="loading-message">Loading ...</section>;
 
   return (
-    <>
-      <section className="section_map">
+    <section className="payment-wrapper">
+      <section className="payment-section">
         <h2>Select Delivery Location</h2>
         <Autocomplete
           onLoad={autocomplete}
           onPlaceChanged={capturePivotChangesOfMap}
         >
-          <input
-            type="text"
+          <section className="inputs">
+          <input 
+            type="text" 
             placeholder="Search for an address"
             value={searchPrompt}
             onChange={(e) => setSearchPrompt(e.target.value)}
             className="search-input"
           />
+          </section>
         </Autocomplete>
+
 
         <GoogleMap
           mapContainerStyle={containerStyle}
@@ -259,15 +262,15 @@ export const Payment = () => {
         {selectedLocation ? (
           <p><strong>Selected Address:</strong> {address}</p>
         ) : (
-          <p>Search or click on the map to select a delivery location</p>
+          <p className="map-instruction">Search or click on the map to select a delivery location</p>
         )}
       </section>
 
-      <section className="section_payment">
+      <section className="checkout-section">
         <h2>Complete Your Purchase</h2>
-        <p>Securely enter your payment details below to finalize your order.</p>
-        <p className="order-total">Order Total: <strong>R{amount}</strong></p>
-
+        <p className="checkout-description">Securely enter your payment details below to finalize your order.</p>
+        <p className="checkout-total">Order Total: <strong>R{amount}</strong></p>
+        <section className="inputs">
         <input
           type="text"
           value={name}
@@ -291,18 +294,22 @@ export const Payment = () => {
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
         />
+        </section>
 
-        <section className="buttons">
+        <section>
           <PaystackButton
             className="pay-btn"
             {...componentProps}
             disabled={!email || !amount || !name || !phoneNumber || !address}
           />
-          <button className="back-btn" onClick={() => navigate("/checkout")}>
+          </section>
+
+          <button className='checkout-button' onClick={() => navigate("/checkout")}>
             Back to Checkout
           </button>
         </section>
-      </section>
-    </>
+
+      
+    </section>
   );
 };
