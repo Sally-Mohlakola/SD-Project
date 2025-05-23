@@ -43,15 +43,14 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
         <h1>Track My Orders</h1>
         <button className='track-orders-page-btn' onClick={navigatehomepage}>← Homepage</button>
 </section>
+
     {/* Loading state */}
     {loading && (
-      <section>
-        <p>Loading...</p>
-      </section>
+      <section className='loader-wrapper'><section className='loader'> </section></section>
     )}
 
     {!loading && (
-      <section>
+      <section className='track-orders-page-section'>
     
 
         {/* Conditional rendering based on myorders */}
