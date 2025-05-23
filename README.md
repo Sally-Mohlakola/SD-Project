@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/Sally-Mohlakola/SD-Project/branch/signin/login/M/graph/badge.svg)](https://app.codecov.io/gh/Sally-Mohlakola/SD-Project) 
+
 <<<<<<< HEAD
 # SD-Project
 =======
