@@ -7,27 +7,41 @@
   background: radial-gradient(circle, #B08968, #ffffff00);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+@media (max-width: 600px) {
+  .disp-wrapper {
+    padding: 1rem; /* reduce padding for small screens */
+  }
+}
+
 
 .disp-section {
-  max-width: 900px;
+  max-width: 56.25rem;
   width: 100%;
   margin: 2rem auto;
-  border-radius: 16px;
+  border-radius: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
   transition: box-shadow 0.3s ease;
 }
+@media (max-width: 600px) {
+  .disp-section {
+    margin: 1rem auto;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
 
 /*My products*/
 .disp-section h1 {
   font-family: 'Georgia', serif;
-  font-size: 48px;
+  font-size: 3rem;
   font-weight: 700;
   text-align: center;
   color: #3c2f2f; /* earthy deep tone */
-  margin: 40px auto 10px;
+  margin: 2.5rem auto 0.625rem;
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 1s ease-out forwards;
   opacity: 0;
@@ -48,13 +62,13 @@
 /*dashboard btn*/
 .dashboard-button-sd {
   display: flex;
-  padding: 12px 28px;
+  padding: 0.75rem 1.75rem;
   background-color: #7F5539;
   color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   border: none;
-  border-radius: 30px;
+  border-radius: 1.875rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -69,13 +83,13 @@
 
 .remove-button-sd {
   display: flex;
-  padding: 12px 28px;
+  padding: 0.75rem 1.75rem;
   background-color: #7F5539;
   color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   border: none;
-  border-radius: 30px;
+  border-radius: 1.875rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -89,13 +103,13 @@
 
 .add-button-sd {
   display: flex;
-  padding: 12px 28px;
+  padding: 0.75rem 1.75rem;
   background-color: #7F5539;
   color: #fff;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   border: none;
-  border-radius: 30px;
+  border-radius: 1.875rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -130,15 +144,23 @@
 
 .product {
   background: linear-gradient(to bottom right, #fefaf5, #f9f4ec);
-  border-radius: 18px;
+  border-radius: 1.125rem;
   box-shadow: 0 6px 18px rgba(60, 50, 40, 0.08);
-  padding: 24px 28px;
+  padding: 1.5rem 1.75rem;
   display: flex;
   align-items: center;
-  gap: 28px;
-  margin-bottom: 20px;
+  gap: 1.75rem;
+  margin-bottom: 1.25rem;
   transition: box-shadow 0.3s ease, transform 0.2s ease border 0.3s ease;
   transform: translateY(0);
+}
+@media (max-width: 600px) {
+  .product {
+    flex-direction: column;       /* stack items vertically */
+    align-items: flex-start;      /* align content to the left */
+    gap: 1rem;                    /* reduce spacing */
+    padding: 1rem 1.25rem;        /* reduce padding */
+  }
 }
 
 
@@ -149,10 +171,10 @@
 }
 
 .product img {
-  border-radius: 12px;
+  border-radius: 0.75rem;
   object-fit: cover;
-  max-height: 130px;
-  width: 130px;
+  max-height: 8.125rem;
+  width: 8.125rem;
   box-shadow: 0 4px 12px rgba(94, 76, 54, 0.15);
   transition: transform 0.3s ease;
   position: relative;
@@ -167,12 +189,12 @@
 .product:hover img::after {
   content: "View Details";
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 0.625rem;
+  left: 0.625rem;
   color: #fff;
   background-color: rgba(0,0,0,0.5);
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
   font-size: 0.9rem;
   z-index: 2;
 }
@@ -191,7 +213,6 @@
   color: #6e6458;
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
-  margin-right: 28px;
+  margin-right: 1.75rem;
 }
-
 
