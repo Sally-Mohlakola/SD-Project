@@ -144,6 +144,7 @@
   transition: border-color 0.4s ease, box-shadow 0.4s ease;
  }
 
+
 .checkout-input:focus {
   border-color: #a68545;
   outline: none;
@@ -243,3 +244,55 @@ display: flex;
   to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
 }
 
+/* Delivery search input styling */
+.delivery-search {
+  padding: 14px 18px;
+  font-size: 1.1rem;
+  border: 2px solid #c4b79a;
+  border-radius: 14px;
+  box-sizing: border-box;
+  background-color: #fffefc;
+  font-family: inherit;
+  min-height: 45px;
+  box-shadow: 0 2px 6px rgba(94, 76, 54, 0.08);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  width: 100%;
+  max-width: 520px; /* Same as your inputs container */
+  margin: 0 auto;
+  display: block;
+}
+
+.delivery-search:focus {
+  border-color: #a68545;
+  outline: none;
+  box-shadow: 0 0 12px 3px rgba(166, 133, 69, 0.5);
+  background-color: #fffefc;
+}
+
+/* Adjust the Autocomplete container to match width */
+.payment-section .pac-container {
+  width: 100% !important;
+  max-width: 520px;
+  margin-top: -10px;
+  border-radius: 0 0 14px 14px;
+  border: 2px solid #a68545;
+  border-top: none;
+  box-shadow: 0 4px 12px rgba(94, 76, 54, 0.15);
+}
+
+/* Style for autocomplete dropdown items */
+.pac-item {
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pac-item:hover {
+  background-color: #f5ebe0;
+}
+
+.pac-item-query {
+  font-size: 1.05rem;
+  color: #5e4c36;
+}
