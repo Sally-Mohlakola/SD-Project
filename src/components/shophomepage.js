@@ -93,7 +93,7 @@ console.log("shopimage",shopimage);
       <h1 className='storeDash-heading'>Welcome  {storename}</h1>
       <section className='shop-logo'>
         {!imageExists? (
-        <section className='loader-wrapper'><section className='loader'> </section></section>
+        <section></section>
       ):(
         <img src={shopimage} alt=" " className='shop-logo'/>
       ) }
