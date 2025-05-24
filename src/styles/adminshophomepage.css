@@ -1,150 +1,114 @@
-
-.shopdashboard-wrapper {
+/* Add this to your adminshophomepage.css file */
+.admin-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  box-sizing: border-box;
-  background: radial-gradient(circle, #B08968, #ffffff00);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle, #B08968, #ffffff00);
 }
 
-.storeDash-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.admin-dashboard {
   width: 100%;
-  max-width: 75rem;
+  max-width: 800px;
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   animation: fadeInUp 0.8s ease forwards;
 }
 
-.storeDash-heading {
+.admin-dashboard h1 {
   font-family: 'Georgia', serif;
-  font-size: 3rem;
+  font-size: 48px;
   font-weight: 700;
   text-align: center;
   color: #3c2f2f;
-  margin: 2.5rem auto 1rem;
+  margin: 20px auto 30px;
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 1s ease-out forwards;
-  opacity: 0;
 }
 
-.storeDash-heading:hover {
+.admin-dashboard article {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-dashboard article:hover {
   transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
-/* Shop Logo Container - Matching Form Card Style */
-.shop-logo-container {
-  width: 13.75rem;
-  height: 13.75rem;
+.admin-dashboard h2 {
+  color: #7F5539;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.admin-dashboard p {
+  color: #4a463f;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.admin-dashboard label {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-bottom: 2rem;
-  border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-weight: 600;
+  color: #4a463f;
+  cursor: pointer;
 }
 
-.shop-logo-container:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+.admin-dashboard input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #7F5539;
+  cursor: pointer;
 }
 
-.shop-logo-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: floatPulse 3s ease-in-out infinite, fadeInUp 1s ease-out forwards;
-  animation-delay: 0.3s;
+.admin-dashboard hr {
+  border: none;
+  height: 1px;
+  background-color: rgba(126, 85, 57, 0.2);
+  margin: 1.5rem 0;
 }
 
-/* Navigation Links - Matching Button Styles */
-.storeDash-links {
-  width: 100%;
-  max-width: 40rem;
-  padding: 2rem;
-  border-radius: 16px;
-  background-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.storeDash-links:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.storeDash-links nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem 0;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-}
-
-.storeDash-links nav li {
-  width: 100%;
-  max-width: 18rem;
-}
-
-.storeDash-links a {
-  display: block;
-  padding: 0.75rem 1.75rem;
+.back {
+  padding: 10px 20px;
   background-color: #7F5539;
   color: #fff;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 700;
-  text-align: center;
+  border: none;
   border-radius: 30px;
-  text-decoration: none;
+  cursor: pointer;
   transition: all 0.3s ease;
-  animation: fadeLinkIn 0.6s ease-out forwards;
-  animation-delay: 0.5s;
-  opacity: 0;
+  margin-bottom: 20px;
 }
 
-.storeDash-links a:hover {
+.back:hover {
   background-color: #9C6644;
-  transform: translateY(-2px) scale(1.05);
+  transform: translateY(-2px);
   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7);
 }
 
-.home-link {
-  margin-top: 1.5rem;
-  padding: 0.6rem 1.5rem;
-  background-color: #6c757d;
-  color: #fff;
-  font-weight: 700;
-  border-radius: 30px;
-  transition: all 0.3s ease;
-  animation: fadeLinkIn 0.6s ease-out forwards;
-  animation-delay: 0.7s;
-  opacity: 0;
+.loading-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  color: #7F5539;
 }
 
-.home-link:hover {
-  background-color: #5a6268;
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 0 10px 3px rgba(200, 200, 200, 0.7);
-}
-
-/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -153,103 +117,5 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes fadeLinkIn {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes floatPulse {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-5px) scale(1.02);
-  }
-}
-
-/* Loading Animation - Consistent with Add Products */
-.loader-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: radial-gradient(circle, #B08968, #ffffff00);
-}
-
-.loader {
-  width: fit-content;
-  font-size: 2.5rem;
-  line-height: 1.5;
-  font-family: system-ui, sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #0000;
-  -webkit-text-stroke: 1px #000;
-  background:
-    radial-gradient(1.13em at 50% 1.6em, #000 99%, #0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
-    radial-gradient(1.13em at 50% -0.8em, #0000 99%, #000 101%) 50% .8em/3.2em 100% repeat-x text;
-  animation: l9 2s linear infinite;
-}
-
-.loader:before {
-  content: "Loading";
-}
-
-@keyframes l9 {
-  to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .shopdashboard-wrapper {
-    padding: 1.5rem;
-  }
-
-  .storeDash-heading {
-    font-size: 2.25rem;
-    margin: 1.5rem auto 0.75rem;
-  }
-
-  .shop-logo-container {
-    width: 11rem;
-    height: 11rem;
-  }
-
-  .storeDash-links {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .storeDash-heading {
-    font-size: 2rem;
-  }
-
-  .shop-logo-container {
-    width: 9rem;
-    height: 9rem;
-  }
-
-  .storeDash-links nav ul {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .storeDash-links nav li {
-    width: 100%;
-  }
-
-  .storeDash-links a {
-    padding: 0.75rem;
-    font-size: 0.95rem;
-  }
-
-  .home-link {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.95rem;
   }
 }

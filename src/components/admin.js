@@ -56,7 +56,7 @@ export const AdminShopHomepage = () => {
   return (
     <section className='admin-wrapper'>
     <section className="admin-dashboard">
-      <button onClick={navigateHome} className="home-button">← Home</button>
+      <button onClick={navigateHome} className="back">← Home</button>
       <h1>Admin Dashboard</h1>
 
       {shops.map((shop) => (
