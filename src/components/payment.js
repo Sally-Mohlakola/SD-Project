@@ -232,7 +232,7 @@ export const Payment = () => {
           <section className="inputs">
           <input 
             type="text" 
-            placeholder="Search for an address"
+            placeholder="Search for address"
             value={searchPrompt}
             onChange={(e) => setSearchPrompt(e.target.value)}
             className="search-input"
