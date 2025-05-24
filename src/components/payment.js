@@ -5,6 +5,7 @@ import { GoogleMap, Marker, Autocomplete, useJsApiLoader } from '@react-google-m
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import "../styles/payment.css";
 
 export const Payment = () => {
   const cart = sessionStorage.getItem("cart_items");
@@ -218,7 +219,7 @@ export const Payment = () => {
   };
 
   if (loadError) return <section className="error">Error loading page. Please try again later.</section>;
-  if (!isGoogleMapsLoaded || loadingLocation) return <section className="loading-message">Loading ...</section>;
+  if (!isGoogleMapsLoaded || loadingLocation) return <section className='loader-wrapper'><section className='loader'> </section></section>;
 
   return (
     <section className="payment-wrapper">
