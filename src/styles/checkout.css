@@ -8,11 +8,13 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
+#cartempty{
+  font-family: 'Tahoma';
+}
 .checkout-section {
   max-width: 900px;
-  width: 100%;
-  margin: 100px auto 5rem; /* top: 100px, left/right: auto, bottom: 5rem */
+  width: 110%;
+  margin: 5rem auto 5rem; /* top: 100px, left/right: auto, bottom: 5rem */
   border-radius: 16px;
   display: flex;
   flex-direction: column;
@@ -108,15 +110,17 @@
 }
 
 .product p + p {
-  font-weight: 400;
+  
   color: #6e6458;
   font-family: 'Open Sans', sans-serif;
   font-size: 1rem;
   margin-right: 20px;
+  
 }
 
 
 .proceed-button {
+  margin-top:50px;
  display: flex;
   padding: 12px 28px;
   background-color: #7F5539;

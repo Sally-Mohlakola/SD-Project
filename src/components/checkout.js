@@ -68,7 +68,7 @@ export const Checkout = () => {
           </section>
         ))
       ) : (
-        <p>Your cart is empty!</p>
+        <p id="cartempty">Your cart is empty!</p>
       )}
 
       {mycart.length > 0 && (
