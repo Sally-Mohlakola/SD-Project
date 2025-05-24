@@ -246,13 +246,12 @@ export const Homepage = () => {
       <h1 id="message">Natural Craft. Rooted in Care</h1>
       <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
       <img id="img-welcome" alt="welcome banner" src="https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg"></img>
-      <section className='feature'><h2>Featured Artisan Picks</h2></section>
 
       {!chosenShop && (
         <>
           <SearchTab query={search} setSearch={setSearch} />
           <FilterCategory query={categoryFilter} setCategory={setCategoryFilter} />
-          <section className='featShops'><h2>Featured Shops</h2></section>
+          <section className='featShops'><h2>Artisanal Shops</h2></section>
           {loading ? (
             <section className='loader-wrapper'><section className='loader'> </section></section>
           ) : (
