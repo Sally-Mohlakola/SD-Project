@@ -12,6 +12,26 @@ body {
   padding-top: 20px;
 }
 
+.format-category {
+  margin: 20px 0;
+}
+
+.format-category label {
+  font-weight: bold;
+  color: #5a422a;
+  margin-right: 10px;
+  font-family: 'Georgia', serif;
+}
+
+.format-category select {
+  padding: 8px 15px;
+  border-radius: 4px;
+  border: 1px solid #d1c4b2;
+  background-color: #fff;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
 
 /*Natural craft and the handmade wellness*/
 #message {
@@ -280,6 +300,9 @@ z-index: 100;
   }
 }
 
+.np-shops-mesage{
+  font-family:'Tahoma', sans-serif;
+}
 
 /*total number of products in shop*/
 .product-count {
