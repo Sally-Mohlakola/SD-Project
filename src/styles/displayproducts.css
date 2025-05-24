@@ -112,6 +112,7 @@
   border-radius: 1.875rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-bottom:50px;
 }
 
 .add-button-sd:hover {

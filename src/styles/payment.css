@@ -212,6 +212,25 @@
   transform: scale(1.05);
 }
 
+/* Hover state */
+.pay-btn:not(:disabled):hover {
+  background-color: #9C6644;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.44);
+}
+
+/* Show that the button is disabled because the required fields are not filled in. 
+Better than making the button disappear because the user might think that there is no button
+initially */
+.pay-btn:disabled {
+  background-color: #d1c7b7; 
+  color: #7b7468;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+
 /*<p>Search or click on the map...*/
 .map-instruction {
   font-size: 1.1rem;

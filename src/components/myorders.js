@@ -153,7 +153,7 @@ export const MyOrders = () => {
      <section className='loader-wrapper'><section className='loader'> </section></section>)}
      
    {!ordersLoading && myorders.length === 0 && (
-  <section className="empty-alert">📭 You have no orders</section>)}
+  <section className="empty-alert">You have no orders. Try again later.</section>)}
       {loading && <section className="loading-alert">updating status...</section>}
       {myorders.map((ord, index) => (
         <section className="Order" key={index}>

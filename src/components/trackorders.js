@@ -39,7 +39,7 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
   <section className='trackorders-wrapper'>
     <section className='track-orders-page'>
       <h1>Track My Orders</h1>
-      <button className='track-orders-page-btn' onClick={navigatehomepage}>← Homepage</button>
+      <button className='track-orders-page-btn' onClick={navigatehomepage}>← Home</button>
 
       {loading && (
         <section className='loader-wrapper'>

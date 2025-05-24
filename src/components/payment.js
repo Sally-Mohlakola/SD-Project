@@ -303,7 +303,7 @@ export const Payment = () => {
           </section>
 
           <button className='checkout-button' onClick={() => navigate("/checkout")}>
-            Back to Checkout
+            ← Checkout
           </button>
         </section>
 

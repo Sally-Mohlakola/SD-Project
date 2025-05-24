@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'Georgia', serif;
+  font-family: 'Tahoma', sans-serif;
   background-color: #f9f6f1 !important;
   color: #4c3d2b;
   line-height: 1.6;
@@ -153,7 +153,7 @@ z-index: 100;
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  width: 500px;
+  width: 100%;
   min-height: 240px;
   background: #fff;
   border-radius: 14px;
@@ -190,7 +190,7 @@ z-index: 100;
   font-size: 1.0rem;
   line-height: 1.4;
   margin-bottom: 8px;
-  color: #6b5e4a;
+  color: #000;
 }
 
 .shop-card .button {
@@ -333,6 +333,7 @@ display: flex;
    max-width: 800px;          
   margin-left: auto;
   margin-right: auto;
+  font-family:'Tahoma', sans-serif;
 }
 
 .back-button-home {
@@ -361,6 +362,7 @@ display: flex;
 
 .products-dropdown-menu {
   margin: 40px 0;
+  
 }
 
 
@@ -390,7 +392,7 @@ transition: all 0.3s ease;
   border-radius: 4px;
   border: 1px solid #d1c4b2;
   background-color: #fff;
-  font-family: 'Georgia', serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   margin-left: 10px;
   cursor: pointer;
@@ -408,6 +410,7 @@ transition: all 0.3s ease;
   justify-content: center;
   gap: 32px;
   padding: 40px 30px;
+  font-family:'Georgia', sans-serif;
   
 }
 
@@ -432,12 +435,15 @@ transition: all 0.3s ease;
 .product-card {
   flex: 1;
   padding: 0 20px;
+  width:100px;
+  font-family: 'Georgia', sans-serif;
 }
 
 .product-card p {
   font-size: 15px;
   margin: 5px 0;
-  color: #4b3e35;
+  color: #000;
+  
 }
 
 .product-card input[type="number"] {
@@ -449,8 +455,13 @@ transition: all 0.3s ease;
 }
 
 .product-card .button {
-  margin-top: 10px;
+  margin-top: 20px;
 }
+
+.shop-details{
+  margin-bottom:10px;
+}
+
 
 .product-image {
   width: 180px;
@@ -497,6 +508,7 @@ article {
   cursor: pointer !important;
   transition: background-color 0.3s ease !important;
   font-family: 'Georgia', serif !important;
+  margin-top:20px;
   
 }
 
@@ -560,6 +572,7 @@ button:hover {
  
   .product-listing-to-buy-view {
     grid-template-columns: 1fr;
+    font-family:'Georgia', sans-serif;
   }
 }
 

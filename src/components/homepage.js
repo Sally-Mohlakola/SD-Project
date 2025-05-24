@@ -48,28 +48,6 @@ export function FilterPrice({ query, setPrice }) {
   );
 }//FilterPrice
 
-// Drop down menu discarded
-export function DropdownMenu() {
-  const [selected, setSelected] = useState('');
-
-  const handleChange = (event) => {
-    setSelected(event.target.value);
-  };
-
-  return (
-    <section className="products-dropdown-menu">
-      <label>Collections</label>
-      <select id="selected-product" value={selected} onChange={handleChange}>
-        <option value="">--Select--</option>
-        <option value="vases">Vases</option>
-        <option value="basketry">Basketry</option>
-        <option value="glassware">Glassware</option>{/*firebase: introduce product codes?*/}
-      </select>
-
-      {/* {selected} records selected option, can remove later. Useful for database*/}
-    </section>
-  );
-}//END
 
 
 
@@ -270,7 +248,7 @@ useEffect(() => {
 
   return (
     <section className='section-home'>
-      <h6 id="img-cart-icon" onClick={Showcartitems}>Cart({cartitems.length})</h6>
+      <h6 id="img-cart-icon" onClick={Showcartitems}><strong>Cart({cartitems.length})</strong></h6>
       <h1 id="message">Natural Craft. Rooted in Care</h1>
       <p>Explore handmade wellness & artisan goods, crafted with purpose</p>
       <img id="img-welcome" alt="welcome banner" src="https://i.pinimg.com/736x/68/e2/83/68e283a8eb6f5df2ba70dd0f3c79a24d.jpg" ></img>{/*Welcome IMage*/}
@@ -290,10 +268,11 @@ useEffect(() => {
             filterShop.length > 0 ? (
               filterShop.map(shop => (
                 <article className="shop-card" key={shop.id}>
-  <section>
+
+  <section className="shop-details">
     <h3>{shop.nameofshop}</h3>
     <p>{shop.description}</p>
-    <p>Category: {shop.category}</p>
+    <p><strong>Category:</strong> {shop.category}</p>
     <button className="button" onClick={() => actionEnterShop(shop,shop.id)}>Enter Shop</button>
   </section>
   {shopImages[shop.id] && (
@@ -348,9 +327,9 @@ useEffect(() => {
             .map((product) => (
             <article key={product.id} className="product-article">
   <section className="product-card">
-    <h3>{product.name}</h3>
+    <h3><strong>{product.name}</strong></h3>
     <p>{product.itemdescription}</p>
-    <p>Price: R{product.price}</p>
+    <p><strong>Price:</strong> R{product.price}</p>
 
     {product.id === itemimadding ? (
       <section>
@@ -358,7 +337,7 @@ useEffect(() => {
           <input
             type="number"
             min="1"
-            max="999"
+            max="100"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
@@ -366,7 +345,7 @@ useEffect(() => {
         <button className='button'
           type="submit"
           onClick={() => {
-            if (!quantity || quantity <= 0 || quantity >= 1000) {
+            if (!quantity || quantity <= 0 || quantity >= 100) {
               alert("Please add a valid quantity");
             } else {
               AddtoCart(
@@ -430,7 +409,7 @@ useEffect(() => {
   </>
 )}
 
-     
+  
 
       <nav className="sidebar-menu">
         <h1>Crafts & Grain</h1> {/*Can resize headers*/}

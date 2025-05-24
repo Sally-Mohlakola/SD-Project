@@ -9,6 +9,10 @@
 
 }
 
+.empty-alert{
+  margin-top:30px;
+  font-family: 'Tahoma';
+}
 .order-section {
   max-width: 900px;
   width: 100%;
