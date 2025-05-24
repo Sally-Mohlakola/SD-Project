@@ -39,10 +39,12 @@ export function FilterPrice({ query, setPrice }) {
     <section className="format-price">
       <label htmlFor="priceFilter">Filter by Price:</label>
       <select id="priceFilter" value={query} onChange={handleChange}>
-        <option value="">All Prices</option>
-        <option value="under50">Under R50</option>
-        <option value="50to100">R50-R100</option>
-        <option value="above100">Above R100</option>
+        <option value="">-- All Prices --</option>
+        <option value="under500">Under R500</option>
+        <option value="500to999">R500 - R1000</option>
+        <option value="1000to1999">R1000 - R1999</option>
+        <option value="2000to5000">R2000 - R5000</option>
+        <option value="above5000">Above R5000</option>
       </select>
     </section>
   );
@@ -315,13 +317,20 @@ useEffect(() => {
         {filterProduct.length > 0 ? (
           filterProduct
             .filter((product) => {
-              if (priceFilter === "under50") {
-                return product.price < 50;
-              } else if (priceFilter === "50to100") {
-                return product.price >= 50 && product.price <= 100;
-              } else if (priceFilter === "above100") {
-                return product.price > 100;
+              if (priceFilter === "under500") {
+                return product.price < 500;
+              } else if (priceFilter === "500to999") {
+                return product.price >= 500 && product.price <= 999;
+              } else if (priceFilter === "1000to1999") {
+                return product.price >=1000 && product.price<=1999;
               }
+              else if (priceFilter === "2000to5000") {
+                return product.price >=2000 && product.price<=5000;
+              }
+              else if (priceFilter === "above5000") {
+                return product.price >5000 ;
+              }
+
               return true;
             })
             .map((product) => (
