@@ -51,12 +51,12 @@ export const AdminShopHomepage = () => {
     }
   };
 
-  if (loading) return <section className="loading-message"><p>Loading...</p></section>;
+  if (loading) return <section className="loader-wrapper">< p className="loader"></p></section>;
 
   return (
     <section className='admin-wrapper'>
     <section className="admin-dashboard">
-      <button onClick={navigateHome} className="home-button">← Home</button>
+      <button onClick={navigateHome} className="back">← Home</button>
       <h1>Admin Dashboard</h1>
 
       {shops.map((shop) => (

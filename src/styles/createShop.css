@@ -241,11 +241,14 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 1.5rem;
   padding: 1.0rem;
   background-color: rgba(255, 255, 255, 0.6);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(94, 76, 54, 0.1);
+}
+
+.submittoadmin{
+  margin-bottom:20px;
 }
 
 /* Back button specific style */
@@ -260,7 +263,7 @@
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 10px;
+  
 }
 
 .create-shop .back-btn-up:hover {

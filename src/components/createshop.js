@@ -207,7 +207,7 @@ export const Createshop = () => {
 
           <section className="button-container">{/* this is the button that will send data to the admin when triggered */}
             <button
-              type="button"
+              type="button" className="submittoadmin"
               onClick={() => {
                 if (nameexists) {
                   alert("A store with that name exists");
@@ -218,7 +218,7 @@ export const Createshop = () => {
             >
               Submit to admin
             </button>
-            <button type="button" className="back-btn-up" onClick={backhome}>Cancel</button>
+            <button type="button"  className="submittoadmin" onClick={backhome}>Cancel</button>
           </section>
         </form>
       )}
