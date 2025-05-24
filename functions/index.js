@@ -433,3 +433,52 @@ exports.updateOrderStatus = functions.https.onCall(async (request) => {
     throw new functions.https.HttpsError("internal", "Something went wrong.");
   }
 });
+exports.updateShopStatus = functions.https.onCall(async (request) => {
+  const data = request.data;
+  const { shopStatus, shopId } = data;
+
+  console.log("Status:", shopStatus, "Shop ID:", shopId);
+
+  if (!shopStatus || !shopId) {
+    throw new functions.https.HttpsError("invalid-argument", "Missing shopStatus or shopId");
+  }
+
+  const shopRef = db.collection("Shops").doc(shopId);
+
+  try {
+    // Update the status
+    await shopRef.update({ status: shopStatus });
+    console.log(`Updated status to ${shopStatus}`);
+
+    return { success: true, message: "Shop status updated successfully." };
+
+  } catch (error) {
+    console.error("Error updating shop status:", error);
+    throw new functions.https.HttpsError("internal", "Something went wrong.");
+  }
+});
+exports.getAdminEmail = functions.https.onCall(async (data, context) => {
+  try {
+    const emailSnapshot = await admin.firestore().collection("Admin").get();
+console.log("getting email");
+   const doc = emailSnapshot.docs[0];
+   const email = doc.data().AdminEmail;
+console.log("got email sucessfully ",email);
+    return { email };
+  } catch (error) {
+    console.error("Error getting email:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Error fetching email data",
+    );
+  }
+});
+exports.deleteProduct = functions.https.onCall(async (request) => {
+
+
+
+
+
+
+
+});

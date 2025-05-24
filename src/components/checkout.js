@@ -8,10 +8,12 @@ export const Checkout = () => {
   const [mycart, setmycart] = useState([]);
 
   useEffect(() => {
-    //cart_items has stored this cart's info
+    //cart_items has stored this cart's info and products 
     const cart = sessionStorage.getItem("cart_items");
+    // we will covert the cart to json bc it was previously stringyfied
     let parsedCart = [];
     try {
+      //if there is no cart just replace it with an empty array 
       parsedCart = cart ? JSON.parse(cart) : [];
     } catch (error) {
       // If items are unsuccessfuly added to cart, throw an error
@@ -25,11 +27,12 @@ export const Checkout = () => {
     navigate('/homepage');
   };
 
-  // Remove items from cart until capacity of 0
-  const removeFromCart = (index) => {
+  //  when trigger it removes items from cart untill there is notthing left 
+   const removeFromCart = (index) => {
     const updatedCart = [...mycart];
     updatedCart.splice(index, 1);
     setmycart(updatedCart);
+    //stores updated cart with removed items
     sessionStorage.setItem("cart_items", JSON.stringify(updatedCart));
     if (updatedCart.length === 0) {
       sessionStorage.removeItem("chosenshop");

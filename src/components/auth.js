@@ -1,27 +1,28 @@
 import {signInWithPopup } from 'firebase/auth';
-
 import { auth, provider } from '../config/firebase';
 import { useNavigate } from "react-router-dom";
-
 import React, { useEffect, useState } from 'react'
 import '../styles/SignUp.css';
-import {db} from "../config/firebase";
-import {getDocs,collection,updateDoc,doc} from "firebase/firestore";
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
 
 
 export const Auth=()=>{
     const navigate = useNavigate();
     const [progress, setProgress] = useState(0);
+    //usestate to store the admins email to compare later
     const [adminEmail, setAdminEmail] = useState([]);
 
     //fetch admin email from firebase
     useEffect(() => {
       const fetchAdmin = async () => {
         try {
-          const adminRef = collection(db, 'Admin'); 
-          const data = await getDocs(adminRef);
-
-          const adminData = data.docs.map((doc) => doc.data().AdminEmail);
+        const functions = getFunctions();
+        //call the getadmin firebase function to get the email
+        const getAdminEmail = httpsCallable(functions, 'getAdminEmail');
+        const result = await getAdminEmail({});
+        const adminData = result.data.email;
+        console.log(adminData);
         setAdminEmail(adminData);
         } catch (error) {
           console.error(error);

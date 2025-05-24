@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateDoc, doc } from "firebase/firestore";
 import { functions } from "../config/firebase";
-import { httpsCallable } from "firebase/functions";
-import { db } from "../config/firebase";
+import { httpsCallable,getFunctions } from "firebase/functions";
 import "../styles/adminshophomepage.css";
 
 export const AdminShopHomepage = () => {
+  //defined the usestates that we need 
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -14,10 +13,11 @@ export const AdminShopHomepage = () => {
   const navigateHome = () => {
     navigate("/homepage");
   };
-
+//this usestate gets all the shops for the admin
   useEffect(() => {
     const fetchShops = async () => {
       try {
+        //we call the firebase function 
         const getShopsForAdmin = httpsCallable(functions, "getShopsForAdmin");
         const result = await getShopsForAdmin();
         const { shops } = result.data;
@@ -31,18 +31,22 @@ export const AdminShopHomepage = () => {
 
     fetchShops();
   }, []);
-
+//this functon is triggered when the admin changes the status of one of the shops 
   const handleStatusChange = async (shopId, newStatus) => {
     try {
-      const shopRef = doc(db, "Shops", shopId);
-      await updateDoc(shopRef, { status: newStatus });
-
+      //call firebase function  to update the status of the shop 
+      const functions = getFunctions();
+      const updateShopStatus = httpsCallable(functions, 'updateShopStatus');
+      // pass the new status and the shop id for the update
+      const result =await updateShopStatus({shopStatus:newStatus, shopId:shopId});
+      //if the change was successful then we must also update the change to also reflect on the frontend 
+    if (result.data.success==true){   
       setShops((prevShops) =>
         prevShops.map((shop) =>
           shop.id === shopId ? { ...shop, status: newStatus } : shop
         )
       );
-    } catch (error) {
+    }} catch (error) {
       console.error("Error updating status:", error);
     }
   };

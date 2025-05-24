@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { db } from "../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { storage } from '../config/firebase';
-import { ref as storageRef, uploadBytes } from "firebase/storage";
 import '../styles/createShop.css';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export const Createshop = () => {
   const navigate = useNavigate();
+  //defined the usestates that we need 
   const currentUserId = localStorage.getItem("userid");
   const [shoplist, setShoplist] = useState([]);
   const [newshopname, setnewshopname] = useState("");
@@ -20,7 +17,7 @@ export const Createshop = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
-
+//thus useffect get the shops from the database and adds them to a usestate so that we can use later
   useEffect(() => {
     const getshoplist = async() => {
       try {
@@ -34,7 +31,7 @@ export const Createshop = () => {
     };
     getshoplist();
   }, []);
-
+// this function take the image of the shops logo and converts it to base64 so that it can be sent to the firebase function 
   const toBase64 = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -47,7 +44,7 @@ export const Createshop = () => {
       fileInputRef.current.click();
     }
   };
-
+//this function is triggered when the person inputs an image for the shop log and it is added in to the usesate for later use 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -55,18 +52,24 @@ export const Createshop = () => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
-
+//sunction send the shop details to the admin
   const sendtoadmin = async() => {
     try {
+      //if the usestates are empty the details will not be sent
       if (!imageupload || !newshopname || !newshopdescription || !category) {
         alert('Please complete all fields before submitting');
         return;
       }
+      
       setLoading(true);
+      //takes the image we stored in the usestate and converts it to base 64 using the function we created earlier
       const base64Image = await toBase64(imageupload);
+      //get the extention of the image 
       const extension = imageupload.name.split('.').pop();
+      //calls the createshop firebase function 
       const functions = getFunctions();
       const createShop = httpsCallable(functions, 'createShop'); 
+      //sends the data to the backend so the shop can be created
       const result = await createShop({
         userid: currentUserId,
         nameofshop: newshopname,
@@ -84,12 +87,12 @@ export const Createshop = () => {
       setLoading(false);
     }
   };
-
+//this function uses the shops we have gotten previously and then checks if the name the person has added is already in the shop this is to prevent 2 shops with the same name
   const checkshopname = (shops) => {
     const userShop = shoplist.find((shop) => shop.nameofshop === shops);
     setnameexists(!!userShop);
   };
-
+//navigates to the homepage when triggered
   const backhome = () => {
     navigate('/homepage');
   };
@@ -97,17 +100,19 @@ export const Createshop = () => {
   return (
     <section className="create-shop">
       <h1>Creating my Shop</h1>
-
+    {/*   if the usestate loading is set to true it will show thi loading state */}
       {loading ? (
         <section className="shop-alert">Submitting your shop...</section>
       ) : submitted ? (
-        <section>
+        
+        <section>    {/* this will be shown after the sunmission of the shop*/}
+
           <section className="shop-alert">Your shop has been sent to admin</section>
           <button className="back-btn-up" onClick={backhome}>Home</button>
         </section>
       ) : (
         <form>
-          <section className="form-field">
+          <section className="form-field">{/*this input take in the user store and checks if the shop name exists already */}
             <label htmlFor="shop-name">Name of shop</label>
             <input
               id="shop-name"
@@ -126,7 +131,7 @@ export const Createshop = () => {
               defaultValue=""
               onChange={(e) => setcategory(e.target.value)}
             >
-              <option value="" disabled>Select a Category</option>
+              <option value="" disabled>Select a Category</option>{/* a drop down of the diffrent categories the person can chose */}
               <option>Pottery</option>
               <option>Paint</option>
               <option>Leatherwork</option>
@@ -147,7 +152,7 @@ export const Createshop = () => {
           </section>
 
           <section className="form-field file-upload-container">
-            <label className="file-upload-label">
+            <label className="file-upload-label">{/* this is where the person can upload their logo fro thier shop */}
               {imagePreview ? (
                 <>
                   <img 
@@ -200,7 +205,7 @@ export const Createshop = () => {
             </label>
           </section>
 
-          <section className="button-container">
+          <section className="button-container">{/* this is the button that will send data to the admin when triggered */}
             <button
               type="button"
               onClick={() => {

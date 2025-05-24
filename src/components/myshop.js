@@ -13,7 +13,7 @@ export const MyShop = () => {
   const [ispublic, setIspublic] = useState('');
   const [store, setstore] = useState('');
 
-  // Fetch shop list
+  // Fetch all the shops in the db
   useEffect(() => {
     const getshoplist = async () => {
       try {
@@ -32,6 +32,7 @@ export const MyShop = () => {
   // Find user's shop
   useEffect(() => {
     if (!loading && shoplist.length > 0) {
+      //filter but users id 
       const userShop = shoplist.find((shop) => shop.userid === currentUserId);
       if (userShop) {
         setstore(userShop);
@@ -41,7 +42,7 @@ export const MyShop = () => {
     }
   }, [shoplist, currentUserId, loading]);
 
-  // Redirect if accepted
+  // Redirect to the users shopdashboard if its been cleared by admin
   useEffect(() => {
     if (ispublic === 'Accepted') {
       navigate('/shopdashboard');
@@ -50,7 +51,7 @@ export const MyShop = () => {
 
   const startshop = () => navigate('/createshop');
   const backhome = () => navigate('/homepage');
-
+//function that deletes the shop when triggerd 
   const deleterejectedshop = async (id, Iurl) => {
     try {
       const functions = getFunctions(app);
@@ -63,7 +64,7 @@ export const MyShop = () => {
   };
 
   if (loading || !isReady) return <section className="shop-section"></section>;
-
+//if the shop status id rejected the user has a onpiton to start a new appplication
   if (ispublic === 'Rejected') {
     return (
       <section className="shop-section">
@@ -72,6 +73,7 @@ export const MyShop = () => {
           <section className="button-group">
             <button
               onClick={() => {
+                {/* when the button is clicked thier shop is deleted form the db bc one shop per user and the are directed to create a new shop again */}
                 deleterejectedshop(store.id, store.imageurl);
                 navigate('/createshop');
               }}
@@ -83,7 +85,7 @@ export const MyShop = () => {
       </section>
     );
   }
-
+//if the user does not have a store in the databse it shows rhem a button to start a shop 
   if (store === '') {
     return (
       <section className="shop-section">
@@ -99,7 +101,7 @@ export const MyShop = () => {
       </section>
     );
   }
-
+//shows if the status of the shop is still Awaiting then the admin hasnt cleared thier shop
   if (ispublic === 'Awaiting') {
     return (
       <section className="shop-section">

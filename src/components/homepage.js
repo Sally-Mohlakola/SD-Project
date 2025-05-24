@@ -5,10 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
 import '../styles/homepage.css';
-import { db } from "../config/firebase";
-import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 //Import the get products in a shop here. to update to get all products in all
-import { getProductsInShop } from "../components/myorders";
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Search tab for shops and products
@@ -81,11 +78,7 @@ export const Homepage = () => {
   const navigate = useNavigate();
 
   const [chosenShop, setChosenShop] = useState('');
-  const [searchShop, setSearchShop] = useState('');
   const [search, setSearch] = useState('');
-  const [orderlist, setorderlist] = useState([]);
-  const currentUserId = localStorage.getItem("userid");
-  const currentuserstore = localStorage.getItem("shopname");
   const [allProducts, setAllProducts] = useState([]);
   const [quantity, setQuantity] = useState(null);
   const [itemimadding, setitemimadding] = useState(null);
@@ -95,7 +88,7 @@ export const Homepage = () => {
   const [loading, setLoading] = useState(true); //Loading state
   const hvchosenshop = sessionStorage.getItem("chosenshop");
   const [priceFilter, setPriceFilter] = useState("");//used for price filtering
-  const [goingback, setgoingback] = useState(false);
+
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [shopImages, setShopImages] = useState({});
 
@@ -130,17 +123,18 @@ export const Homepage = () => {
 
   // Fetch this logged in user's id from local storage.
   const currentUserID = localStorage.getItem("userid");
-  // Fetching all the shop data
+  // Fetching all the shop data to display when the user enters the homepage
   useEffect(()=>{
     const fetchShops= async()=>{
         try{
+          //call functions
         const functions = getFunctions();
         const getAllShops = httpsCallable(functions, 'getAllShops');
         const getProductsInShop = httpsCallable(functions, "getProductsInShop");
         const result = await getAllShops({});
         const allshops=(result.data.shops).filter(shop => shop.userid !== currentUserID);
         const shopsWithProducts = [];
-
+//get the products of the shops aswell
       for (const shop of allshops) {
         
           const productResult = await getProductsInShop({ shopid: shop.id });
@@ -160,8 +154,7 @@ export const Homepage = () => {
     fetchShops();
   }, []);
 
-  //Once a user choses a shop, look through the products of that shop
-
+// use to load the products of the shop that the user had chosen 
 useEffect(() => {
   const fetchProducts = async () => {
     if (chosenShop && chosenShop.id) {
@@ -184,7 +177,7 @@ useEffect(() => {
 }, [chosenShop]);
 
 
-
+//enters in the shop the user has chosen and at the same time store information in the storage for us to use later 
   const actionEnterShop = (shop,shopid) => {
     setChosenShop(shop); //Set the chosenShop by clicking "Enter Shop" button
     //store the chosen shop in the storage for later use and cheakout 
@@ -213,7 +206,7 @@ useEffect(() => {
 
 
 
-  //Logout functionality (direct user to auth page) 
+  //Logout functionality (direct user to auth page) and clears the storage of any things that were stored there 
   const logout = async () => {
     try {
       await signOut(auth);
@@ -227,14 +220,14 @@ useEffect(() => {
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   //ADDTOCART LOGIC
-
+// this just stores the items in the storage and directs themt o cheack out where they can vieww thier items 
   const Showcartitems = async () => {
     const items = cartitems;
     sessionStorage.setItem("cart_items", JSON.stringify(items));
     navigate('/checkout');
   };
 
-  // cart fields for each product
+  // cart fields for each product and updates the cart evertime someone clickes onthe add to cart button
   const AddtoCart = (itemid, name, description, price, quan) => {
     const prod = {
       id: itemid,
@@ -248,7 +241,7 @@ useEffect(() => {
   };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+//fetched all the shop images to display them
 useEffect(() => {
   const fetchAllShopImages = async () => {
     const functions = getFunctions();

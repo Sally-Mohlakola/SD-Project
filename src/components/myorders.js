@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
 import '../styles/myorders.css'
-import { Link } from 'react-router-dom';
 import '../styles/searchTab.css'; // from styles folder, import searchTab.css
-import { db } from "../config/firebase";
-import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
+//create a function we can use to fetch the shops products 
 export const getProductsInShop = async (shopid) => {
   try {
-    const getProducts = collection(db, "Shops", shopid, "Products");
-    const products = await getDocs(getProducts);
+    const functions = getFunctions();
+    const getProductsFn = httpsCallable(functions, "getProductsInShop");
+    const products = await getProductsFn({ shopid });
     const AllProducts = products.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     return AllProducts;
   } catch (error) {
@@ -19,9 +18,9 @@ export const getProductsInShop = async (shopid) => {
     return [];
   }
 };
-
+//handles the users orders 
 export const MyOrders = () => {
-  const [orderlist, setorderlist] = useState([]);
+  const [orderlist, setorderlist] = useState([]);//holds all the orders from the database
   const currentUserId = localStorage.getItem("userid");
   const currentuserstore = localStorage.getItem("shopname");
   const [productsMap, setProductsMap] = useState([]);
@@ -29,12 +28,12 @@ export const MyOrders = () => {
   const [ordersLoading, setOrdersLoading] = useState(true);
 
   let navigate = useNavigate();
-
+//funciton that goes back to the users shop dash board when triggered
   function navigateDashboard() {
     navigate('/shopdashboard');
   }
 
-  // Get all orders
+  // Get all users orders
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -108,11 +107,12 @@ export const MyOrders = () => {
     return b.sold - a.sold;
   });
 
+  //filter all the orders rturned by the currentstore name 
   const myorders = orderlist.filter((order) => order.nameofshop === currentuserstore);
 
   const [orderstatus, setorderstatus] = useState("");
   const [editingOrderid, setEditingOrderid] = useState(null);
-
+//function that updates the order status 
   const updatestatus = async (ordid) => {
      setLoading(true);
     try {
