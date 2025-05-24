@@ -233,7 +233,9 @@ export const Payment = () => {
          <section className="checkout-section">
           <input type="text" placeholder="Search for your delivery address"
           value={searchPrompt} onChange={(e) => setSearchPrompt(e.target.value)}
-            className="delivery-search"
+            className="delivery-search"/>
+
+            </section>
 
           <section className="inputs">
           <input 
