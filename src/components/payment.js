@@ -229,14 +229,12 @@ export const Payment = () => {
           onLoad={autocomplete}
           onPlaceChanged={capturePivotChangesOfMap}
         >
-         
-          <input type="text" 
-            placeholder="Search for your delivery address"
-            value={searchPrompt}
-            onChange={(e) => setSearchPrompt(e.target.value)}
-            className="delivery-search"
+    
+          <input type="text" placeholder="Search for your delivery address"
+          value={searchPrompt} onChange={(e) => setSearchPrompt(e.target.value)}
+            className="delivery-search"  style={{ width: '100%' }}
           />
-       
+      
         </Autocomplete>
 
 
