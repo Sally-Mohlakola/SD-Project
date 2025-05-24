@@ -6,8 +6,13 @@
   min-height: 100vh;
   box-sizing: border-box;
   background-color: #B08968;
-  background: radial-gradient(circle, #B08968, #ffffff00);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+}
+
+.shopmanagep{
+  font-family: 'Segoe UI', sans-serif;
+  font-weight:450;
+  text-align: center;
 }
 
 .storeDash-section {
@@ -20,6 +25,9 @@
   border-radius: 1rem;
   background-size: cover;
   background-position: center;
+  background-color: #E6CCB2;
+  margin-bottom: 50px;
+  margin-top:50px;
   background-repeat: no-repeat;
   min-height: 100vh;
   max-width: 75rem;
@@ -38,10 +46,10 @@
   font-size: 3rem;
   font-weight: 700;
   text-align: center;
-  color: #3c2f2f; /* earthy deep tone */
+  color: #3c2f2f;
   margin: 2.5rem auto 0.625rem;
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
-  animation: fadeInUp 1s ease-out forwards;
+  animation: fadeInUp 2s ease-out forwards;
   opacity: 0;
   }
 
@@ -57,7 +65,7 @@
 
 @keyframes fadeInUp {
   0% {
-    transform: translateY(1.25rem);
+    transform: translateY(0.2rem);
     opacity: 0;
   }
 
@@ -85,19 +93,19 @@
 
 
 .storeDash-links {
-  max-width: 40.625rem;
+  max-width: 35rem;
   width: 100%;
   padding: 2rem;
   border-radius: 0.875rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 0.3s;
+  animation: floatPulse 3s ease-in-out infinite, fadeInUp 1s ease-out forwards;
+  animation-delay: 0.3s;;
 }
 @media (max-width: 600px) {
   .storeDash-links {
-    padding: 1rem;
+    padding: 0.8rem;
   }
 }
 
@@ -118,7 +126,7 @@
 
 .storeDash-links a {
   position: relative;
-  text-decoration:none;
+  text-decoration: none;
   color: #fff;
   padding: 0.6rem 1.8rem;
   border-radius: 0.5rem;
@@ -127,40 +135,19 @@
   font-weight: 500;
   opacity: 0;
   transform: translateY(0.625rem);
-  animation: fadeLinkIn 0.6s ease-out forwards;
-  animation-delay: 0.5s;
+  animation: fadeLinkIn 0.6s ease-out forwards, floatPulse 3s ease-in-out infinite;
+  animation-delay: 0.5s, 0.3s; /* Matches logo's floatPulse delay */
   overflow: hidden;
 }
 
 .storeDash-links a:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-  transform: translateY(-0.125rem) scale(1.05);
-  background-color: #9c6644;
+    background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
    box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
   transform: scale(1.05);
 }
 
-.storeDash-links a:active::after {
-  transform: scale(4);
-  opacity: 1;
-}
 
-.storeDash-links a::after {
-  content: "";
-  position: absolute;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  width: 6.25rem;
-  height: 6.25rem;
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.6s, opacity 1s;
-  pointer-events: none;
-  left: 50%;
-  top: 50%;
-  transform-origin: center;
-  transform: translate(-50%, -50%) scale(0);
-}
 
 @media (max-width: 600px) {
   .storeDash-links nav ul {
@@ -172,8 +159,8 @@
   .storeDash-links a {
     padding: 0.6rem 1.2rem;
     font-size: clamp(0.9rem, 2vw, 1rem);
-    min-width: 80%; /* make links take up more horizontal space */
-    text-align: center; /* center text inside links */
+    min-width: 80%;
+    text-align: center; 
     white-space: normal;
     word-break: break-word;
   }
@@ -183,6 +170,7 @@
 
 .home-link {
   margin-top: 1rem;
+  margin-bottom: 1rem;
   font-weight: bold;
   color: #7d4f4f;
   text-decoration: none;
@@ -195,7 +183,6 @@
 }
 
 .home-link:hover {
-  text-decoration: underline;
   color: #5a2d2d;
   transform: scale(1.03);
 }
@@ -225,14 +212,6 @@
   }
 }
 
-@keyframes floatPulse {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-5px) scale(1.02);
-  }
-}
 
 
 /*Loading products*/
@@ -240,9 +219,11 @@
 display: flex;
   justify-content: center;
   height: 100vh;
+  
 }
 
 .loader {
+   
   width: fit-content;
   font-size: 40px;
   line-height: 1.5;
@@ -260,5 +241,5 @@ display: flex;
   content: "Loading";
 }
 @keyframes l9 {
-  to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
+  to {background-position: calc(50% + 1.6em) 0,calc(50% + 1em) .8em}
 }

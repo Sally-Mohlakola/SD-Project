@@ -75,7 +75,6 @@ export const ShopHomepage = () => {
     return (
         <section className='storeDash-section'>
             <h1 className='storeDash-heading'>Welcome {storename}</h1>
-            
             <section className='shop-logo-container'>
                 {shopimage && (
                     <img 
@@ -90,6 +89,7 @@ export const ShopHomepage = () => {
             </section>
             
             <section className='storeDash-links'>
+               <p className="shopmanagep">Shop management dashboard</p>
                 <nav>
                     <ul>
                         <li><Link to="/displayproducts">My Products</Link></li>
@@ -97,7 +97,7 @@ export const ShopHomepage = () => {
                         <li><Link to="/myinventory">Inventory</Link></li>
                     </ul>
                 </nav>
-                <Link to="/homepage" className='home-link'>Home</Link>
+                <Link to="/homepage" className='home-link'>← Home</Link>
             </section>
         </section>
     );
