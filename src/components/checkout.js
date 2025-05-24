@@ -56,14 +56,14 @@ export const Checkout = () => {
   return (
     <section className="checkout-wrapper">
       <section className='checkout-section'>
-        <section className='checkout-section'><h1>Checkout</h1></section>
+       <h1>Checkout</h1>
       {mycart.length > 0 ? (
         mycart.map((item, index) => (
           <section className='product' key={index}>
-            <p>Name: {item.name}</p>
-            <p>Description: {item.itemdescription}</p>
-            <p>Price: {item.price * item.quantity}</p>
-            <p>Quantity: {item.quantity}</p>
+            <p><strong>Name:</strong> {item.name}</p>
+            <p><strong>Description:</strong> {item.itemdescription}</p>
+            <p><strong>Price:</strong> {item.price * item.quantity}</p>
+            <p><strong>Quantity:</strong> {item.quantity}</p>
             <button className="remove-button" onClick={() => removeFromCart(index)}>Remove from cart</button>
           </section>
         ))
@@ -78,11 +78,11 @@ export const Checkout = () => {
     
         </section>
       )}
-
-      <button className='back-button' onClick={backtoshops}> ← Back</button>
-      {mycart.length > 0 && (
+       {mycart.length > 0 && (
         <button  className='proceed-button' onClick={handleCheckout} >Proceed to Checkout</button>
       )}
+      <button className='back-button' onClick={backtoshops}> ← Home</button>
+     
     </section>
     </section>
   );

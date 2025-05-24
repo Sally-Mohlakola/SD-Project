@@ -98,6 +98,7 @@
 @media (max-width: 768px) {
   .shopdashboard-wrapper {
     padding: 1.5rem;
+   
   }
 
   .storeDash-heading {
@@ -124,6 +125,8 @@
   box-sizing: border-box;
   background-color: #B08968;
   font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+  justify-content: center; /* Horizontal centering */
+  height: 100vh;
 }
 
 .shopmanagep{
