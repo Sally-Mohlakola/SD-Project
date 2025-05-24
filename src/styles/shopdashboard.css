@@ -1,4 +1,121 @@
 
+
+
+/* Navigation Links - Matching Button Styles */
+.storeDash-links {
+  width: 100%;
+  max-width: 40rem;
+  padding: 2rem;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.storeDash-links:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.storeDash-links nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.storeDash-links nav li {
+  width: 100%;
+  max-width: 18rem;
+}
+
+.storeDash-links a {
+  display: block;
+  padding: 0.75rem 1.75rem;
+  background-color: #7F5539;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  animation: fadeLinkIn 0.6s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.storeDash-links a:hover {
+  background-color: #9C6644;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7);
+}
+
+
+
+/* Loading Animation - Consistent with Add Products */
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle, #B08968, #ffffff00);
+}
+
+.loader {
+  width: fit-content;
+  font-size: 2.5rem;
+  line-height: 1.5;
+  font-family: system-ui, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #000;
+  background:
+    radial-gradient(1.13em at 50% 1.6em, #000 99%, #0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+    radial-gradient(1.13em at 50% -0.8em, #0000 99%, #000 101%) 50% .8em/3.2em 100% repeat-x text;
+  animation: l9 2s linear infinite;
+}
+
+.loader:before {
+  content: "Loading";
+}
+
+@keyframes l9 {
+  to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .shopdashboard-wrapper {
+    padding: 1.5rem;
+  }
+
+  .storeDash-heading {
+    font-size: 2.25rem;
+    margin: 1.5rem auto 0.75rem;
+  }
+
+  .shop-logo-container {
+    width: 11rem;
+    height: 11rem;
+  }
+
+  .storeDash-links {
+    padding: 1.5rem;
+  }
+}
+
+
 .shopdashboard-wrapper{
   display: flex;
   flex-direction: column;
@@ -114,113 +231,9 @@
   animation: floatPulse 3s ease-in-out infinite, fadeInUp 1s ease-out forwards;
   animation-delay: 0.3s; }
 
-@media (max-width: 600px) {
-  .shop-logo {
-    width: 9rem;
-    height: 9rem;
-  }
-}
-
-
-.storeDash-links {
-  max-width: 35rem;
-  width: 100%;
-  padding: 2rem;
-  border-radius: 0.875rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: floatPulse 3s ease-in-out infinite, fadeInUp 1s ease-out forwards;
-  animation-delay: 0.3s;;
-}
-@media (max-width: 600px) {
-  .storeDash-links {
-    padding: 0.8rem;
-  }
-}
-
-
-.storeDash-links nav ul{
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem 0;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.storeDash-links nav li {
-  font-weight: 500;
-}
-
-.storeDash-links a {
-  position: relative;
-  text-decoration: none;
-  color: #fff;
-  padding: 0.6rem 1.8rem;
-  border-radius: 0.5rem;
-  background-color: #7F5539;
-  transition: background-color 0.3s, transform 0.2s ease, box-shadow 0.3s ease;
-  font-weight: 500;
-  opacity: 0;
-  transform: translateY(0.625rem);
-  animation: fadeLinkIn 0.6s ease-out forwards, floatPulse 3s ease-in-out infinite;
-  animation-delay: 0.5s, 0.3s; /* Matches logo's floatPulse delay */
-  overflow: hidden;
-}
-
-.storeDash-links a:hover {
-    background-color: #9C6644;
-  transform: translateY(-2px) scale(1.05);
-   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
-  transform: scale(1.05);
-}
 
 
 
-@media (max-width: 600px) {
-  .storeDash-links nav ul {
-    flex-direction: column;
-    gap: 1rem; 
-    align-items: center;
-  }
-
-  .storeDash-links a {
-    padding: 0.6rem 1.2rem;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-    min-width: 80%;
-    text-align: center; 
-    white-space: normal;
-    word-break: break-word;
-  }
-}
-
-
-
-.home-link {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  color: #7d4f4f;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: transform 0.2s ease;
-  opacity: 0;
-  transform: translateY(0.625rem);
-  animation: fadeLinkIn 0.6s ease-out forwards;
-  animation-delay: 0.7s;
-}
-
-.home-link:hover {
-  color: #5a2d2d;
-  transform: scale(1.03);
-}
-@media (max-width: 600px) {
-  .home-link {
-    animation-delay: 0.4s;
-  }
-}
 
 
 
@@ -244,32 +257,3 @@
 
 
 
-/*Loading products*/
-.loader-wrapper{
-display: flex;
-  justify-content: center;
-  height: 100vh;
-  
-}
-
-.loader {
-   
-  width: fit-content;
-  font-size: 40px;
-  line-height: 1.5;
-  font-family: system-ui,sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #0000;
-  -webkit-text-stroke: 1px #000;
-  background:
-    radial-gradient(1.13em at 50% 1.6em,#000 99%,#0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
-    radial-gradient(1.13em at 50% -0.8em,#0000 99%,#000 101%) 50% .8em/3.2em 100% repeat-x  text;
-  animation: l9 2s linear infinite;
-}
-.loader:before {
-  content: "Loading";
-}
-@keyframes l9 {
-  to {background-position: calc(50% + 1.6em) 0,calc(50% + 1em) .8em}
-}
