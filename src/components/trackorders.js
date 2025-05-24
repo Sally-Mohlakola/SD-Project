@@ -35,47 +35,51 @@ const myorders = orderlist.filter((order) => order.userid === currentUserId);
   function navigatehomepage() {
     navigate('/homepage');
   }
-    return ( 
-    <section className='trackorders-wrapper'>
+   return ( 
+  <section className='trackorders-wrapper'>
     <section className='track-orders-page'>
-  <>
-  <section>
-        <h1>Track My Orders</h1>
-        <button className='track-orders-page-btn' onClick={navigatehomepage}>← Homepage</button>
-</section>
+      <h1>Track My Orders</h1>
+      <button className='track-orders-page-btn' onClick={navigatehomepage}>← Homepage</button>
 
-    {/* Loading state */}
-    {loading && (
-      <section className='loader-wrapper'><section className='loader'> </section></section>
-    )}
+      {loading && (
+        <section className='loader-wrapper'>
+          <section className='loader'></section>
+        </section>
+      )}
 
-    {!loading && (
-      <section className='track-orders-page-section'>
-    
-
-        {/* Conditional rendering based on myorders */}
-        {myorders.length > 0 ? (
-          myorders.map((ord, index) => (
-            <section key={index}>
-              <h3>Order #{index + 1}</h3>
-              {ord.products?.map((prod, index2) => (
-                <section key={index2}>
-                  <p><strong>Name:</strong> {prod?.nameofitem}</p>
-                  <p><strong>Quantity:</strong> {prod?.quantity}</p>
-                  <p><strong>Price:</strong> R{prod?.price}</p>
+      {!loading && (
+        <section className='track-orders-page-section'>
+          {myorders.length > 0 ? (
+            myorders.map((ord, index) => (
+              <section key={index} className="order-container">
+                <section className="order-header">
+                  <h3>Order: #{index + 1}</h3>
+                  <section className="order-status">Status: {ord?.status}</section>
                 </section>
-              ))}
-              <p><strong>Address:</strong> {ord?.address}</p>
-              <p><strong>Status:</strong> {ord?.status}</p>
-            </section>
-          ))
-        ) : (
-          <p>You don't have any orders to track</p>
-        )}
-      </section>
-    )}
-  </>
-  </section>
+                
+                {ord.products?.map((prod, index2) => (
+                  <section key={index2} className="product-item">
+                    <section className="product-info">
+                      <p className="product-name">{prod?.nameofitem}</p>
+                      <section className="product-meta">
+                        <p>Qty: {prod?.quantity}</p>
+                        <p className="product-price">R{prod?.price}</p>
+                      </section>
+                    </section>
+                  </section>
+                ))}
+                
+                <section className="order-address">
+                  <p><strong>Delivery Address:</strong> {ord?.address}</p>
+                </section>
+              </section>
+            ))
+          ) : (
+            <p className="no-orders">You don't have any orders to track</p>
+          )}
+        </section>
+      )}
+    </section>
   </section>
 );
 };

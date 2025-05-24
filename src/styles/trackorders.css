@@ -1,36 +1,19 @@
+/* Updated CSS for TrackOrders component */
 .trackorders-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  padding: 2rem;
   box-sizing: border-box;
   background: radial-gradient(circle, #B08968, #ffffff00);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
- }
-
-.track-orders-page  {
-  max-width: 900px;
-  width: 100%;
-  margin: 2rem auto;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  transition: box-shadow 0.3s ease;
 }
 
-
-@keyframes fadeInUp {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.track-orders-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .track-orders-page h1 {
@@ -38,16 +21,13 @@
   font-size: 48px;
   font-weight: 700;
   text-align: center;
-  color: #3c2f2f; /* earthy deep tone */
-  margin: 40px auto 10px;
+  color: #3c2f2f;
+  margin: 0 auto 30px;
   text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 1s ease-out forwards;
-  opacity: 0;
 }
 
-.track-orders-page-btn{
-  display: flex;
-  margin-left: 110px;
+.track-orders-page-btn {
   padding: 12px 28px;
   background-color: #7F5539;
   color: #fff;
@@ -56,69 +36,103 @@
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  margin-bottom: 30px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .track-orders-page-btn:hover {
-   background-color: #9C6644;
-  transform: translateY(-2px) scale(1.05);
-   box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7); /* warm glowing effect */
-  transform: scale(1.05);
+  background-color: #9C6644;
+  transform: translateY(-2px);
+  box-shadow: 0 0 10px 3px rgba(255, 182, 123, 0.7);
 }
 
-/* Order blocks */
-.track-orders-page-section {
-  margin-top: 2.4rem;
-  padding: 1.8rem 2.4rem;
+/* Order container styling */
+.order-container {
   background: #fef9f1;
   border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
   box-shadow: 0 6px 18px rgba(117, 92, 53, 0.1);
-  transition: box-shadow 0.4s ease, transform 0.3s ease;
-  
+  transition: all 0.3s ease;
 }
 
-.track-orders-page-section:hover {
+.order-container:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 36px rgba(117, 92, 53, 0.25);
 }
 
-.track-orders-page-section > section > h3 {
-  font-weight: 800;
-  color: #5e4c36;
-  margin-bottom: 1.2rem;
-  letter-spacing: 1.2px;
-  text-shadow: 1.5px 1.5px 3px rgba(94, 76, 54, 0.18);
-  font-size: 1.5rem;
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(126, 85, 57, 0.2);
+}
+
+.order-header h3 {
   font-family: 'Georgia', serif;
+  font-size: 1.5rem;
+  color: #5e4c36;
+  margin: 0;
 }
 
-/* Product details */
-.track-orders-page-section > section  {
-   color: #4a463f;
-  padding-left: 2rem;
-  
-  margin-bottom: 1.2rem;
+.order-status {
+  font-weight: 700;
+  color: #7F5539;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  background-color: rgba(126, 85, 57, 0.1);
 }
 
-.track-orders-page section > section >  p {
-  margin: 0.6rem 0;
-  font-size: 1.1rem;
-  line-height: 1.5;
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(126, 85, 57, 0.1);
+}
+
+.product-info {
+  flex: 2;
+}
+
+.product-name {
   font-weight: 600;
-  color: #7b7468;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  letter-spacing: 0.02em;
-  transition: color 0.3s ease;
+  color: #4a463f;
+  margin-bottom: 0.5rem;
 }
 
+.product-meta {
+  display: flex;
+  gap: 1.5rem;
+}
 
-/* Loading text */
+.product-price {
+  font-weight: 700;
+  color: #7F5539;
+}
+
+.order-address {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(126, 85, 57, 0.2);
+}
+
+.no-orders {
+  text-align: center;
+  padding: 3rem;
+  color: #7b7468;
+  font-size: 1.2rem;
+}
+
 .loader-wrapper{
 display: flex;
   justify-content: center;
   height: 100vh;
-  background: transparent;
-  box-shadow: none;
 }
 
 .loader {
@@ -140,4 +154,15 @@ display: flex;
 }
 @keyframes l9 {
   to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
