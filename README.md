@@ -1,7 +1,7 @@
 [![codecov](https://codecov.io/gh/Sally-Mohlakola/SD-Project/branch/signin/login/M/graph/badge.svg)](https://app.codecov.io/gh/Sally-Mohlakola/SD-Project) 
-<<<<<<< HEAD
+
 # SD-Project
-=======
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -72,4 +72,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> a97c8dd (Webapp with Register and Sign In (with Google) Firebase services, and Logout)
+(Webapp with Register and Sign In (with Google) Firebase services, and Logout)
