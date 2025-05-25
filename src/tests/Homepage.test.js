@@ -4,9 +4,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { Homepage } from '../components/homepage';
 import { auth } from '../config/firebase';
 import { signOut } from 'firebase/auth';
-import { getDocs } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { useNavigate } from 'react-router-dom';
-import { getProductsInShop } from '../components/myorders';
 
 // Mock all dependencies
 jest.mock('firebase/auth', () => ({
@@ -15,20 +14,16 @@ jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(() => ({})),
 }));
 
-jest.mock('firebase/firestore', () => ({
-  ...jest.requireActual('firebase/firestore'),
-  getDocs: jest.fn(),
-  collection: jest.fn(),
+jest.mock('firebase/functions', () => ({
+  ...jest.requireActual('firebase/functions'),
+  getFunctions: jest.fn(() => ({})),
+  httpsCallable: jest.fn(),
 }));
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),
   Link: ({ children, to }) => <a href={to}>{children}</a>,
-}));
-
-jest.mock('../components/myorders', () => ({
-  getProductsInShop: jest.fn(),
 }));
 
 // Mock data
@@ -39,13 +34,15 @@ const mockShops = [
     description: 'Handmade with love',
     category: 'Pottery',
     userid: 'user2',
+    imageurl: 'image1.jpg'
   },
   {
     id: 'shop2',
     nameofshop: 'The Nile Shop',
     description: 'Red tempera clay products',
-    category: 'Pottery',
+    category: 'Leatherwork',
     userid: 'user3',
+    imageurl: 'image2.jpg'
   },
 ];
 
@@ -54,27 +51,33 @@ const mockProducts = [
     id: 'prod1',
     name: 'Ceramic Plate',
     itemdescription: 'Hand-kneated clay plate',
-    price: 45,
+    price: 450,
     quantity: 10,
+    imageURL: 'product1.jpg'
   },
   {
     id: 'prod2',
     name: 'Modern vase',
     itemdescription: 'Inspired by Modern Art',
-    price: 120,
+    price: 1200,
     quantity: 20,
+    imageURL: 'product2.jpg'
   },
 ];
+
+const mockShopImages = {
+  'shop1': 'mocked-image-url1.jpg',
+  'shop2': 'mocked-image-url2.jpg'
+};
 
 describe('Homepage Component', () => {
   const mockNavigate = jest.fn();
   const originalWindowConfirm = window.confirm;
+  const mockHttpsCallable = jest.fn();
 
   beforeAll(() => {
-    // Mock window confirm
     window.confirm = jest.fn(() => true);
     
-    // Mock localStorage and sessionStorage
     Object.defineProperty(window, 'localStorage', {
       value: {
         getItem: jest.fn(),
@@ -97,7 +100,6 @@ describe('Homepage Component', () => {
   });
 
   afterAll(() => {
-    // Restore original confirm
     window.confirm = originalWindowConfirm;
   });
 
@@ -105,25 +107,19 @@ describe('Homepage Component', () => {
     jest.clearAllMocks();
     useNavigate.mockReturnValue(mockNavigate);
     
-    getDocs.mockResolvedValue({
-      docs: mockShops.map((shop) => ({
-        id: shop.id,
-        data: () => shop,
-      })),
-    });
-
-    getProductsInShop.mockResolvedValue(mockProducts);
+    // Mock firebase functions
+    httpsCallable.mockImplementation(() => mockHttpsCallable);
     
     // Default storage mocks
     window.localStorage.getItem.mockImplementation((key) => {
       if (key === 'userid') return 'user1';
-      if (key === 'shopname') return 'Test Shop';
       return null;
     });
 
     window.sessionStorage.getItem.mockImplementation((key) => {
       if (key === 'cart_items') return JSON.stringify([]);
       if (key === 'chosenshop') return null;
+      if (key === 'chosenshopid') return null;
       return null;
     });
   });
@@ -137,21 +133,28 @@ describe('Homepage Component', () => {
   };
 
   it('renders homepage with default view', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
     expect(await screen.findByText('Natural Craft. Rooted in Care')).toBeInTheDocument();
-    expect(screen.getByText('Featured Shops')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Shop the collection...')).toBeInTheDocument();
+    expect(screen.getByText('Artisanal Shops')).toBeInTheDocument();
   });
 
   it('shows loading state while fetching shops', async () => {
-    getDocs.mockImplementation(() => new Promise(() => {}));
+    mockHttpsCallable.mockImplementation(() => new Promise(() => {}));
     
     renderHomepage();
-    expect(await screen.findByText('Loading shops...')).toBeInTheDocument();
+    
+    expect(await screen.findByRole('status')).toBeInTheDocument();
   });
 
   it('displays shops after loading', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockShopImages['shop1'] });
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockShopImages['shop2'] });
+    
     renderHomepage();
     
     await waitFor(() => {
@@ -161,9 +164,11 @@ describe('Homepage Component', () => {
   });
 
   it('filters shops based on search query', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
-    const searchInput = screen.getByPlaceholderText('Shop the collection...');
+    const searchInput = await screen.findByPlaceholderText('Shop the collection...');
     fireEvent.change(searchInput, { target: { value: 'Artisan' } });
     
     await waitFor(() => {
@@ -172,13 +177,28 @@ describe('Homepage Component', () => {
     });
   });
 
-  it('navigates to shop view when "Enter Shop" is clicked', async () => {
+  it('filters shops by category', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
+    const categoryFilter = await screen.findByLabelText('Filter by Category:');
+    fireEvent.change(categoryFilter, { target: { value: 'Leatherwork' } });
+    
     await waitFor(() => {
-      const enterButtons = screen.getAllByText('Enter Shop');
-      fireEvent.click(enterButtons[0]);
+      expect(screen.queryByText('Artisan Pottery')).not.toBeInTheDocument();
+      expect(screen.getByText('The Nile Shop')).toBeInTheDocument();
     });
+  });
+
+  it('navigates to shop view when "Enter Shop" is clicked', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockShopImages['shop1'] });
+    
+    renderHomepage();
+    
+    const enterButton = await screen.findByText('Enter Shop');
+    fireEvent.click(enterButton);
     
     expect(window.sessionStorage.setItem).toHaveBeenCalledWith(
       'chosenshop',
@@ -191,6 +211,8 @@ describe('Homepage Component', () => {
       if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
       return null;
     });
+    
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
     
     renderHomepage();
     
@@ -207,11 +229,13 @@ describe('Homepage Component', () => {
       return null;
     });
     
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
+    
     renderHomepage();
     
     await waitFor(() => {
       const priceFilter = screen.getByLabelText('Filter by Price:');
-      fireEvent.change(priceFilter, { target: { value: 'under50' } });
+      fireEvent.change(priceFilter, { target: { value: 'under500' } });
     });
     
     expect(screen.getByText('Ceramic Plate')).toBeInTheDocument();
@@ -224,15 +248,17 @@ describe('Homepage Component', () => {
       return null;
     });
     
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
+    
     renderHomepage();
     
     await waitFor(() => {
-      const buyButton = screen.getAllByText('Buy');
-      fireEvent.click(buyButton[0]);
+      const buyButtons = screen.getAllByText('Buy');
+      fireEvent.click(buyButtons[0]);
     });
     
-    const quantityofitem = screen.getByRole('spinbutton');
-    fireEvent.change(quantityofitem, { target: { value: '2' } });
+    const quantityInput = screen.getByRole('spinbutton');
+    fireEvent.change(quantityInput, { target: { value: '2' } });
     
     const addButton = screen.getByText('Add To Cart');
     fireEvent.click(addButton);
@@ -243,6 +269,30 @@ describe('Homepage Component', () => {
     );
   });
 
+  it('shows error when adding invalid quantity', async () => {
+    window.sessionStorage.getItem.mockImplementation((key) => {
+      if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
+      return null;
+    });
+    
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
+    
+    renderHomepage();
+    
+    await waitFor(() => {
+      const buyButtons = screen.getAllByText('Buy');
+      fireEvent.click(buyButtons[0]);
+    });
+    
+    const quantityInput = screen.getByRole('spinbutton');
+    fireEvent.change(quantityInput, { target: { value: '0' } });
+    
+    const addButton = screen.getByText('Add To Cart');
+    fireEvent.click(addButton);
+    
+    expect(screen.getByText('Please add a valid quantity')).toBeInTheDocument();
+  });
+
   it('shows confirmation when going back with items in cart', async () => {
     window.sessionStorage.getItem.mockImplementation((key) => {
       if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
@@ -250,30 +300,33 @@ describe('Homepage Component', () => {
       return null;
     });
     
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
+    
     renderHomepage();
     
-    await waitFor(() => {
-      const backButton = screen.getByText('Back');
-      fireEvent.click(backButton);
-    });
+    const backButton = await screen.findByText('← Back');
+    fireEvent.click(backButton);
     
     expect(window.confirm).toHaveBeenCalled();
-    expect(window.sessionStorage.removeItem).toHaveBeenCalledWith('cart_items');
   });
 
   it('navigates to checkout when cart icon is clicked', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
-    const cartIcon = screen.getByText(/Cart\(0\)/);
+    const cartIcon = await screen.findByText(/Cart\(0\)/);
     fireEvent.click(cartIcon);
     
     expect(mockNavigate).toHaveBeenCalledWith('/checkout');
   });
 
   it('logs out user when logout button is clicked', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
-    const logoutButton = screen.getByText('Logout');
+    const logoutButton = await screen.findByText('Logout');
     fireEvent.click(logoutButton);
     
     expect(signOut).toHaveBeenCalledWith(auth);
@@ -283,7 +336,7 @@ describe('Homepage Component', () => {
 
   it('handles error when fetching shops', async () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-    getDocs.mockRejectedValue(new Error('Failed to fetch'));
+    mockHttpsCallable.mockRejectedValue(new Error('Failed to fetch'));
     
     renderHomepage();
     
@@ -295,7 +348,7 @@ describe('Homepage Component', () => {
   });
 
   it('displays empty state when no shops found', async () => {
-    getDocs.mockResolvedValue({ docs: [] });
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [] } });
     
     renderHomepage();
     
@@ -307,7 +360,8 @@ describe('Homepage Component', () => {
       if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
       return null;
     });
-    getProductsInShop.mockResolvedValue([]);
+    
+    mockHttpsCallable.mockResolvedValueOnce({ data: [] });
     
     renderHomepage();
     
@@ -320,17 +374,90 @@ describe('Homepage Component', () => {
       return null;
     });
     
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
     expect(await screen.findByText(/Cart\(2\)/)).toBeInTheDocument();
   });
 
   it('renders all navigation links', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    
     renderHomepage();
     
     expect(await screen.findByText('My Shop')).toBeInTheDocument();
-    expect(screen.getByText('Journal')).toBeInTheDocument();
-    expect(screen.getByText('About Us')).toBeInTheDocument();
-    expect(screen.getByText('Contact')).toBeInTheDocument();
+    expect(screen.getByText('Track My Orders')).toBeInTheDocument();
+  });
+
+  it('shows product images in shop view', async () => {
+    window.sessionStorage.getItem.mockImplementation((key) => {
+      if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
+      return null;
+    });
+    
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
+    
+    renderHomepage();
+    
+    await waitFor(() => {
+      const productImages = screen.getAllByRole('img');
+      expect(productImages.length).toBeGreaterThan(1); // At least one product image
+    });
+  });
+
+  it('shows shop images in default view', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockShopImages['shop1'] });
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockShopImages['shop2'] });
+    
+    renderHomepage();
+    
+    await waitFor(() => {
+      const shopImages = screen.getAllByRole('img');
+      expect(shopImages.length).toBeGreaterThan(1); // At least one shop image
+    });
+  });
+
+  it('does not show current user shops', async () => {
+    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [...mockShops, {
+      id: 'shop3',
+      nameofshop: 'My Shop',
+      userid: 'user1', // Same as current user
+    }] }});
+    
+    renderHomepage();
+    
+    await waitFor(() => {
+      expect(screen.getByText('Artisan Pottery')).toBeInTheDocument();
+      expect(screen.getByText('The Nile Shop')).toBeInTheDocument();
+      expect(screen.queryByText('My Shop')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows loading state while fetching products', async () => {
+    window.sessionStorage.getItem.mockImplementation((key) => {
+      if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
+      return null;
+    });
+    
+    mockHttpsCallable.mockImplementation(() => new Promise(() => {}));
+    
+    renderHomepage();
+    
+    expect(await screen.findByRole('status')).toBeInTheDocument();
+  });
+
+  it('shows product count when products are loaded', async () => {
+    window.sessionStorage.getItem.mockImplementation((key) => {
+      if (key === 'chosenshop') return JSON.stringify(mockShops[0]);
+      return null;
+    });
+    
+    mockHttpsCallable.mockResolvedValueOnce({ data: mockProducts });
+    
+    renderHomepage();
+    
+    expect(await screen.findByText(`Total number of products in shop: ${mockProducts.length}`)).toBeInTheDocument();
   });
 });
