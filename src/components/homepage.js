@@ -316,7 +316,7 @@ export const Homepage = () => {
                               <input
                                 type="number"
                                 min="1"
-                                max="100"
+                                max={product.quantity}
                                 value={quantity}
                                 onChange={(e) => setQuantity(e.target.value)}
                               />

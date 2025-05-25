@@ -163,6 +163,8 @@ return(
       </form>
 
       <form onSubmit={Price} >
+          <label>Price:</label>
+          <input type="number" min="1" max = "50000" required value={price} onChange={(e)=>setprice(e.target.value)} />
           <label htmlFor="price" >Price:</label>
           <input id="price" type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
           <button type="submit">Update price</button>
