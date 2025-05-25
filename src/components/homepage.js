@@ -79,6 +79,7 @@ export function FilterCategory({ query, setCategory }) {
   );
 }
 
+//main homepage component
 export const Homepage = () => {
   const navigate = useNavigate();
   const [chosenShop, setChosenShop] = useState('');
@@ -96,6 +97,7 @@ export const Homepage = () => {
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [shopImages, setShopImages] = useState({});
 
+  //restore cart and chosen shop from storage
   useEffect(() => {
     let havechosenshop = '';
     let parsedCart = [];
@@ -110,6 +112,7 @@ export const Homepage = () => {
     setChosenShop(havechosenshop);
   }, [cart]);
 
+  //clear session data and reset homepage state
   const goBackToDefaultHomePageView = () => {
     setQuantity(null);
     setitemimadding(null);
@@ -121,6 +124,7 @@ export const Homepage = () => {
 
   const currentUserID = localStorage.getItem("userid");
 
+  //load all shops excluding current users and only shops with products
   useEffect(() => {
     const fetchShops = async () => {
       try {
@@ -147,6 +151,7 @@ export const Homepage = () => {
     fetchShops();
   }, []);
 
+  //load products when a shop is selected
   useEffect(() => {
     const fetchProducts = async () => {
       if (chosenShop && chosenShop.id) {
@@ -167,18 +172,21 @@ export const Homepage = () => {
     fetchProducts();
   }, [chosenShop]);
 
+  //enter selected shop
   const actionEnterShop = (shop, shopid) => {
     setChosenShop(shop);
     sessionStorage.setItem("chosenshop", JSON.stringify(shop));
     sessionStorage.setItem("chosenshopid", shopid);
   };
 
+  //filter products by name
   const filterProduct = allProducts.filter(product => {
     const searchPrompt = search.toLowerCase();
     const nameEqual = product.name && product.name.toLowerCase().includes(searchPrompt);
     return nameEqual;
   });
 
+  //filter shops by name/category
   const filterShop = allShops.filter(shop => {
     const searchPrompt = search.toLowerCase();
     const nameEqual = shop.nameofshop && shop.nameofshop.toLowerCase().includes(searchPrompt);
@@ -189,6 +197,7 @@ export const Homepage = () => {
     return (nameEqual || categoryEqual) && matchesCategory;
   });
 
+  //log out user and clear storage
   const logout = async () => {
     try {
       await signOut(auth);
@@ -200,12 +209,14 @@ export const Homepage = () => {
     }
   };
 
+  //show cart items and navigate to checkout
   const Showcartitems = async () => {
     const items = cartitems;
     sessionStorage.setItem("cart_items", JSON.stringify(items));
     navigate('/checkout');
   };
 
+  //add products to cart
   const AddtoCart = (itemid, name, description, price, quan) => {
     const prod = {
       id: itemid,
@@ -218,6 +229,7 @@ export const Homepage = () => {
     setQuantity(null);
   };
 
+  //fetch shop images for display
   useEffect(() => {
     const fetchAllShopImages = async () => {
       const functions = getFunctions();
