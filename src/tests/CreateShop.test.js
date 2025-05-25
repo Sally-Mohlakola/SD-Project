@@ -1,108 +1,221 @@
-// src/tests/CreateShop.test.js
+// src/tests/Createshop.test.js
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Createshop } from '../components/createshop';
-import { httpsCallable } from 'firebase/functions';
+import { useNavigate } from 'react-router-dom';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
-// Mock Firebase modules completely
-jest.mock('../config/firebase', () => ({
-  db: {},
-  storage: {},
-}));
-
-jest.mock('firebase/firestore', () => ({
-  collection: jest.fn(),
-  addDoc: jest.fn(),
-  getDocs: jest.fn(),
-}));
-
-jest.mock('firebase/storage', () => ({
-  ref: jest.fn(),
-  uploadBytes: jest.fn(),
+// Mocks
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
 }));
 
 jest.mock('firebase/functions', () => ({
-  getFunctions: jest.fn(() => ({})),
-  httpsCallable: jest.fn(() => async (params) => {
-    if (params.nameofshop === 'error') throw new Error('Mocked Error');
-    return { data: { shops: [{ userid: '123', nameofshop: 'testshop' }] } };
-  }),
+  getFunctions: jest.fn(),
+  httpsCallable: jest.fn(),
 }));
 
-jest.mock('react-router-dom', () => ({
-  Link: ({ children }) => <div>{children}</div>,
-  useNavigate: () => jest.fn(),
-}));
+// Mock FileReader
+class MockFileReader {
+  readAsDataURL = jest.fn(() => {
+    this.onload({ target: { result: 'data:image/png;base64,mockbase64' } });
+  });
+  onload = null;
+  onerror = null;
+}
 
-describe('Createshop component', () => {
+global.FileReader = MockFileReader;
+
+// Mock URL.createObjectURL
+global.URL.createObjectURL = jest.fn(() => 'mock-preview-url');
+
+describe('Createshop', () => {
+  const navigate = jest.fn();
+  const mockGetAllShops = jest.fn();
+  const mockCreateShop = jest.fn();
+
   beforeEach(() => {
-    localStorage.setItem('userid', '123');
-  });
+    jest.clearAllMocks();
+    useNavigate.mockReturnValue(navigate);
 
-  it('renders without crashing', () => {
-    render(<Createshop />);
-    expect(screen.getByText('Creating my Shop')).toBeInTheDocument();
-  });
+    getFunctions.mockReturnValue('mockFunctions');
 
-  it('displays alert when fields incomplete', async () => {
-    window.alert = jest.fn();
-    render(<Createshop />);
-    fireEvent.click(screen.getByText('Submit to admin'));
-    expect(window.alert).toHaveBeenCalledWith('Please complete all fields before submitting ');
-  });
-test('checks for duplicate shop name and shows alert', async () => {
-  window.alert = jest.fn();
-
-  // Mock httpsCallable to return a shop with name 'testshop'
-  httpsCallable.mockImplementation(() => {
-    return async () => ({
-      data: {
-        shops: [
-          { userid: 'someUserId', nameofshop: 'testshop' }, // Duplicate shop here!
-        ],
-      },
+    httpsCallable.mockImplementation((functions, name) => {
+      if (name === 'getAllShops') {
+        return mockGetAllShops;
+      }
+      if (name === 'createShop') {
+        return mockCreateShop;
+      }
     });
   });
 
-  render(<Createshop />);
+  test('renders all inputs and loads shops on mount', async () => {
+    mockGetAllShops.mockResolvedValueOnce({
+      data: { shops: [{ nameofshop: 'ShopA' }] },
+    });
 
-  // Wait for the shoplist to be set (because of async useEffect)
-  await waitFor(() => {
-    // We can check for something in the DOM or just wait for any state change
-    expect(screen.getByLabelText('Name of shop')).toBeInTheDocument();
-  });
-
-  // Fill all required fields:
-  fireEvent.change(screen.getByLabelText('Name of shop'), { target: { value: 'testshop' } });
-  fireEvent.change(screen.getByLabelText('Category:'), { target: { value: 'Pottery' } });
-  fireEvent.change(screen.getByLabelText('Shop description'), { target: { value: 'Test description' } });
-
-  // File input dummy file
-  const file = new File(['dummy content'], 'logo.png', { type: 'image/png' });
-  const inputFile = screen.getByLabelText('Add logo/image:');
-  Object.defineProperty(inputFile, 'files', { value: [file] });
-  fireEvent.change(inputFile);
-
-  fireEvent.click(screen.getByText('Submit to admin'));
-
-  expect(window.alert).toHaveBeenCalledWith('A store with that name exists');
-});
-  it('submits successfully when all fields are filled and no duplicate name', async () => {
-    window.alert = jest.fn();
     render(<Createshop />);
-    fireEvent.change(screen.getByLabelText('Name of shop'), { target: { value: 'uniqueShop' } });
-    fireEvent.change(screen.getByLabelText('Category:'), { target: { value: 'Pottery' } });
-    fireEvent.change(screen.getByLabelText('Shop description'), { target: { value: 'Description' } });
-
-    // Mock file input
-    const file = new File(['dummy content'], 'shop.png', { type: 'image/png' });
-    const fileInput = screen.getByLabelText('Add logo/image:');
-    fireEvent.change(fileInput, { target: { files: [file] } });
-
-    fireEvent.click(screen.getByText('Submit to admin'));
 
     await waitFor(() => {
-      expect(screen.getByText('Your shop has been sent to admin')).toBeInTheDocument();
+      expect(mockGetAllShops).toHaveBeenCalledTimes(1);
     });
+
+    expect(screen.getByLabelText(/Name of shop/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Category/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Shop description/i)).toBeInTheDocument();
+    // We added aria-label "Upload Shop Image" to file input for test
+    expect(screen.getByLabelText(/Upload Shop Image/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Submit to admin/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Cancel/i })).toBeInTheDocument();
+  });
+
+  test('shows alert and prevents submission if fields are incomplete', async () => {
+    mockGetAllShops.mockResolvedValueOnce({ data: { shops: [] } });
+    window.alert = jest.fn();
+
+    render(<Createshop />);
+
+    await waitFor(() => expect(mockGetAllShops).toHaveBeenCalled());
+
+    fireEvent.click(screen.getByRole('button', { name: /Submit to admin/i }));
+
+    expect(window.alert).toHaveBeenCalledWith('Please complete all fields before submitting');
+  });
+
+  test('checks for duplicate shop name and alerts if exists', async () => {
+    mockGetAllShops.mockResolvedValueOnce({
+      data: { shops: [{ nameofshop: 'ShopA' }] },
+    });
+    window.alert = jest.fn();
+
+    render(<Createshop />);
+
+    await waitFor(() => expect(mockGetAllShops).toHaveBeenCalled());
+
+    fireEvent.change(screen.getByLabelText(/Name of shop/i), {
+      target: { value: 'ShopA' },
+    });
+
+    // Fill other fields so submit check passes
+    fireEvent.change(screen.getByLabelText(/Category/i), {
+      target: { value: 'Category1' },
+    });
+    fireEvent.change(screen.getByLabelText(/Shop description/i), {
+      target: { value: 'Desc' },
+    });
+
+    // Upload file
+    const file = new File(['dummy content'], 'test.png', { type: 'image/png' });
+    const fileInput = screen.getByLabelText(/Upload Shop Image/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    fireEvent.click(screen.getByRole('button', { name: /Submit to admin/i }));
+
+    expect(window.alert).toHaveBeenCalledWith('A store with that name exists');
+  });
+
+  test('handles image upload and preview display', async () => {
+    mockGetAllShops.mockResolvedValueOnce({ data: { shops: [] } });
+
+    render(<Createshop />);
+
+    await waitFor(() => expect(mockGetAllShops).toHaveBeenCalled());
+
+    const file = new File(['dummy content'], 'test.png', { type: 'image/png' });
+
+    // Just get file input directly via aria-label
+    const fileInput = screen.getByLabelText(/Upload Shop Image/i);
+
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    expect(await screen.findByAltText(/Preview/i)).toBeInTheDocument();
+  });
+
+  test('successfully submits shop data and shows confirmation', async () => {
+    mockGetAllShops.mockResolvedValueOnce({ data: { shops: [] } });
+    mockCreateShop.mockResolvedValueOnce(true);
+
+    render(<Createshop />);
+
+    await waitFor(() => expect(mockGetAllShops).toHaveBeenCalled());
+
+    fireEvent.change(screen.getByLabelText(/Name of shop/i), {
+      target: { value: 'NewShop' },
+    });
+    fireEvent.change(screen.getByLabelText(/Category/i), {
+      target: { value: 'Pottery' },
+    });
+    fireEvent.change(screen.getByLabelText(/Shop description/i), {
+      target: { value: 'Nice shop' },
+    });
+
+    const file = new File(['dummy content'], 'logo.png', { type: 'image/png' });
+    const fileInput = screen.getByLabelText(/Upload Shop Image/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    fireEvent.click(screen.getByRole('button', { name: /Submit to admin/i }));
+
+    await waitFor(() => {
+      expect(mockCreateShop).toHaveBeenCalledWith({
+        userid: expect.anything(),
+        nameofshop: 'NewShop',
+        description: 'Nice shop',
+        status: 'Awaiting',
+        category: 'Pottery',
+        image: 'mockbase64',
+        ext: 'png',
+      });
+    });
+
+    expect(screen.getByText(/Your shop has been sent to admin/i)).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Home/i }));
+    expect(navigate).toHaveBeenCalledWith('/homepage');
+  });
+
+  test('handles submission error gracefully', async () => {
+    mockGetAllShops.mockResolvedValueOnce({ data: { shops: [] } });
+    mockCreateShop.mockRejectedValueOnce(new Error('Failed'));
+
+    window.alert = jest.fn();
+    console.error = jest.fn();
+
+    render(<Createshop />);
+
+    await waitFor(() => expect(mockGetAllShops).toHaveBeenCalled());
+
+    fireEvent.change(screen.getByLabelText(/Name of shop/i), {
+      target: { value: 'NewShop' },
+    });
+    fireEvent.change(screen.getByLabelText(/Category/i), {
+      target: { value: 'Pottery' },
+    });
+    fireEvent.change(screen.getByLabelText(/Shop description/i), {
+      target: { value: 'Nice shop' },
+    });
+
+    const file = new File(['dummy content'], 'logo.png', { type: 'image/png' });
+    const fileInput = screen.getByLabelText(/Upload Shop Image/i);
+    fireEvent.change(fileInput, { target: { files: [file] } });
+
+    fireEvent.click(screen.getByRole('button', { name: /Submit to admin/i }));
+
+    await waitFor(() => {
+      expect(window.alert).toHaveBeenCalledWith('Error submitting shop. Please try again.');
+      expect(console.error).toHaveBeenCalled();
+    });
+  });
+
+  test('cancel button navigates back home', async () => {
+    mockGetAllShops.mockResolvedValueOnce({ data: { shops: [] } });
+
+    render(<Createshop />);
+
+    await waitFor(() => expect(mockGetAllShops).toHaveBeenCalled());
+
+    fireEvent.click(screen.getByRole('button', { name: /Cancel/i }));
+
+    expect(navigate).toHaveBeenCalledWith('/homepage');
   });
 });

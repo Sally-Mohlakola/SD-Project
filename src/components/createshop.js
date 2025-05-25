@@ -206,6 +206,7 @@ export const Createshop = () => {
                   <input
                     ref={fileInputRef}
                     type="file"
+                    aria-label="Upload Shop Image"
                     className="file-input"
                     accept="image/*"
                     onChange={handleImageChange}

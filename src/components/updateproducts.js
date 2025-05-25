@@ -3,7 +3,7 @@ import { useState } from "react";
 import '../styles/updateproducts.css'
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../config/firebase";
-
+import React from 'react';
 
 
 export const Updateproduct=()=>{
@@ -151,31 +151,31 @@ return(
       
       <section className="inputs">
       <form onSubmit={Name}>
-          <label>Name of product:</label>
-          <input type="text" required value={productname} onChange={(e)=>setproductname(e.target.value)} />
+          <label htmlFor="name">Name of product:</label>
+          <input id="name" type="text" required value={productname} onChange={(e)=>setproductname(e.target.value)} />
           <button type="submit">Update product name</button>
       </form>
       
       <form onSubmit={Description} >
-          <label>Description of the product:</label>
-          <textarea type="text" required  rows="6" cols="-40"value={description} onChange={(e)=>setdescription(e.target.value)} ></textarea>
+          <label htmlFor="des">Description of the product:</label>
+          <textarea id="des" type="text" required  rows="6" cols="-40"value={description} onChange={(e)=>setdescription(e.target.value)} ></textarea>
           <button type="submit">Update description</button>
       </form>
 
       <form onSubmit={Price} >
-          <label>Price:</label>
-          <input type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
+          <label htmlFor="price" >Price:</label>
+          <input id="price" type="number" min="1" max = "999" required value={price} onChange={(e)=>setprice(e.target.value)} />
           <button type="submit">Update price</button>
       </form>
      
       <form onSubmit={Setnewquantity} >
-          <label>Quantity:</label>
-          <input type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
+          <label htmlFor="quan">Quantity:</label>
+          <input id="quan" type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
           <button type="submit">Update quantity</button>
       </form>
 
       <form onSubmit={Image}  >
-      <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
+      <input data-testid="image-input" type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
       <button>Update image</button>
       </form>
 
