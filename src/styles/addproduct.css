@@ -1,3 +1,5 @@
+/*====================================================================================*/
+/* The product form*/
 .addprod-section {
   display: flex;
   flex-direction: column;
@@ -115,7 +117,8 @@
     0 0 12px 3px rgba(166, 133, 69, 0.5);
   background-color: #fffefc;
 }
-
+/*====================================================================================*/
+/*Button stylings*/
 .submit-button,
 .back-button-add {
   display: flex;
@@ -150,14 +153,17 @@
   }
 }
 
-.addprod-section {
-  animation: fadeInUp 0.8s ease forwards;
-}
-
-
 .addbutton-wrapper {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
   margin-left: 10px;
 }
+
+/*====================================================================================*/
+.addprod-section {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+
+

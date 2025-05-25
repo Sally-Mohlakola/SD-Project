@@ -64,6 +64,7 @@ describe('TrackOrders Component', () => {
       ]
     };
 
+    // Mock calling getOrders
     firebaseFunctions.getFunctions.mockReturnValue({});
     firebaseFunctions.httpsCallable.mockReturnValue(() => Promise.resolve({ data: ordersData }));
 
@@ -79,6 +80,7 @@ describe('TrackOrders Component', () => {
       expect(screen.queryByText(/Loading.../i)).not.toBeInTheDocument();
     });
 
+    // Expected user submitted data
     expect(screen.getByText(/Order #1/i)).toBeInTheDocument();
     expect(screen.getByText(/Product A/i)).toBeInTheDocument();
     expect(screen.getByText(/Quantity: 2/i)).toBeInTheDocument();

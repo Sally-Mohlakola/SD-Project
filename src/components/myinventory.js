@@ -15,26 +15,20 @@ export const  Inventory=()=>{
     }
     const low_limit=5; // This is for when the product has a quantity of less than the low limit it should tell the seller
     
-    
     const[store,setstore]=useState("");
     
     let product_object=new Object();
     let restock_object=new Object();
     const[products,setproducts]=useState([]);
     const[restock,setrestock]=useState([]);
-//
-    
+
     const getproducts= async()=>{
         let product_array=[];
         let restock_array=[];
 
-    
-
-    
     product_object=new Object();
     restock_object=new Object();
    
-    
     // Get the fields for each product from the database
     const q= query(collection(db,"Shops",shopid,"Products"));
     const snapshot=await getDocs(q);
@@ -63,14 +57,9 @@ export const  Inventory=()=>{
         }
         console.log("Product in object");
 
-
-    
     })
     setrestock(restock_array);
     setproducts(product_array);
-
-
-  
 }
 
 const shopid = localStorage.getItem('shopid');
@@ -84,9 +73,7 @@ useEffect(() => {
     }
 }, []);
 
-
-
-//Diplay data from the fetched fields
+//Display data from the fetched fields
    return( 
         <section className="inventory-wrapper">
     <section className="inve-section">
@@ -97,14 +84,9 @@ useEffect(() => {
 
         <section className="warning-section" style={{marginBottom: "10px", padding: "10px" }}>{/*This is to warn the seller to restock when there's this items left */}
         
-        
-        
         <img src="https://img.icons8.com/?size=96&id=5tH5sHqq0t2q&format=png" alt="warning sign" style={{ width: '20px', height: '20px' }}></img>
         <p><strong>Warning! You might want to stock up on these:</strong></p>
-        
-     
-        
-        
+  
         {restock.map((value)=>
         <section key={value.Name} >
            <p>"{value.Name}" is running low (Only {value.Quantity} is left in stock)</p> 
@@ -135,12 +117,8 @@ useEffect(() => {
   datas={products}
   text="Download Inventory CSV"
 />
-
     </section>
     </section>
     );
     
-    
-
-
 };

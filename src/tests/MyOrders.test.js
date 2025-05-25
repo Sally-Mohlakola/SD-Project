@@ -4,20 +4,20 @@ import { MyOrders } from '../components/myorders';
 import * as firebaseFunctions from 'firebase/functions';
 import { BrowserRouter } from 'react-router-dom';
 
-// 🔥 MOCK firebase/functions
+// Mock all needed dependancies
 jest.mock('firebase/functions', () => ({
   getFunctions: jest.fn(),
   httpsCallable: jest.fn()
 }));
 
-// 🧭 MOCK useNavigate
+
 const mockNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate
 }));
 
-// 🗂️ MOCK localStorage
+// Preset values for tests
 beforeEach(() => {
   Storage.prototype.getItem = jest.fn((key) => {
     if (key === 'userid') return 'test-user-id';
@@ -62,7 +62,7 @@ describe('MyOrders Component', () => {
     getAllShopsFn = jest.fn().mockResolvedValue(mockShops);
     getProductsFn = jest.fn().mockResolvedValue(mockProducts);
     updateOrderStatusFn = jest.fn().mockResolvedValue({});
-
+    // Simulate cloud functions
     firebaseFunctions.httpsCallable.mockImplementation((_, fnName) => {
       if (fnName === 'getOrders') return getOrdersFn;
       if (fnName === 'getAllShops') return getAllShopsFn;

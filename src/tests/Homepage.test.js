@@ -76,7 +76,7 @@ describe('Homepage Component', () => {
   const mockHttpsCallable = jest.fn();
 
   beforeAll(() => {
-    window.confirm = jest.fn(() => true);
+    window.confirm = jest.fn(() => true); // confirmation for remove or cancel for
     
     Object.defineProperty(window, 'localStorage', {
       value: {
@@ -88,6 +88,7 @@ describe('Homepage Component', () => {
       writable: true,
     });
 
+    // Cart items functionalities tested
     Object.defineProperty(window, 'sessionStorage', {
       value: {
         getItem: jest.fn(),
@@ -132,11 +133,12 @@ describe('Homepage Component', () => {
     );
   };
 
+  
   it('renders homepage with default view', async () => {
     mockHttpsCallable.mockResolvedValueOnce({ data: { shops: mockShops } });
     
     renderHomepage();
-    
+    // Text in the first view on home page
     expect(await screen.findByText('Natural Craft. Rooted in Care')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Shop the collection...')).toBeInTheDocument();
     expect(screen.getByText('Artisanal Shops')).toBeInTheDocument();

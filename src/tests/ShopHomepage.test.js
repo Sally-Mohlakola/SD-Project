@@ -118,6 +118,7 @@ describe('ShopHomepage', () => {
     consoleErrorSpy.mockRestore();
   });
 
+  // When the shop image is not located, spy on console and verify error message
   test('handles error during findShopImage call gracefully', async () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     localStorage.setItem('userid', 'user-123');

@@ -24,8 +24,10 @@ const localStorageMock = {
 };
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
+
 describe('Inventory Component', () => {
   const mockNavigate = jest.fn();
+  // Set inventory fields
   const mockProducts = [
     {
       ImageUrl: 'image1.jpg',
@@ -43,6 +45,7 @@ describe('Inventory Component', () => {
     },
   ];
 
+  // Clear mock data and set mock veriables
   beforeEach(() => {
     jest.clearAllMocks();
     useNavigate.mockReturnValue(mockNavigate);
@@ -65,20 +68,22 @@ describe('Inventory Component', () => {
       },
     });
   });
-
+// Clear cache from other tests to ensure tests run independantly on their defined mock data
   afterEach(() => {
     jest.clearAllMocks();
     localStorageMock.clear.mockImplementation(() => {});
   });
 
+
   describe('Rendering', () => {
     it('renders loading state when no shop ID is available', async () => {
-      localStorageMock.getItem.mockReturnValue(null);
+      localStorageMock.getItem.mockReturnValue(null); // No items are fetched for a missing shop ID
       const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
       render(<Inventory />);
       await waitFor(() => {
-        expect(consoleSpy).toHaveBeenCalledWith('Waiting for shop ID...');
+        expect(consoleSpy).toHaveBeenCalledWith('Waiting for shop ID...'); // Console warning
       });
+      
       expect(screen.getByText(/Inventory/i)).toBeInTheDocument();
       expect(screen.queryByText(/Product 1/i)).not.toBeInTheDocument();
       consoleSpy.mockRestore();
@@ -87,11 +92,12 @@ describe('Inventory Component', () => {
     it('renders inventory with products when shop ID is available', async () => {
       render(<Inventory />);
       await waitFor(() => {
-        expect(getDocs).toHaveBeenCalledWith('mock-query');
+        expect(getDocs).toHaveBeenCalledWith('mock-query'); 
         expect(collection).toHaveBeenCalledWith({}, 'Shops', 'test-shop-id', 'Products');
         expect(query).toHaveBeenCalledWith('mock-collection');
       });
 
+      // Get products from mock storage and present to UI
       expect(screen.getByText('Inventory')).toBeInTheDocument();
       for (const product of mockProducts) {
         expect(screen.getByText(product.Name)).toBeInTheDocument();
@@ -101,6 +107,7 @@ describe('Inventory Component', () => {
       }
     });
 
+    // Expect images to have URLs
     it('displays product images correctly', async () => {
       render(<Inventory />);
       await waitFor(() => {

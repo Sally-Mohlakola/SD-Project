@@ -15,97 +15,96 @@ export const  Displayproducts=()=>{
     }
     
     
-const[store,setstore]=useState("");// This is to 
+    const[store,setstore]=useState("");//Set the current seller's shop to this variable
     
 
+    const[products,setproducts]=useState([]);
+    const [loading ,setloading]=useState(false);
 
-const[products,setproducts]=useState([]);
-const [loading ,setloading]=useState(false);
 
+    const getproducts = async () => {
+        const functions = getFunctions(app);
+        const getProductsInShop = httpsCallable(functions, "getProductsInShop");
 
-const getproducts = async () => {
-  const functions = getFunctions(app);
-  const getProductsInShop = httpsCallable(functions, "getProductsInShop");
+    try {
+        const result = await getProductsInShop({ shopid }); // shopid must be defined
+        const productsFromCloud = result.data;
 
-  try {
-    const result = await getProductsInShop({ shopid }); // shopid must be defined
-    const productsFromCloud = result.data;
+        console.log("Fetched products from Cloud Function:", productsFromCloud);
+        setproducts(productsFromCloud); // set state with fetched data
 
-    console.log("Fetched products from Cloud Function:", productsFromCloud);
-    setproducts(productsFromCloud); // set state with fetched data
-
-  } catch (error) {
-    console.error("Error calling Cloud Function:", error);
+    } catch (error) {
+    console.error("Error calling getProductsInShop Cloud Function:", error);
   }
 };
 
 
-    
-useEffect(() => {
-const fetchproducts=async()=>{
-    setloading(true);
-    const shopid = localStorage.getItem('shopid');
-    if (shopid) {
-      await getproducts();
-    } else {
+    /*Use the shopID to trigger the fetchproducts method which call the
+    Firebase Cloud Function to get this shop's products*/
+    useEffect(() => {
+        const fetchproducts=async()=>{
+        setloading(true);
+        const shopid = localStorage.getItem('shopid');
+        if (shopid) {
+            await getproducts();
+        } else {
         console.log("Waiting for shop ID...");
-    }
-setloading(false);
-};
-fetchproducts();
+        }
+            setloading(false);
+        };
+            fetchproducts();
 
-}, [shopid]);
+        }, [shopid]);
 
 
-// Delete the product, navigate to removeproducts page
-const Button_delete=(name,pid,purl)=>{
+    // Delete the product, navigate to removeproducts page
+    const Button_delete=(name,pid,purl)=>{
     const id = name;
     const productid=pid;
     const url=purl;
-   if(id){
-    console.log("The id of the button clicked is "+id);
-   }else{
-    console.log("Could not get the id of the button that was clicked.")
-   }
-   localStorage.setItem('Item',id);
-   localStorage.setItem("producturl",url);
-   localStorage.setItem('productid',productid);
-    setstore(id);
-    console.log(store);
-    ///Log the items
-    console.log("Item stored in localStorage:", localStorage.getItem("Item"));
-    navigate('/removeproducts');
-    
+        if(id){
+            console.log("The id of the button clicked is "+id);
+        }else{
+            console.log("Could not get the id of the button that was clicked.")
+        }
+        localStorage.setItem('Item',id);
+        localStorage.setItem("producturl",url);
+        localStorage.setItem('productid',productid);
+        setstore(id);
+        console.log("The user store is ", store);
+        
+        ///Log the items
+        console.log("Item stored in localStorage:", localStorage.getItem("Item"));
+        navigate('/removeproducts');
 
-};
-// Update fields of a product, hence navigate to update page
-const Button_update=(name,prid)=>{ 
+        };
+        // Update fields of a product, hence navigate to update page
+        const Button_update=(name,prid)=>{ 
    
-    const id =name;   
-    const productupdateid=prid;
-   if(id){
-    console.log("The id of the button clicked is "+id);
-   }else{
-    console.log("Could not get the id of the button that was clicked.")
-   }
-   localStorage.setItem('Item',id);
-   localStorage.setItem('productupdateid',productupdateid);
+        const id =name;   
+        const productupdateid=prid;
+        if(id){
+            console.log("The id of the button clicked is "+id);
+        }else{
+            console.log("Could not get the id of the button that was clicked.")
+        }
+        localStorage.setItem('Item',id);
+        localStorage.setItem('productupdateid',productupdateid);
 
     setstore(id);
     console.log(store);
     console.log("Item stored in localStorage:", localStorage.getItem("Item"));
     navigate('/updateproducts');
 
-};
+    };
 
-// To add products navigate to addproducts page
-const Button_add=()=>{
-    navigate('/addproducts');
-}
+    // To add products navigate to addproducts page
+    const Button_add=()=>{
+        navigate('/addproducts');
+    }
 
 
-
-// Return the product and the fields, as well as the three CRUD buttons above
+    // Return the product and the fields, as well as the three CRUD buttons from above
     return(<section className="disp-wrapper">
        <section className="disp-section">
             <section className="disp-section"><h1>My products</h1></section>
@@ -139,6 +138,4 @@ const Button_add=()=>{
     </section>
     );
     
-
-
 }

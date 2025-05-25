@@ -15,7 +15,7 @@ jest.mock('firebase/functions', () => ({
   httpsCallable: jest.fn()
 }));
 
-// 👇 Mock firebase config
+// Mock firebase config
 jest.mock('../config/firebase', () => ({
   app: {}, // mock the firebase app object
   auth: {}, // optional mocks if needed elsewhere
@@ -24,7 +24,7 @@ jest.mock('../config/firebase', () => ({
   storage: {},
 }));
 
-// 👇 Mock firebase/functions
+//Mock firebase/functions
 jest.mock('firebase/functions', () => ({
   getFunctions: jest.fn(() => ({})),
   httpsCallable: jest.fn(() =>

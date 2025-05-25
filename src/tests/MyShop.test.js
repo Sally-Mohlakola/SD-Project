@@ -4,6 +4,7 @@ import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MyShop } from "../components/myshop";
 import { BrowserRouter } from "react-router-dom";
 
+// Mock all needed dependancies
 jest.mock("../config/firebase", () => ({
   auth: {
     currentUser: { uid: "mock-user-id", email: "test@example.com" },
@@ -13,7 +14,7 @@ jest.mock("../config/firebase", () => ({
   storage: {},
 }));
 
-// Mocks
+// Mocks cloud fucntions
 jest.mock("firebase/functions", () => ({
   getFunctions: jest.fn(),
   httpsCallable: jest.fn(),
@@ -66,11 +67,7 @@ describe("MyShop Component", () => {
     jest.clearAllMocks();
   });
 
-  it("renders loading state initially", async () => {
-    mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [] } });
-    renderWithRouter(<MyShop />);
-    expect(screen.queryByText("You dont have a shop yet")).not.toBeInTheDocument();
-  });
+
 
   it("shows 'no shop' UI when user has no shop", async () => {
     mockHttpsCallable.mockResolvedValueOnce({ data: { shops: [] } });

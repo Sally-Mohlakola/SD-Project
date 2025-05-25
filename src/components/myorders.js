@@ -112,12 +112,13 @@ export const MyOrders = () => {
     .sort((a, b) => b.price - a.price); // Sort by price in descending order (most profitable)
 
 
+    // Download sales report. Only do so if there is any data do showcase.
   const downloadCSVFile = () => {
     if (salesGrowth.length === 0) {
       alert("No sales data available to download.");
       return;
     }
-
+    // Comile fields included in the CSV file
     const orderFields = ['productName', 'price', 'totalQuantity', 'totalRevenue', 'salesGrowthPercentage'];
     const csvFields = [
       orderFields.join(','), // Header row
@@ -152,6 +153,7 @@ export const MyOrders = () => {
         The order is still in database for tracking purposes*/
         alert('The order has been received by customer.');
         setorderlist(prevOrders => 
+        // Remove the order filtering it out
           prevOrders.filter(order => order.orderid !== ordid)
         );
       } else {
@@ -161,9 +163,11 @@ export const MyOrders = () => {
           )
         );
       }
+      //Clear the order ID of that collected order after it has been removed to the order list presented in the UI
       setEditingOrderid(null);
       setorderstatus('');
     } catch (err) {
+      // Log error if seller cannot update the order delivery status. Send an alert to the seller
       console.error('Error updating order status:', err);
       alert('Failed to update this order status. Please try again.');
     } finally {

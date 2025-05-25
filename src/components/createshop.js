@@ -6,8 +6,10 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export const Createshop = () => {
   const navigate = useNavigate(); //used to navigate between pages
+
   //defined the usestates that we need 
   const currentUserId = localStorage.getItem("userid"); //fetch userID from local storage
+
   //variables for input form and validation
   const [shoplist, setShoplist] = useState([]); //fetch shop lists
   const [newshopname, setnewshopname] = useState("");
@@ -15,11 +17,15 @@ export const Createshop = () => {
   const [submitted, setSubmitted] = useState(false);
   const [category, setcategory] = useState("");
   const [nameexists, setnameexists] = useState(false);
-  //variables fro image 
+
+  //variables of the shop image 
   const [imageupload, setimageupload] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [loading, setLoading] = useState(false); 
   const fileInputRef = useRef(null);
+
+  // Loading state during data fetches
+  const [loading, setLoading] = useState(false); 
+  
   
 //thus useffect get the shops from the database and adds them to a usestate so that we can use later
   useEffect(() => {
@@ -36,7 +42,7 @@ export const Createshop = () => {
     getshoplist();
   }, []);
   
-// this function take the image of the shops logo and converts it to base64 so that it can be sent to the firebase function 
+// this function takes the image of the shop logo and converts it to base64 so that it can be sent to the firebase function 
   const toBase64 = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -75,9 +81,11 @@ export const Createshop = () => {
       const base64Image = await toBase64(imageupload);
       //get the extention of the image 
       const extension = imageupload.name.split('.').pop();
-      //calls the createshop firebase function 
+
+      //calls the createshop Firebase Function 
       const functions = getFunctions();
       const createShop = httpsCallable(functions, 'createShop'); 
+      
       //sends the data to the backend so the shop can be created
       const result = await createShop({
         userid: currentUserId,

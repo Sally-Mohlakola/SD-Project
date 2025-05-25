@@ -20,6 +20,7 @@ describe('Checkout Component', () => {
   test('renders empty cart message when no items', () => {
     render(<Checkout />, { wrapper: MemoryRouter });
 
+    // The UI elements available
     expect(screen.getByText(/checkout/i)).toBeInTheDocument();
     expect(screen.getByText(/your cart is empty!/i)).toBeInTheDocument();
     expect(screen.queryByText(/remove from cart/i)).not.toBeInTheDocument();
