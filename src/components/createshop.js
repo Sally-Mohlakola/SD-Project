@@ -4,19 +4,22 @@ import '../styles/createShop.css';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export const Createshop = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //used to navigate between pages
   //defined the usestates that we need 
-  const currentUserId = localStorage.getItem("userid");
-  const [shoplist, setShoplist] = useState([]);
+  const currentUserId = localStorage.getItem("userid"); //fetch userID from local storage
+  //variables for input form and validation
+  const [shoplist, setShoplist] = useState([]); //fetch shop lists
   const [newshopname, setnewshopname] = useState("");
   const [newshopdescription, setnewshopdescription] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [category, setcategory] = useState("");
   const [nameexists, setnameexists] = useState(false);
+  //variables fro image 
   const [imageupload, setimageupload] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const fileInputRef = useRef(null);
+  
 //thus useffect get the shops from the database and adds them to a usestate so that we can use later
   useEffect(() => {
     const getshoplist = async() => {
@@ -31,6 +34,7 @@ export const Createshop = () => {
     };
     getshoplist();
   }, []);
+  
 // this function take the image of the shops logo and converts it to base64 so that it can be sent to the firebase function 
   const toBase64 = (file) => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -39,11 +43,13 @@ export const Createshop = () => {
     reader.onerror = reject;
   });
 
+  //trigger file input click
   const triggerFileInput = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+  
 //this function is triggered when the person inputs an image for the shop log and it is added in to the usesate for later use 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -52,10 +58,12 @@ export const Createshop = () => {
       setImagePreview(URL.createObjectURL(file));
     }
   };
-//sunction send the shop details to the admin
+  
+//this function send the shop details to the admin
   const sendtoadmin = async() => {
     try {
       //if the usestates are empty the details will not be sent
+      //validation of fields before submission
       if (!imageupload || !newshopname || !newshopdescription || !category) {
         alert('Please complete all fields before submitting');
         return;
@@ -97,10 +105,11 @@ export const Createshop = () => {
     navigate('/homepage');
   };
 
+  //UI frontend
   return (
     <section className="create-shop">
       <h1>Creating my Shop</h1>
-    {/*   if the usestate loading is set to true it will show thi loading state */}
+    {/*   if the usestate loading is set to true it will show this loading state */}
       {loading ? (
         <section className="shop-alert">Submitting your shop...</section>
       ) : submitted ? (

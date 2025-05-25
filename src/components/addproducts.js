@@ -6,18 +6,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import '../styles/addproduct.css';
 
+//allows a shop owner to add products to their own shop
 export const Addproduct=()=>{
   const navigate=useNavigate();
     
       // get this user's shop id to query the database with
       let shopid=localStorage.getItem('shopid');
+      //stores form input values
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
         const[quantity,setquantity]=useState("");
-       // const[userid,setuserid]=useState(null);
-      //  const [shopid, setshopid] = useState(null);
-        const[itemdescription,setitemdescription]=useState("");
-        
+        const[itemdescription,setitemdescription]=useState("");        
         const[image, setimage]=useState(null);
        
       //Submit all fields to storage, make sure that they are non-empty
@@ -30,7 +29,7 @@ export const Addproduct=()=>{
           
             // mechanism for uploading the images
             try {
-              const uniqueName = uuidv4() + "-" + image.name;
+              const uniqueName = uuidv4() + "-" + image.name; //create unique name for image
               const imageRef = storageRef(storage, `products/${uniqueName}`);
               console.log("Uploading image to:", imageRef.fullPath);
               await uploadBytes(imageRef, image);
@@ -44,13 +43,9 @@ export const Addproduct=()=>{
                 price: Number(price),
                 quantity: Number(quantity),
                 sold:0, // default number
-                imageURL: downloadURL
-               // timestamp: new Date(),
-               
+                imageURL: downloadURL               
               });
 
-              
-              
               // Alerts to notify the seler that their updates are recorded
               console.log("Items have been added successfully");
               setitemname("");
@@ -64,6 +59,7 @@ export const Addproduct=()=>{
               console.log("Items were not added successfully", error);
             }
           };
+        //navigate to previous page
           const Back=()=>{
             navigate('/displayproducts');
         
