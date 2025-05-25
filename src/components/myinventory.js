@@ -22,7 +22,7 @@ export const  Inventory=()=>{
     let restock_object=new Object();
     const[products,setproducts]=useState([]);
     const[restock,setrestock]=useState([]);
-    
+//
     
     const getproducts= async()=>{
         let product_array=[];

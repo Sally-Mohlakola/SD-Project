@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { functions } from "../config/firebase";
 import { httpsCallable,getFunctions } from "firebase/functions";
 import "../styles/adminshophomepage.css";
+ 
 
 //Admin homepage allows admin to change the status of shops: accepted/rejected
 export const AdminShopHomepage = () => {

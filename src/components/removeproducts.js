@@ -5,7 +5,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 
 
 export const DeleteProduct=()=>{
-
+//
     let navigate=useNavigate();
     const [loading ,setloading]=useState(false);
     let shopid=localStorage.getItem('shopid');

@@ -12,7 +12,7 @@ export const Updateproduct=()=>{
     const Back=()=>{
       navigate('/displayproducts');
   };
-
+//
     let shopid=localStorage.getItem('shopid');
     const Item=localStorage.getItem('Item');
     const productid=localStorage.getItem('productupdateid');

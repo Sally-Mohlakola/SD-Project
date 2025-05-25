@@ -6,7 +6,6 @@ import '../styles/SignUp.css';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 
 
-
 export const Auth=()=>{
     const navigate = useNavigate(); //used to navigate between pages
     const [progress, setProgress] = useState(0); //used to manage page transition

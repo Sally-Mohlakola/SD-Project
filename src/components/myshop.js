@@ -13,7 +13,7 @@ export const MyShop = () => {
   const [shoplist, setShoplist] = useState([]); //fetches and stores list of shops from database
   const [ispublic, setIspublic] = useState(''); //stores status of shop
   const [store, setstore] = useState(''); //store user shop information
-
+//
   // Fetch all the shops in the db using firebase function
   useEffect(() => {
     const getshoplist = async () => {

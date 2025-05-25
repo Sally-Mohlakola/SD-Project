@@ -623,7 +623,6 @@ exports.updateProductQuantity = onCall(async (request) => {
 });
 
 const storagei = admin.storage();
-
 exports.updateProductImage = functions.https.onCall(async (request) => {
   const data = request.data;
   const { shopid, productId, base64Image, ext } = data;

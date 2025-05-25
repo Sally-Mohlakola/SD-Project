@@ -18,7 +18,7 @@ export const Addproduct=()=>{
         const[quantity,setquantity]=useState("");
         const[itemdescription,setitemdescription]=useState("");        
         const[image, setimage]=useState(null);
-       
+       //
       //Submit all fields to storage, make sure that they are non-empty
         const handleSubmit = async(e) => {
             e.preventDefault(); 

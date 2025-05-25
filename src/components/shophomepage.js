@@ -29,7 +29,7 @@ export const ShopHomepage = () => {
         };
         getShopList();
     }, []);
-
+//
     // Set shop display info
     useEffect(() => {
         const setDisplay = async () => {

@@ -15,7 +15,7 @@ export const Payment = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const user = auth.currentUser;
-
+//
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");

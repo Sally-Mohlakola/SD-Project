@@ -22,7 +22,7 @@ export const Checkout = () => {
     }
     setmycart(parsedCart);
   }, []);
-
+ 
   const backtoshops = () => {
     navigate('/homepage');
   };
@@ -42,7 +42,7 @@ export const Checkout = () => {
   // The arithmetic of adding and multiplying to get the correct number of items and price per product
   const totalcost = mycart.reduce((sum, myitem) => sum + Number(myitem.price) * Number(myitem.quantity), 0);
   const numofitems = mycart.reduce((num, myitem) => num + Number(myitem.quantity), 0);
-
+//////
   // If there are items in the cart, allow the user to head to checkout, if not the user cannot pay for an empty cart
   const handleCheckout = () => {
     if (mycart.length > 0) {
