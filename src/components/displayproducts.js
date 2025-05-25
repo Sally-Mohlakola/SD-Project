@@ -5,18 +5,19 @@ import { collection,  getDocs,query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import '../styles/displayproducts.css';
 
+
 export const  Displayproducts=()=>{
     useShopId();
-    let navigate=useNavigate(); //used to navigate between pages
+    let navigate=useNavigate();
     
     // The default view is the dashboard
     function navigateDashboard(){
         navigate('/shopdashboard');
     }
     
-    const[store,setstore]=useState("");//store selected product temporarily
-
-    //store product data fetched from firebase
+    
+    const[store,setstore]=useState("");// This is to 
+    
     let product_object=new Object();
     const[products,setproducts]=useState([]);
 
@@ -46,15 +47,13 @@ export const  Displayproducts=()=>{
     
     })
     // allocated this to an array for later manipulations
-    //store all fetched products into state
     setproducts(product_array);
 
 }
 
 // Fetch this user's shop id
 let shopid= localStorage.getItem('shopid');
-
-//fetch prouducts if shopID is available
+    
 useEffect(() => {
     const shopid = localStorage.getItem('shopid');
     if (shopid) {
@@ -81,7 +80,6 @@ const Button_delete=(e)=>{
     
 
 };
-    
 // Update fields of a product, hence navigate to update page
 const Button_update=(e)=>{ 
    
@@ -137,5 +135,7 @@ const Button_add=()=>{
     
     </section>
     );
+    
+
 
 }
