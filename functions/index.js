@@ -25,12 +25,10 @@ const { onCall, HttpsError } = require("firebase-functions/v2/https");
 admin.initializeApp();
 const db = admin.firestore();
 
-// const logger = console;
-
+//==============================================================================
 exports.getOrders = functions.https.onCall(async (data, context) => {
   try {
     const ordersSnapshot = await admin.firestore().collection("Orders").get();
-
     const orders = await Promise.all(
       ordersSnapshot.docs.map(async (doc) => {
         const productsSnapshot = await doc.ref.collection("Products").get();
@@ -55,6 +53,8 @@ exports.getOrders = functions.https.onCall(async (data, context) => {
   }
 });
 console.log(admin.app().options.credential.clientEmail);
+
+//==============================================================================
 exports.getShopsForAdmin = functions.https.onCall(async (data, context) => {
   try {
     const shopsSnapshot = await admin.firestore().collection("Shops").get();
@@ -74,6 +74,7 @@ exports.getShopsForAdmin = functions.https.onCall(async (data, context) => {
   }
 });
 
+//==============================================================================
 exports.createOrder = onCall(async (request) => {
   const data = request.data;
 
@@ -142,8 +143,6 @@ exports.createOrder = onCall(async (request) => {
     console.warn(`Product with ID '${item.productId}' not found in shop '${data.nameofshop}'`);
   }
 }
-
-
     await batch.commit();
 
     return {
@@ -158,7 +157,7 @@ exports.createOrder = onCall(async (request) => {
   }
 });
 
-
+//==============================================================================
 exports.getAllShops = functions.https.onCall(async (data, context) => {
   try {
     const shopsSnapshot = await admin.firestore().collection("Shops").get();
@@ -187,6 +186,7 @@ exports.getAllShops = functions.https.onCall(async (data, context) => {
   }
 });
 
+//==============================================================================
 exports.deleteShop = onCall(async (request) => {
   const data = request.data;
   const { shopId, userId, url } = data;
@@ -216,6 +216,8 @@ exports.deleteShop = onCall(async (request) => {
     throw new functions.https.HttpsError("internal", "Failed to delete shop or image.");
   }
 });
+
+//==============================================================================
 exports.findShopImage = onCall(async (request) => {
   const data = request.data;
   const { url } = data;
@@ -253,7 +255,6 @@ exports.findShopImage = onCall(async (request) => {
       throw error; // Re-throw existing Firebase errors
     }
 
-
     throw new functions.https.HttpsError(
       "internal",
       "Failed to retrieve shop image.",
@@ -261,6 +262,8 @@ exports.findShopImage = onCall(async (request) => {
     );
   }
 });
+
+//==============================================================================
 exports.createShop = onCall(async (request) => {
   const data = request.data;
   const { userid, nameofshop, description, status, category, image, ext } = data;
@@ -301,7 +304,7 @@ exports.createShop = onCall(async (request) => {
   }
 });
 
-
+//==============================================================================
 exports.getProductsInShop = onCall(async (request) => {
   const { shopid } = request.data;
 
@@ -333,6 +336,8 @@ exports.getProductsInShop = onCall(async (request) => {
     );
   }
 });
+
+//==============================================================================
 const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
@@ -390,7 +395,7 @@ app.post("/addProduct", upload.single("image"), async (req, res) => {
 // Export Express API as Firebase Function
 exports.api = onRequest(app);
 
-
+//==============================================================================
 exports.updateOrderStatus = functions.https.onCall(async (request) => {
   const data = request.data;
   const { orderStatus, orderId } = data;
@@ -433,6 +438,8 @@ exports.updateOrderStatus = functions.https.onCall(async (request) => {
     throw new functions.https.HttpsError("internal", "Something went wrong.");
   }
 });
+
+//==============================================================================
 exports.updateShopStatus = functions.https.onCall(async (request) => {
   const data = request.data;
   const { shopStatus, shopId } = data;
@@ -457,13 +464,15 @@ exports.updateShopStatus = functions.https.onCall(async (request) => {
     throw new functions.https.HttpsError("internal", "Something went wrong.");
   }
 });
+
+//==============================================================================
 exports.getAdminEmail = functions.https.onCall(async (data, context) => {
   try {
     const emailSnapshot = await admin.firestore().collection("Admin").get();
-console.log("getting email");
+      console.log("getting email");
    const doc = emailSnapshot.docs[0];
    const email = doc.data().AdminEmail;
-console.log("got email sucessfully ",email);
+      console.log("got email sucessfully ",email);
     return { email };
   } catch (error) {
     console.error("Error getting email:", error);
@@ -473,6 +482,8 @@ console.log("got email sucessfully ",email);
     );
   }
 });
+
+//==============================================================================
 exports.deleteProduct = onCall(async (request) => {
   const data = request.data;
   const { shopId, productId,path } = data;
@@ -496,12 +507,12 @@ exports.deleteProduct = onCall(async (request) => {
       console.log("Product deleted successfully!");
 
 
-console.log("deleting image in path",path);
-    await admin.storage().bucket().file(path).delete();
-      return { success: true };
+    console.log("deleting image in path",path);
+      await admin.storage().bucket().file(path).delete();
+        return { success: true };
     } else {
-      console.log("Product not found");
-      throw new functions.https.HttpsError("not-found", "Product not found");
+        console.log("Product not found");
+        throw new functions.https.HttpsError("not-found", "Product not found");
     }
   } catch (err) {
     console.log(err);
@@ -509,6 +520,7 @@ console.log("deleting image in path",path);
   }
 });
 
+//==============================================================================
 exports.updateProductName = functions.https.onCall(async (request) => {
   const data=request.data;
   const { shopid, productId, newName } = data;
@@ -538,6 +550,8 @@ exports.updateProductName = functions.https.onCall(async (request) => {
     );
   }
 });
+
+//==============================================================================
 exports.updateProductDescription = onCall(async (request) => {
   const data=request.data;
   const { shopid, productId, newdescription } = data;
@@ -566,6 +580,8 @@ exports.updateProductDescription = onCall(async (request) => {
     );
   }
 });
+
+//==============================================================================
 exports.updateProductPrice = onCall(async (request) => {
   const data=request.data;
   const { shopid, productId, newprice } = data;
@@ -594,6 +610,8 @@ console.log(shopid,productId,newprice);
     );
   }
 });
+
+//==============================================================================
 exports.updateProductQuantity = onCall(async (request) => {
   const data=request.data;
   const { shopid, productId,newquantity } = data;
@@ -621,8 +639,9 @@ exports.updateProductQuantity = onCall(async (request) => {
     );
   }
 });
-
 const storagei = admin.storage();
+
+//==============================================================================
 exports.updateProductImage = functions.https.onCall(async (request) => {
   const data = request.data;
   const { shopid, productId, base64Image, ext } = data;
