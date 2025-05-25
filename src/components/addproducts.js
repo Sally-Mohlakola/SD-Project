@@ -12,57 +12,81 @@ export const Addproduct=()=>{
     
       // get this user's shop id to query the database with
       let shopid=localStorage.getItem('shopid');
+
       //stores form input values
         const[itemName,setitemname]=useState("");
         const[price,setprice]=useState("");
         const[quantity,setquantity]=useState("");
         const[itemdescription,setitemdescription]=useState("");        
         const[image, setimage]=useState(null);
-       //
+      
       //Submit all fields to storage, make sure that they are non-empty
         const handleSubmit = async(e) => {
             e.preventDefault(); 
+
+            // Basic front-end notification system for the seller (input validation)
             if (!image || !itemName || !price || !quantity || !itemdescription) {
               alert("Please fill in the required fields");
               return;
             }
-          
+            
+            //Price of item validation
+              if (price > 99999 || price < 1) {
+                alert("Price must be between 1 and 99,999 Rands.");
+                
+                  return;
+                }
+
+            //Quantity of item validation
+              if (quantity > 10000 || price < 1) {
+                alert("Item quantity must be below 10,000");
+                  return;
+                }
+
             // mechanism for uploading the images
             try {
               const uniqueName = uuidv4() + "-" + image.name; //create unique name for image
               const imageRef = storageRef(storage, `products/${uniqueName}`);
+
+              //Console log for image file location on the storage bucket
               console.log("Uploading image to:", imageRef.fullPath);
+
+              //Upload image to Firebase sotrage
               await uploadBytes(imageRef, image);
               console.log("Image uploaded successfully.");
               const downloadURL = await getDownloadURL(imageRef);
            
-              // at the document to storage of all the updated fields (the default for sold is always 0 for newly created items)
+              //add the data entry to storage of all the updated fields (the default for sold is set to 0 for newly created items)
               await addDoc(collection(db, "Shops", shopid,"Products"), {
                 name: itemName,
                 itemdescription:itemdescription,
                 price: Number(price),
                 quantity: Number(quantity),
-                sold:0, // default number
+                sold:0, // default count
                 imageURL: downloadURL               
               });
 
-              // Alerts to notify the seler that their updates are recorded
-              console.log("Items have been added successfully");
+              // Log the adding an item to storage status
+              console.log(itemName,": item is stored successfully");
+
               setitemname("");
               setprice("");
               setquantity("");
               setitemdescription("");
-              alert("Your Product has been added successfully!");
-              navigate('/displayproducts'); // after alert, rediret user to the default display view (intuitive to want to see the update displayed on screen)
+
+              // Alerts to notify the seller that their updates are recorded
+              alert("Your product has been added successfully!");
+              navigate('/displayproducts'); // after alert, redirect the user to the default display view (intuitive to want to see the update displayed on screen)
               setimage(null);
             } catch (error) {
-              console.log("Items were not added successfully", error);
+               // Log the adding an item to storage status
+              console.log(itemName, ": item is not stored successfully. Error: ", error);
             }
           };
+
         //navigate to previous page
           const Back=()=>{
             navigate('/displayproducts');
-        
            }
 
            // return a form with all fields that can be altered
@@ -84,13 +108,13 @@ export const Addproduct=()=>{
 >                   </textarea>
 
                     <label htmlFor="price">Price:</label>
-                    <input type="number" id="price" min="0" placeholder='(in rands)' required value={price} onChange={e=>setprice(e.target.value)}/><br/>
+                    <input type="number" id="price" min="1" max="99999" placeholder='(in rands)' required value={price} onChange={e=>setprice(e.target.value)}/><br/>
                     <label htmlFor="quantity">Quantity</label>
-                    <input type="number" id="quantity" min="0" placeholder="e.g. 8" required value={quantity} onChange={e=>setquantity(e.target.value)}/><br/>
+                    <input type="number" id="quantity" min="1" max="10000" placeholder="e.g. 8" required value={quantity} onChange={e=>setquantity(e.target.value)}/><br/>
                    <label htmlFor="image">Upload image of item below:</label><br/> 
-                  <input type="file" id="image" accept="image/*" onChange={(e) => setimage(e.target.files[0])}/> 
+                  <input type="file" id="image" accept="image/*" required onChange={(e) => setimage(e.target.files[0])}/> 
                     
-                  {/*Make sure that no product lacks an image*/}
+                  {/*Make sure that no product lacks an image before upload*/}
                 </section>
                 <section className='addbutton-wrapper'>
                 <button className="submit-button" type="submit" onClick={handleSubmit}>Add Product</button>
@@ -100,6 +124,4 @@ export const Addproduct=()=>{
             
         </section>
     );
-
-
 };
