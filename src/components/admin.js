@@ -4,33 +4,37 @@ import { functions } from "../config/firebase";
 import { httpsCallable,getFunctions } from "firebase/functions";
 import "../styles/adminshophomepage.css";
 
+//Admin homepage allows admin to change the status of shops: accepted/rejected
 export const AdminShopHomepage = () => {
   //defined the usestates that we need 
-  const [shops, setShops] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [shops, setShops] = useState([]); //store list of shops
+  const [loading, setLoading] = useState(true); //indicate if data is loaded
+  const navigate = useNavigate();  //to navigate between pages
 
+  //navigate to homepage
   const navigateHome = () => {
     navigate("/homepage");
   };
-//this usestate gets all the shops for the admin
+  
+//this usestate gets all the shops for the admin once loaded
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        //we call the firebase function 
+        //call the firebase function to get shops
         const getShopsForAdmin = httpsCallable(functions, "getShopsForAdmin");
         const result = await getShopsForAdmin();
         const { shops } = result.data;
-        setShops(shops);
+        setShops(shops); //store fetched shops 
       } catch (error) {
-        console.error("Error fetching shops:", error);
+        console.error("Error fetching shops:", error); 
       } finally {
-        setLoading(false);
+        setLoading(false); //stop showing the loading message
       }
     };
 
     fetchShops();
   }, []);
+  
 //this functon is triggered when the admin changes the status of one of the shops 
   const handleStatusChange = async (shopId, newStatus) => {
     try {
@@ -39,7 +43,8 @@ export const AdminShopHomepage = () => {
       const updateShopStatus = httpsCallable(functions, 'updateShopStatus');
       // pass the new status and the shop id for the update
       const result =await updateShopStatus({shopStatus:newStatus, shopId:shopId});
-      //if the change was successful then we must also update the change to also reflect on the frontend 
+      
+      //if the change was successful then update the change to reflect on the frontend 
     if (result.data.success==true){   
       setShops((prevShops) =>
         prevShops.map((shop) =>
@@ -51,8 +56,10 @@ export const AdminShopHomepage = () => {
     }
   };
 
+  //show a loading message when data is being fetched
   if (loading) return <section className="loader-wrapper">< p className="loader"></p></section>;
 
+  //UI for admin dashboard
   return (
     <section className='admin-wrapper'>
     <section className="admin-dashboard">
