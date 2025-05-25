@@ -8,8 +8,8 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 
 
 export const Auth=()=>{
-    const navigate = useNavigate();
-    const [progress, setProgress] = useState(0);
+    const navigate = useNavigate(); //used to navigate between pages
+    const [progress, setProgress] = useState(0); //used to manage page transition
     //usestate to store the admins email to compare later
     const [adminEmail, setAdminEmail] = useState([]);
 
@@ -21,7 +21,7 @@ export const Auth=()=>{
         //call the getadmin firebase function to get the email
         const getAdminEmail = httpsCallable(functions, 'getAdminEmail');
         const result = await getAdminEmail({});
-        const adminData = result.data.email;
+        const adminData = result.data.email; //extract email from result
         console.log(adminData);
         setAdminEmail(adminData);
         } catch (error) {
@@ -31,22 +31,26 @@ export const Auth=()=>{
       fetchAdmin();
     }, []);
 
+    //trigger UI transition from landing sceen to login screen
     const goToSignIn = () => {
     setProgress(1);
   };
 
     //Sign in with google pop-up
     const signInGoogle = async()=>{
-        try{
+        try{ 
+            //show google login popup
             const result = await signInWithPopup(auth, provider)
             .then((result) => {
               const user = result.user;
+                //store userid and email locally
               localStorage.setItem("userid", user.uid); 
 
                 const userEmail = user.email;
               localStorage.setItem("userEmail",userEmail);
 
-            window.scrollTo(0,0);
+            window.scrollTo(0,0); //scroll to top of page after login
+                
               if (adminEmail.includes(user.email)) {
                 navigate('/admin');  // Navigate to the admin dashboard
               } else {
@@ -61,7 +65,7 @@ export const Auth=()=>{
     };
 
 
-
+//UI frontend
   return (
     <section className="whole_">
       <section
