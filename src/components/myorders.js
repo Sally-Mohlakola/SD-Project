@@ -4,6 +4,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import '../styles/myorders.css';
 import '../styles/searchTab.css';
 
+
 //Get products for the user's shop
 export const getProductsInShop = async (shopid) => {
   try {
