@@ -163,16 +163,14 @@ return(
       </form>
 
       <form onSubmit={Price} >
-          <label>Price:</label>
+          <label  htmlFor="price" >Price:</label>
           <input type="number" min="1" max = "50000" required value={price} onChange={(e)=>setprice(e.target.value)} />
-          <label htmlFor="price" >Price:</label>
-          <input id="price" type="number" min="1" max = "50000" required value={price} onChange={(e)=>setprice(e.target.value)} />
           <button type="submit">Update price</button>
       </form>
      
       <form onSubmit={Setnewquantity} >
           <label htmlFor="quan">Quantity:</label>
-          <input id="quan" type="number" min = "1" max="999" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
+          <input id="quan" type="number" min = "1" max="50000" required value={newquantity} onChange={(e)=>setnewquantity(e.target.value)} />
           <button type="submit">Update quantity</button>
       </form>
 
