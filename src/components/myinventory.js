@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useShopId} from "./userinfo";
 import { db } from "../config/firebase";
 import { collection,  getDocs,query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +7,7 @@ import '../styles/myinventory.css';
 
 // To view the inventory of items sold.
 export const  Inventory=()=>{
-    useShopId();
+ 
     let navigate=useNavigate();
 
     function navigateDashboard(){

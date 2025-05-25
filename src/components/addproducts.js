@@ -1,5 +1,4 @@
 import React,{useState} from 'react'
-import { useShopId } from './userinfo.js';
 import {db, storage} from '../config/firebase.js';
 import { collection, addDoc} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +9,6 @@ import '../styles/addproduct.css';
 export const Addproduct=()=>{
   const navigate=useNavigate();
     
-      useShopId();
       // get this user's shop id to query the database with
       let shopid=localStorage.getItem('shopid');
         const[itemName,setitemname]=useState("");

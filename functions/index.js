@@ -473,12 +473,196 @@ console.log("got email sucessfully ",email);
     );
   }
 });
-exports.deleteProduct = functions.https.onCall(async (request) => {
+exports.deleteProduct = onCall(async (request) => {
+  const data = request.data;
+  const { shopId, productId,path } = data;
+  console.log("deleting product:", productId);
+
+  if (!shopId || !productId || !path) {
+    throw new functions.https.HttpsError("invalid-argument", "Missing shopId ,path or productId");
+  }  
+
+  try {
+    const productRef = db
+      .collection("Shops")
+      .doc(shopId)
+      .collection("Products")
+      .doc(productId);
+
+    const productDoc = await productRef.get();
+
+    if (productDoc.exists) {
+      await productRef.delete();
+      console.log("Product deleted successfully!");
 
 
+console.log("deleting image in path",path);
+    await admin.storage().bucket().file(path).delete();
+      return { success: true };
+    } else {
+      console.log("Product not found");
+      throw new functions.https.HttpsError("not-found", "Product not found");
+    }
+  } catch (err) {
+    console.log(err);
+    throw new functions.https.HttpsError("internal", "Error deleting product");
+  }
+});
 
+exports.updateProductName = functions.https.onCall(async (request) => {
+  const data=request.data;
+  const { shopid, productId, newName } = data;
 
+  if (!shopid || !productId || !newName) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Missing required fields: shopid, productId, or newName"
+    );
+  }
 
+  try {
+    const db = admin.firestore();
+    console.log("updating name :",newName);
+    const productRef = db.collection("Shops").doc(shopid).collection("Products").doc(productId);
 
+    await productRef.update({ name: newName });
+    console.log("name has been updated successfully");
+    return { message: "Product name updated successfully!" };
 
+  } catch (error) {
+    console.error("Error updating product name:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to update product name.",
+      error.message
+    );
+  }
+});
+exports.updateProductDescription = onCall(async (request) => {
+  const data=request.data;
+  const { shopid, productId, newdescription } = data;
+
+  if (!shopid || !productId || !newdescription) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Missing required fields: shopid, productId, or newdescription"
+    );
+  }
+
+  try {
+    const db = admin.firestore();
+    const productRef = db.collection("Shops").doc(shopid).collection("Products").doc(productId);
+
+    await productRef.update({ itemdescription: newdescription });
+
+    return { message: "Product Description updated successfully!" };
+
+  } catch (error) {
+    console.error("Error updating product Description:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to update product Description.",
+      error.message
+    );
+  }
+});
+exports.updateProductPrice = onCall(async (request) => {
+  const data=request.data;
+  const { shopid, productId, newprice } = data;
+console.log(shopid,productId,newprice);
+  if (!shopid || !productId || !newprice) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Missing required fields: shopid, productId, or newprice"
+    );
+  }
+
+  try {
+    const db = admin.firestore();
+    const productRef = db.collection("Shops").doc(shopid).collection("Products").doc(productId);
+
+    await productRef.update({ price: newprice });
+
+    return { message: "Product price updated successfully!" };
+
+  } catch (error) {
+    console.error("Error updating product price:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to update product price.",
+      error.message
+    );
+  }
+});
+exports.updateProductQuantity = onCall(async (request) => {
+  const data=request.data;
+  const { shopid, productId,newquantity } = data;
+
+  if (!shopid || !productId || !newquantity) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "Missing required fields: shopid, productId, or newquantity"
+    );
+  }
+
+  try {
+    const db = admin.firestore();
+    const productRef = db.collection("Shops").doc(shopid).collection("Products").doc(productId);
+
+    await productRef.update({ quantity: newquantity });
+
+    return { message: "Product quantity  updated successfully!" };
+} catch (error) {
+    console.error("Error updating product quantity:", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Failed to update product quantity.",
+      error.message
+    );
+  }
+});
+
+const storagei = admin.storage();
+
+exports.updateProductImage = functions.https.onCall(async (request) => {
+  const data = request.data;
+  const { shopid, productId, base64Image, ext } = data;
+
+  if (!shopid || !productId || !base64Image || !ext) {
+    throw new functions.https.HttpsError("invalid-argument", "Missing required fields.");
+  }
+
+  try {
+    // Decode base64 image
+    const base64Data = base64Image.split(";base64,").pop();
+    const buffer = Buffer.from(base64Data, "base64");
+
+    // Create unique filename
+    const uniqueName = `${uuidv4()}.${ext}`;
+    const fileUpload = storagei.bucket().file(`products/${uniqueName}`);
+
+    // Save file
+    await fileUpload.save(buffer, {
+      metadata: {
+        contentType: `image/${ext}`, // or "image/jpeg" if fixed
+      },
+    });
+
+    // Generate signed URL
+    const [url] = await fileUpload.getSignedUrl({
+      action: "read",
+      expires: "03-01-2030", 
+    });
+
+    // Update Firestore with image URL
+    const productRef = db.collection("Shops").doc(shopid).collection("Products").doc(productId);
+    await productRef.update({
+      imageURL: url,
+    });
+
+    return { message: "Image updated successfully!", url };
+  } catch (error) {
+    console.error("Error updating product image:", error);
+    throw new functions.https.HttpsError("internal", "Failed to update product image.");
+  }
 });

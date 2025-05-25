@@ -1,17 +1,17 @@
-import { doc, deleteDoc,where ,collection,query,getDocs} from "firebase/firestore";
-import { db } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import '../styles/removeproducts.css'
-import { useShopId } from "./userinfo";
-import React from "react";
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 
 export const DeleteProduct=()=>{
-    useShopId();
+
     let navigate=useNavigate();
+    const [loading ,setloading]=useState(false);
     let shopid=localStorage.getItem('shopid');
     const Item=localStorage.getItem('Item');
+    const productid=localStorage.getItem('productid');
+    const producturl =localStorage.getItem('producturl');
     console.log("Have the item stored as "+Item)
     console.log("Item stored in localStorage:", localStorage.getItem("Item"));
    // localStorage.setItem('Item',"");
@@ -33,15 +33,32 @@ export const DeleteProduct=()=>{
       
    }, []); 
 
-   const delete_item= async()=>{
-    const productsRef = collection(db, "Shops", shopid, "Products");
-const q = query(productsRef, where("name", "==", Item));
+function getStoragePathFromUrl(iurl) {
+  try {
+    const decodedUrl = decodeURIComponent(iurl);
+    const startIndex = decodedUrl.indexOf("/o/") + 3;
+    const endIndex = decodedUrl.indexOf("?alt=");
+    return decodedUrl.substring(startIndex, endIndex);
+  } catch (e) {
+    return null;
+  }
+}
+console.log("path",producturl);
+console.log("productid",productid);
 
-const querySnapshot = await getDocs(q);
-if (!querySnapshot.empty) {
-const document = querySnapshot.docs[0]; 
-const docRef = doc(db, "Shops", shopid, "Products", document.id);
-await deleteDoc(docRef);
+const delete_item= async()=>{
+setloading(true);
+try{
+        const functions = getFunctions();
+
+        const deleteProduct = httpsCallable(functions, 'deleteProduct');
+        const filepath = getStoragePathFromUrl(producturl);
+        console.log("path",filepath);
+        await deleteProduct({shopId:shopid, productId:productid ,path:filepath});
+}catch(err){
+    console.log(err);
+}finally{
+    setloading(false);
 }
 
 
@@ -50,6 +67,7 @@ navigate('/displayproducts');
 
 
 }
+
 
     
     const Back=()=>{
@@ -73,6 +91,8 @@ navigate('/displayproducts');
             <section className="myicon"><i className="bx bx-trash"></i> </section>
            
 
+           {loading ? (<p>Loading...</p>):(
+            <>
             <section className="H2">
             <h1>Do you want to remove this product?</h1><br/>
             </section>
@@ -85,7 +105,8 @@ navigate('/displayproducts');
             <button onClick={delete_item}>Confirm</button>
             </section>
             
-
+ </>
+            )}
             </section>
             </section>
            

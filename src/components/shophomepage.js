@@ -36,6 +36,7 @@ export const ShopHomepage = () => {
             const userShop = shoplist.find((shop) => shop.userid === currentUserId);
             if (userShop) {
                 setStorename(userShop.nameofshop);
+                localStorage.setItem('shopid',userShop.id);
                 localStorage.setItem("shopname", userShop.nameofshop);
 
                 try {

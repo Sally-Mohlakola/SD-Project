@@ -1,25 +1,22 @@
-import { docs,doc,where ,collection,query,getDocs,updateDoc} from "firebase/firestore";
-import { db,storage } from "../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import '../styles/updateproducts.css'
-import { useShopId } from "./userinfo";
-import { v4 as uuidv4 } from 'uuid';
-import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../config/firebase";
 
 
 
 export const Updateproduct=()=>{
-    useShopId();
+    
     let navigate=useNavigate();
-
     const Back=()=>{
       navigate('/displayproducts');
   };
 
     let shopid=localStorage.getItem('shopid');
     const Item=localStorage.getItem('Item');
+    const productid=localStorage.getItem('productupdateid');
+    console.log("productid:",productid);
     console.log("Have the item stored as "+Item)
     console.log("Item stored in localStorage:", localStorage.getItem("Item"));
     //--------------------------------------------------------------------------
@@ -30,39 +27,34 @@ export const Updateproduct=()=>{
     const[newquantity,setnewquantity]=useState("");
     const[image, setimage]=useState(null);
     //------------------------------------------------------------
+
+    const toBase64 = (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+  ///////////////////////////////////////////////////////
   const Image= async(e)=>{
     e.preventDefault();
-    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
-    const snapshot=await getDocs(q);
-    let docdata
-    if(!snapshot.empty){
-    const document=snapshot.docs[0];
-    docdata = doc(db, "Shops", shopid, "Products", document.id);
-    }
-    
-    try{
-      const uniqueName = uuidv4() + "-" + image.name;
-              const imageRef = storageRef(storage, `products/${uniqueName}`);
-              console.log("Uploading image to:", imageRef.fullPath);
-              await uploadBytes(imageRef, image);
-                            
-              console.log("Image uploaded successfully.");
-              const downloadURL = await getDownloadURL(imageRef);
-              await updateDoc(docdata, {
-                imageURL : downloadURL 
-              });
-              console.log("Field updated successfully!");
-              alert("Your image has been updated successfully!");
-              navigate('/displayproducts');
-
-    }catch(error){
-      console.log(error);
-
-    }
-
-
+  const base64 = await toBase64(image); // imageFile is from input
+  const extension = image.name.split('.').pop();
+  const updateImage = httpsCallable(functions, "updateProductImage");
+  try {
+    const res = await updateImage({
+      shopid:shopid,
+      productId:productid,
+      base64Image: base64,
+      ext:extension
+    });
+    alert(res.data.message); // "Image updated successfully!"
+    navigate("/displayproducts");
+  } catch (err) {
+    console.error("Error:", err);
+    alert("Failed to upload image.");
 
   }
+};
 
 
 
@@ -73,93 +65,81 @@ export const Updateproduct=()=>{
      //------------------------------------------------------------
 
 const Name=async(e)=>{
-    e.preventDefault(); 
-    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
-    const snapshot=await getDocs(q);
-    if(!snapshot.empty){
-    const document=snapshot.docs[0];
-    const docdata = doc(db, "Shops", shopid, "Products", document.id);
-
-    try {
-        await updateDoc(docdata, {
-          name: productname 
-        });
-        console.log("Field updated successfully!");
-        alert("Name of product has been updated successfully!");
-        navigate('/displayproducts');
-      } catch (error) {
-        console.error("Error updating field:", error);
-      }
-    }
+const updateProductName = httpsCallable(functions, "updateProductName");
+  try {
+    const result = await updateProductName({
+      shopid: shopid,
+      productId: productid,
+      newName: productname
+    });
+   
+    alert(result.data.message);
+    navigate('/displayproducts');
+    
+  } catch (error) {
+    console.error("Update failed:", error);
+    alert("Update failed!");
+  }
 
 };
 //------------------------------------------------------------
 const Description=async(e)=>{
     e.preventDefault(); 
-    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
-    const snapshot=await getDocs(q);
-    if(!snapshot.empty){
-    const document=snapshot.docs[0];
-    const docdata = doc(db, "Shops", shopid, "Products", document.id);
-
-    try {
-        await updateDoc(docdata, {
-          itemdescription: description
-        });
-        alert("Description of product has been updated successfully to '" +description + "'");
-        console.log("Name has been changed");
-        navigate('/displayproducts');
-      } catch (error) {
-        console.error("Error updating Name:", error);
-      }
-    }
+  const updateProductDescription = httpsCallable(functions, "updateProductDescription");
+  try {
+    const result = await updateProductDescription({
+      shopid: shopid,
+      productId: productid,
+      newdescription: description
+    });
+    
+    alert(result.data.message);
+    navigate('/displayproducts');
+    
+  } catch (error) {
+    console.error("Update failed:", error);
+    alert("Update failed!");
+  }
 
 };
 //------------------------------------------------------------
 const Price=async(e)=>{
-    e.preventDefault(); 
-    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
-    const snapshot=await getDocs(q);
-   
-    if(!snapshot.empty){
-        const document=snapshot.docs[0];
-        const docdata = doc(db, "Shops", shopid, "Products", document.id);
-
+e.preventDefault(); 
+  const updateProductPrice = httpsCallable(functions, "updateProductPrice");
+  try {
+    const result = await updateProductPrice({
+      shopid: shopid,
+      productId: productid,
+      newprice: price
+    });
+     alert(result.data.message);
+    navigate('/displayproducts');
     
-    try {
-        await updateDoc(docdata, {
-            price: price
-        });
-        alert("Price of product has been updated successfully!");
-        console.log("Price updated successfully!");
-        navigate('/displayproducts');
-      } catch (error) {
-        console.error("Error updating price:", error);
-      }
-    }
+  } catch (error) {
+    console.error("Update failed:", error);
+    alert("Update failed!");
+  }
 };
 //------------------------------------------------------------
 
 //------------------------------------------------------------
 const Setnewquantity=async(e)=>{
-    e.preventDefault(); 
-    const q= query(collection(db,"Shops",shopid,"Products"),where("name","==",Item));
-    const snapshot=await getDocs(q);
-    if(!snapshot.empty){
-    const document=snapshot.docs[0];
-    const docdata = doc(db, "Shops", shopid, "Products", document.id);
-
-    try {
-        await updateDoc(docdata, {
-          quantity: newquantity 
+ e.preventDefault(); 
+  const updateProductQuantity = httpsCallable(functions, "updateProductQuantity");
+  try {
+    const result = await updateProductQuantity({
+      shopid: shopid,
+      productId: productid,
+      newquantity: newquantity
         });
-        alert("New quantity has been updated successfully!");
-        console.log("Quantity has been updated successfully!");
-        navigate('/displayproducts');
-      } catch (error) {
-        console.error("Error updating Quantity:", error);
-      }
-    }
+    alert(result.data.message);
+    navigate('/displayproducts');
+    
+  } catch (error) {
+    console.error("Update failed:", error);
+    alert("Update failed!");
+  }
+
 
 };
 //------------------------------------------------------------
