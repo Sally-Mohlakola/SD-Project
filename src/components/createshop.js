@@ -100,7 +100,7 @@ export const Createshop = () => {
   return (
     <section className="create-shop">
       <h1>Creating my Shop</h1>
-    {/*   if the usestate loading is set to true it will show thi loading state */}
+    {/*   if the usestate loading is set to true it will show this loading state */}
       {loading ? (
         <section className="shop-alert">Submitting your shop...</section>
       ) : submitted ? (
